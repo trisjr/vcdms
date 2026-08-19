@@ -3,7 +3,7 @@ id: MOC-020
 type: moc
 status: live
 created: 2026-02-04
-updated: 2026-02-04
+updated: 2026-08-19
 author: TNMCORE-OS (BA Role)
 ---
 
@@ -18,13 +18,14 @@ Chào mừng đến với trung tâm quản lý Yêu cầu (Requirements) của 
 _Yêu cầu nghiệp vụ cấp cao từ Stakeholders, định nghĩa Business Goals và Scope._
 
 - [BRD Folder](./BRD/)
-- _(Thêm link tới các file BRD cụ thể tại đây)_
+- [BRD-001 — Hệ Thống Xuất Kho & Phân Phối Thẻ VETC](./BRD/BRD-001-He-Thong-Xuat-Kho-Phan-Phoi-The-VETC.md) 👈 _Yêu cầu nghiệp vụ cấp cao: bối cảnh, mục tiêu, phạm vi, 10 business rule_
 
-### 📦 020.20 - Product Requirements (PRD)
+### 📦 020.20 - Product Requirements (PRD & SRS)
 
 _Yêu cầu sản phẩm chi tiết, tính năng và logic vận hành._
 
-- [PRD-TNMCORE-OS](./PRD-TNMCORE-OS.md) 👈 _Core Product Spec_
+- [SRS-VETC](./SRS-VETC.md) 👈 _Tài Liệu SRS Hệ Thống Quản Lý Xuất Nhập Kho & Phân Phối Thẻ VETC_
+- [PRD-VETC](./PRD-VETC.md) 👈 _Yêu cầu sản phẩm: 25 FR, 7 NFR, state machine, 31 giả định thiết kế_
 
 ### 👤 020.30 - Use Cases & User Models
 
@@ -36,7 +37,13 @@ _Mô tả tương tác người dùng, Actors, và kịch bản sử dụng._
 
 _Yêu cầu phi chức năng: Hiệu năng, Bảo mật, Độ tin cậy._
 
-- _(Chưa khởi tạo)_
+- _(Chưa có file NFR riêng — NFR-01…NFR-07 của dự án VETC hiện nằm trong mục 5 của [PRD-VETC](./PRD-VETC.md))_
+
+### ❓ 020.50 - Điểm cần làm rõ với khách hàng
+
+_Các câu hỏi chưa có lời đáp, chặn việc chốt yêu cầu._
+
+- [Analysis-Open-Questions-VETC](../050-Research/Analysis-Open-Questions-VETC.md) 👈 _31 câu hỏi gửi khách hàng (11 Blocker / 11 Quan trọng / 9 Nên có). Mã `Q-NN` truy vết chéo sang bảng giả định thiết kế của PRD._
 
 ---
 
