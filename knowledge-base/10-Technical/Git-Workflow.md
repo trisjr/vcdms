@@ -14,9 +14,10 @@ Tài liệu này quy định các quy tắc bắt buộc đối với việc qu�
 
 1. [Phạm vi hoạt động (Git Scope)](#1-phạm-vi-hoạt-động-git-scope)
 2. [Quy tắc đặt tên Branch](#2-quy-tắc-đặt-tên-branch)
-3. [Quy tắc Commit Message](#3-quy-tắc-commit-message)
-4. [Cấu trúc Pull Request (PR)](#4-cấu-trúc-pull-request-pr)
-5. [Tài liệu tham khảo](#tài-liệu-tham-khảo)
+3. [Quy tắc quản lý Git Worktree](#3-quy-tắc-quản-lý-git-worktree)
+4. [Quy tắc Commit Message](#4-quy-tắc-commit-message)
+5. [Cấu trúc Pull Request (PR)](#5-cấu-trúc-pull-request-pr)
+6. [Tài liệu tham khảo](#6-tài-liệu-tham-khảo)
 
 ---
 
@@ -45,7 +46,47 @@ Cấu trúc: `{type}/trisjr/{short-description}`
 
 ---
 
-## 2. Quy tắc Commit Message
+## 3. Quy tắc quản lý Git Worktree
+
+Để hỗ trợ làm việc song song nhiều task/branch hoặc chạy Multi-agent Orchestration mà không làm bẩn working directory chính, dự án áp dụng tiêu chuẩn đặt tên Worktree phẳng (Flat) đồng bộ 1-1 với Branch Name Template.
+
+### Cấu trúc Worktree Path Template
+
+```text
+.worktrees/{type}-trisjr-{short-description}
+```
+
+### Bảng đối chiếu Branch ⇄ Worktree Directory
+
+| Branch Name Template | Worktree Directory Path | Mô tả / Mục đích |
+| :--- | :--- | :--- |
+| `feat/trisjr/{short-description}` | `.worktrees/feat-trisjr-{short-description}` | Phát triển tính năng mới |
+| `fix/trisjr/{short-description}` | `.worktrees/fix-trisjr-{short-description}` | Sửa lỗi độc lập |
+| `refactor/trisjr/{short-description}` | `.worktrees/refactor-trisjr-{short-description}` | Tái cấu trúc mã nguồn |
+| `docs/trisjr/{short-description}` | `.worktrees/docs-trisjr-{short-description}` | Viết / sửa tài liệu |
+| `chore/trisjr/{short-description}` | `.worktrees/chore-trisjr-{short-description}` | Nâng cấp dependencies/build |
+
+### Thao tác CLI chuẩn
+
+```bash
+# 1. Tạo worktree mới cùng với branch tương ứng
+git worktree add -b feat/trisjr/referral-qr-modal .worktrees/feat-trisjr-referral-qr-modal
+
+# 2. Liệt kê các worktree đang hoạt động
+git worktree list
+
+# 3. Dọn dẹp/xóa worktree sau khi đã merge hoặc hoàn thành task
+git worktree remove .worktrees/feat-trisjr-referral-qr-modal
+git worktree prune
+```
+
+> [!IMPORTANT]
+> - Thư mục `.worktrees/` luôn phải được cấu hình trong `.gitignore`.
+> - **Kế thừa file cấu hình:** Git worktree chỉ checkout các file đã commit ở HEAD. Nếu dự án yêu cầu biến môi trường `.env`, cần chủ động copy file `.env` sang thư mục worktree trước khi chạy ứng dụng/tests.
+
+---
+
+## 4. Quy tắc Commit Message
 
 Sử dụng tiêu chuẩn **Conventional Commits**.
 
@@ -61,9 +102,7 @@ Cấu trúc: `<type>(<scope>): <description>`
 - `fix(ui): fix overflow on small devices in referral page`
 - `refactor(utils): unify share logic into shareUtils`
 
----
-
-## 3. Cấu trúc Pull Request (PR)
+## 5. Cấu trúc Pull Request (PR)
 
 Mọi PR phải tuân thủ chuẩn nội dung sau để người Review dễ nắm bắt. Điều này giúp đẩy nhanh quá trình Review và giảm thiểu lỗi.
 
@@ -80,13 +119,13 @@ Viết hoa chữ cái đầu, có thể ghi rõ tiền tố Module/Scope trong n
 ### Nội dung PR (Template Bắt Buộc)
 
 ```markdown
-## � Link Ticket & Resources
+## 🔗 Link Ticket & Resources
 
 - **Task Link**: [N/A hoặc Dán link task/ticket vào đây]
 - **Figma Design**: [N/A hoặc Link Figma nếu có thay đổi UI]
 - **Related PRs**: [N/A hoặc Link các PR liên quan nếu có]
 
-## �📝 Phân tích & Giải pháp (Context)
+## 📝 Phân tích & Giải pháp (Context)
 
 ### Vấn đề hiện tại
 
@@ -116,6 +155,34 @@ Viết hoa chữ cái đầu, có thể ghi rõ tiền tố Module/Scope trong n
 - [ ] Unit Tests: [Pass/Fail/NA]
 - [ ] E2E Tests: [Pass/Fail/NA]
 - [ ] Manual Test: [Mô tả thiết bị/môi trường đã test]
+
+## 📸 Hình ảnh minh họa (UI/UX)
+
+> [!TIP]
+> Ưu tiên ảnh chụp màn hình hoặc GIF/Video ngắn nếu có thay đổi giao diện.
+
+## ⚠️ Đánh giá Tác động & Rủi ro (Impact & Risks)
+
+- **Vùng ảnh hưởng**: Những module nào có khả năng bị ảnh hưởng bởi thay đổi này?
+- **Rủi ro**: Có khả năng gây lỗi hồi quy (regression) ở đâu không?
+- **Dependencies**: Cần merge PR nào trước không?
+
+## ✅ Checklist trước khi Merge
+
+- [ ] Đã tự review code của bản thân (Self-review).
+- [ ] Code không chứa các thông tin nhạy cảm (API Keys, Passwords).
+- [ ] Đã cập nhật tài liệu (nếu cần).
+- [ ] Đã xóa các file debug/log dư thừa.
+```
+
+---
+
+## 6. Tài liệu tham khảo
+
+1. [Git Worktree Documentation](https://git-scm.com/docs/git-worktree)
+2. [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
+3. [GitHub Flow](https://docs.github.com/en/get-started/using-git/github-flow)
+4. [Universal Workflow](../20-Project/Universal-Workflow.md)môi trường đã test]
 
 ## 📸 Hình ảnh minh họa (UI/UX)
 
