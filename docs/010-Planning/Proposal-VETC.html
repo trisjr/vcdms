@@ -207,15 +207,16 @@ code, .m { font-family: var(--mono); font-size: .88em; }
 }
 
 .figrow {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 22px 32px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px 18px;
+  align-items: start;
 }
 
 .fig .v {
   font-family: var(--mono);
   font-variant-numeric: tabular-nums;
-  font-size: clamp(26px, 3.4vw, 36px);
+  font-size: clamp(24px, 2.9vw, 32px);
   font-weight: 600;
   line-height: 1.05;
   letter-spacing: -.02em;
@@ -225,10 +226,12 @@ code, .m { font-family: var(--mono); font-size: .88em; }
 .fig .k {
   display: block;
   font-family: var(--display);
-  font-size: 12.5px;
+  font-size: 12px;
   font-weight: 600;
+  line-height: 1.35;
   color: var(--ink-mute);
   margin-top: 5px;
+  text-wrap: pretty;
 }
 
 .v.est { color: var(--est); }
@@ -656,6 +659,7 @@ a:focus-visible { outline: 2px solid var(--fixed); outline-offset: 2px; border-r
 @media (max-width: 720px) {
   body { font-size: 16px; }
   .ledger { grid-template-columns: 1fr; }
+  .figrow { grid-template-columns: repeat(2, 1fr); }
   .erow { grid-template-columns: 1fr; gap: 6px; }
   .ask { grid-template-columns: 1fr; gap: 6px; }
   .step { grid-template-columns: 24px 1fr; gap: 10px; }

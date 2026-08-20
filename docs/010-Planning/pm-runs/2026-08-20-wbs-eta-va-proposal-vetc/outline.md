@@ -61,7 +61,7 @@
   | 2.0 | Kiến trúc & Thiết kế hệ thống (SDD, ADR, DB schema, API spec) | — |
   | 3.0 | Thiết kế UI/UX (user flow, wireframe, design system) | — |
   | 4.0 | Nền tảng & Hạ tầng (project setup, CI/CD, môi trường, object storage) | NFR-03 |
-  | 5.0 | Danh mục & Master data | FR-18, FR-19, FR-27, FR-31, FR-24* |
+  | 5.0 | Danh mục & Master data | FR-18, FR-19, FR-24* + Danh mục Loại thẻ *(giả định Q-27)* + Danh mục Đại lý *(giả định Q-31)* |
   | 6.0 | Luồng Đơn xuất thẻ & Phê duyệt 2 cấp | FR-01…FR-07 |
   | 7.0 | Vận chuyển & Tracking | FR-08, FR-09, FR-10 |
   | 8.0 | Nhận hàng & Chứng từ giao nhận | FR-11, FR-12, FR-13 |
@@ -73,6 +73,9 @@
   | 14.0 | Quản trị dự án (PM, họp, báo cáo, quản lý thay đổi) | — |
 
   `*` = phần `TBD`, tách riêng, **không cộng vào tổng**.
+
+  > [!CAUTION]
+  > **Sửa sau verify (2026-08-20)** — bản đầu của bảng này ghi `FR-27, FR-31` ở nhóm 5.0. **Hai mã đó không tồn tại**: PRD chỉ có `FR-01`…`FR-25`. Chúng bị vay từ mã câu hỏi `Q-27` / `Q-31`. Writer tuân thủ outline nên lỗi lan xuống deliverable — đây là **lỗi của PM, không phải của writer**. Quy tắc rút ra: trong outline, **chỉ được viết chuỗi `FR-NN` cho mã thực có trong PRD**; giả định thiết kế phải gọi bằng mã `Q-NN`, không được đội lốt mã FR.
 
 - **Nguồn sự thật** (writer **chỉ** được lấy nội dung từ đây, không có nguồn thì ghi `TBD`):
   - `docs/020-Requirements/PRD-VETC.md` §4 (25 FR + cột Ưu tiên P0/P1/P2 + cột Nguồn SRS), §5.1 (7 NFR), §5.2 (13 NFR còn thiếu), §6 (state machine 5 trạng thái + 8 nhánh thiếu), §9 (31 giả định + mức độ Blocker/Quan trọng/Nên có + bản đồ tác động).
