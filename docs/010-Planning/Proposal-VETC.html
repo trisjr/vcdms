@@ -691,7 +691,8 @@ a:focus-visible { outline: 2px solid var(--fixed); outline-offset: 2px; border-r
 
 <div class="verdict">
   <span class="eyebrow">Kết luận cần đọc trước</span>
-  <p>Ước lượng bottom-up cho nhóm chức năng chính là <strong>72,5 man-day</strong>. Ràng buộc là <strong>10 ngày</strong> và <strong>~10.000.000&nbsp;VND</strong>. Khoảng cách này không đóng được bằng cách thêm người: riêng <strong>đường găng đã dài 22,5 MD tuần tự</strong>, tức tối thiểu ~22 ngày làm việc. Vì vậy tài liệu này không trình bày một kế hoạch 10 ngày — nó trình bày <strong>khoảng cách</strong> và <strong>5 phương án</strong> để anh chọn.</p>
+  <p>Ước lượng bottom-up cho nhóm chức năng chính là <strong>72,5 man-day</strong>. Ràng buộc là <strong>10 ngày</strong> và <strong>~10.000.000&nbsp;VND</strong>. Khoảng cách này không đóng được bằng cách thêm người: riêng <strong>đường găng đã dài 22,5 MD tuần tự</strong>, tức tối thiểu ~22 ngày làm việc.</p>
+  <p><strong>Ba ràng buộc — phạm vi nhóm chính · 10 ngày · 10.000.000&nbsp;VND — không thể cùng thỏa mãn.</strong> Không có phương án nào trong năm phương án dưới đây vừa go-live được sau 10 ngày, vừa nằm trong ngân sách. Bắt buộc phải nhả một ràng buộc. Tài liệu này trình bày <strong>khoảng cách</strong> và <strong>cái giá của từng cách nhả</strong> để anh chọn.</p>
 </div>
 
 <div class="ledger">
@@ -1018,13 +1019,48 @@ a:focus-visible { outline: 2px solid var(--fixed); outline-offset: 2px; border-r
   </div>
 
   <div class="opts">
-    <article class="opt rec">
-      <div class="top"><span class="tag">A</span><h4>Cắt tiếp trong nội bộ P0 — "MVP tối giản 10 ngày"</h4><span class="pill f">Đội đề xuất</span></div>
+    <article class="opt">
+      <div class="top"><span class="tag">A</span><h4>Cắt tiếp trong nội bộ P0 — "MVP tối giản"</h4><span class="pill g">Không còn khả thi trong 10 ngày</span></div>
       <dl>
         <div><dt>Cắt gì</dt><dd>Hoãn <strong>4 hạng mục P0</strong> sang ngay sau go-live: <code>FR-02</code> (kiểm tra tồn kho — tạm để NV Kho đối chiếu Excel ngoài hệ thống), <code>FR-14</code> (truy xuất nguồn gốc), <code>NFR-05</code> (chặn trùng dải Series — tạm chỉ chặn số lượng âm), <code>NFR-04</code> (Audit Log đầy đủ — tạm log 3 mốc: tạo đơn, sửa số lượng, duyệt). Cắt mỏng design system và QA. <strong>Giữ nguyên toàn bộ nhóm Discovery.</strong></dd></div>
-        <div><dt>Được gì</dt><dd>Còn <strong>≈32–35 MD</strong>. Khả thi trong 10 ngày với đội 4 người, hoặc ≈8 tuần với 1 người. Có hệ thống <strong>thật sự chạy được</strong>: tạo đơn → soát xét có lý do → duyệt 2 cấp → nhận hàng chụp ảnh POD → đối soát Series → đóng đơn. Đúng nghĩa <em>"chức năng chính để có thể hoạt động"</em>.</dd></div>
+        <div><dt>Được gì</dt><dd>Tầng CORE còn <strong>59,5 MD</strong> nếu chỉ cắt trắng, hoặc <strong>≈57 MD</strong> nếu tính thêm phần làm mỏng <span class="pill e">SUY LUẬN</span>. Nội dung giữ lại vẫn là một luồng nghiệp vụ đóng được — <strong>nhưng chỉ đóng được nếu kéo adapter vận chuyển thủ công vào CORE (+2 MD → ≈59 MD)</strong>, xem caveat bên dưới.</dd></div>
         <div><dt>Mất gì</dt><dd><strong>Mất mục tiêu truy vết</strong> trong 10 ngày đầu — mà đó là một trong bốn lý do dự án ra đời (<code>P-02</code>). Mất khả năng chặn trùng dải Series → <strong>rủi ro dữ liệu sai ngay từ ngày đầu</strong>, sửa sau phải kèm migration dữ liệu thật. Audit Log không đầy đủ → giảm giá trị kiểm toán. NV Kho vẫn phải mở Excel — đúng cái rủi ro mà PRD cảnh báo <em>"hệ thống mất giá trị"</em>.</dd></div>
       </dl>
+
+      <h4 style="margin:26px 0 10px">Bảng đối soát — mỗi MD cắt đi đều chỉ ra Task ID</h4>
+      <div class="tw">
+        <table>
+          <thead><tr><th>Hạng mục cắt trắng</th><th class="c">Task ID</th><th class="n">MD</th></tr></thead>
+          <tbody>
+            <tr><td><code>FR-02</code> — kiểm tra tồn kho khả dụng</td><td class="c m">6.2</td><td class="n">2,5</td></tr>
+            <tr><td><code>FR-14</code> — mô hình thực thể Thẻ / Dải Series</td><td class="c m">9.1</td><td class="n">2,5</td></tr>
+            <tr><td><code>FR-14</code> — màn hình truy xuất nguồn gốc</td><td class="c m">9.2</td><td class="n">2</td></tr>
+            <tr><td><code>NFR-05</code> — gán + chặn trùng dải Series</td><td class="c m">11.4</td><td class="n">2</td></tr>
+            <tr><td><code>NFR-04</code> — Audit Log đầy đủ</td><td class="c m">11.3</td><td class="n">2</td></tr>
+            <tr><td>Design system</td><td class="c m">3.3</td><td class="n">2</td></tr>
+            <tr class="tot"><td><b>Tổng cắt trắng</b> → <code>72,5 − 13 = 59,5 MD</code></td><td class="c">—</td><td class="n">13</td></tr>
+          </tbody>
+          <caption>Con số 59,5 MD <strong>truy được 100%</strong> theo Task ID. Làm mỏng thêm <code>12.1 · 12.2 · 2.2 · 3.1</code> được −2,2 MD <span class="pill e">SUY LUẬN</span> → ≈57 MD. <strong>Sàn tuyệt đối</strong> kể cả xóa sạch 100% QA (điều A không làm) = <code>59,5 − 9 = 50,5 MD</code> — mọi con số dưới 50,5 MD đều không có nguồn.</caption>
+        </table>
+      </div>
+
+      <div class="tw">
+        <table>
+          <thead><tr><th>Mốc</th><th class="n">MD</th><th class="n">Đội cần cho 10 ngày</th><th class="n">Nếu 1 người</th></tr></thead>
+          <tbody>
+            <tr><td>Chỉ cắt trắng</td><td class="n">59,5</td><td class="n">≈6 người</td><td class="n">≈12 tuần</td></tr>
+            <tr><td>Cắt trắng + làm mỏng <span class="pill e">SUY LUẬN</span></td><td class="n">≈57</td><td class="n">≈5,7 người</td><td class="n">≈11,5 tuần</td></tr>
+            <tr><td>Sàn tuyệt đối (xóa sạch QA)</td><td class="n">50,5</td><td class="n">≈5 người</td><td class="n">≈10 tuần</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="call crit">
+        <span class="eyebrow">Vì sao A bị tước nhãn đề xuất</span>
+        <p>Bốn người trong 10 ngày cho <code>4 × 10 = 40 MD</code>. So với mức thực tế ≈57 MD thì <strong>thiếu ≈17 MD</strong>; so với sàn tuyệt đối 50,5 MD thì <strong>vẫn thiếu 10,5 MD</strong>. Không có cách cắt nào trong nội bộ A đưa được xuống 40 MD.</p>
+        <p><strong>Ràng buộc cấu trúc còn chặt hơn ràng buộc effort.</strong> A chỉ cắt được 2 mắt xích khỏi đường găng (<code>9.1</code> và <code>11.4</code>), còn lại <code>22,5 − 4,5 = 18 MD tuần tự</code> ≈ 18 ngày làm việc — thêm người không nén được. Vậy A vượt 10 ngày <strong>cả về tổng effort lẫn về cấu trúc phụ thuộc</strong>, hai lý do độc lập nhau.</p>
+        <p><strong>≈57 MD là sàn lạc quan, không phải trần.</strong> Bốn dòng trong bảng "cắt trắng" thực chất chỉ là làm mỏng theo đúng lời văn của A — riêng <code>6.2</code>, màn hình soát xét <strong>vẫn phải tồn tại</strong> cho <code>FR-04/05/06</code>, chỉ bỏ được phần hiển thị tồn kho. Phần giữ lại sẽ đẩy con số lên trên 57 MD. Đối chiếu ngân sách: <code>10.000.000 ÷ 57 ≈ 175.000 VND/MD</code>.</p>
+      </div>
     </article>
 
     <article class="opt">
@@ -1049,19 +1085,48 @@ a:focus-visible { outline: 2px solid var(--fixed); outline-offset: 2px; border-r
       <div class="top"><span class="tag">D</span><h4>Đổi phương án kỹ thuật cho các hạng mục nặng</h4><span class="pill n">kết hợp được với A hoặc B</span></div>
       <dl>
         <div><dt>Cắt gì</dt><dd>Cắt phần <em>tự xây</em>, thay bằng nền tảng sẵn có: dịch vụ authentication thay vì tự viết JWT; component library mặc định thay vì design token riêng; admin scaffold cho CRUD danh mục; trigger/CDC ở tầng database cho Audit Log; PaaS thay vì tự dựng hạ tầng.</dd></div>
-        <div><dt>Được gì</dt><dd>Cắt được <strong>≈12–16 MD</strong>, đưa CORE về ≈57–61 MD mà <strong>không bỏ FR/NFR nào</strong>.</dd></div>
+        <div><dt>Được gì</dt><dd>Cắt được <strong>≈12–16 MD</strong> <span class="pill e">SUY LUẬN — chưa phân rã ra Task ID</span>, đưa CORE về ≈57–61 MD mà <strong>không bỏ FR/NFR nào</strong>. Vẫn cần ≈6 người cho 10 ngày, nên <strong>D một mình cũng không khả thi</strong>.</dd></div>
         <div><dt>Mất gì</dt><dd>Phụ thuộc vendor và chi phí subscription hàng tháng (CAPEX → OPEX). Nguy hiểm nhất: component library mặc định <strong>rất khó tùy biến cho UX mobile ở bước nhận hàng</strong> — chụp ảnh trực tiếp từ camera, đối soát Series dưới ánh sáng ngoài trời — dẫn tới <code>FR-11</code> mức P0 <em>làm đúng đặc tả nhưng không dùng được trên hiện trường</em>. Ngoài ra PaaS nước ngoài có thể vi phạm giả định dữ liệu đặt tại Việt Nam.</dd></div>
       </dl>
     </article>
 
-    <article class="opt">
-      <div class="top"><span class="tag">E</span><h4>Đổi mục tiêu của 10 ngày thành "Giai đoạn 0"</h4><span class="pill n">dự phòng</span></div>
+    <article class="opt rec">
+      <div class="top"><span class="tag">E</span><h4>Đổi mục tiêu của 10 ngày thành "Giai đoạn 0"</h4><span class="pill f">Đội đề xuất</span></div>
       <dl>
         <div><dt>Cắt gì</dt><dd>Cắt mục tiêu go-live khỏi 10 ngày. Dùng 10 ngày cho <strong>16 MD</strong>: chốt 11 câu Blocker, chốt 8 nhánh state machine, ra SDD + DB schema + API spec, wireframe hai luồng quan trọng nhất, dựng skeleton chạy được.</dd></div>
-        <div><dt>Được gì</dt><dd>Khả thi hơn hẳn: 16 MD ≈ 2 người trong 10 ngày. Sau đó anh có <strong>ước lượng đáng tin cậy hơn nhiều</strong> cho phần còn lại vì 11 Blocker đã đóng, và <strong>triệt tiêu rủi ro lớn nhất</strong> của dự án — thiết kế mô hình dữ liệu trên 31 giả định chưa xác nhận.</dd></div>
+        <div><dt>Được gì</dt><dd><strong>Khả thi thật</strong>: <code>16 MD ≤ 20 MD</code> = năng lực 2 người × 10 ngày. Con số 16 MD <strong>tự tái lập được</strong>: <code>4,5 (nhóm 1.0) + 6,5 (nhóm 2.0) + 2 (3.1) + 1,5 (3.2) + 1,5 (4.1)</code>. Sau đó anh có <strong>ước lượng đáng tin cậy hơn nhiều</strong> cho phần còn lại vì 11 Blocker đã đóng, và <strong>triệt tiêu rủi ro lớn nhất</strong> của dự án — thiết kế mô hình dữ liệu trên 31 giả định chưa xác nhận.</dd></div>
         <div><dt>Mất gì</dt><dd>Sau 10 ngày <strong>chưa có hệ thống chạy được</strong> — không đáp ứng đúng chữ <em>"để có thể hoạt động"</em>. Kỳ vọng phải điều chỉnh ngay từ đầu, nếu không sẽ bị hiểu là chậm tiến độ. Ngân sách vẫn cần đối chiếu: <code>10.000.000 ÷ 16 MD = 625.000 VND/MD</code>.</dd></div>
       </dl>
     </article>
+  </div>
+
+  <h3>Vì sao nhãn đề xuất chuyển từ A sang E</h3>
+  <div class="prose">
+    <p>Bản trước của tài liệu này đề xuất phương án A dựa trên con số <code>≈32–35 MD</code>. Con số đó <strong>không đối soát được</strong> với bất kỳ dòng nào của bảng ETA. Sau khi cộng lại theo Task ID, luận điểm cốt lõi của A không còn đứng vững, nên nhãn đề xuất phải chuyển.</p>
+  </div>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Phương án</th><th class="n">MD sau khi cộng lại</th><th>Khả thi trong 10 ngày?</th><th>Mức truy được</th></tr></thead>
+      <tbody>
+        <tr><td><b>A</b> — cắt phạm vi</td><td class="n">≈57 <span style="color:var(--ink-mute)">(sàn 50,5)</span></td><td><span class="pill g">Không</span> Cần ≈5,7 người, và đường găng còn <strong>18 MD tuần tự ≈ 18 ngày</strong></td><td>Cắt trắng 13 MD truy được; phần làm mỏng <span class="pill e">SUY LUẬN</span></td></tr>
+        <tr><td><b>B</b> — giãn thời gian</td><td class="n">72,5</td><td><span class="pill g">Không</span> chính B đề nghị bỏ mốc 10 ngày</td><td>Truy được</td></tr>
+        <tr><td><b>C</b> — tăng nhân sự</td><td class="n">72,5</td><td><span class="pill e">Chỉ trên giấy</span> vỡ ngân sách 3,6–7,25 lần, đỉnh tải đòi ≈9 người/3 ngày</td><td>Truy được</td></tr>
+        <tr><td><b>D</b> — đổi kỹ thuật</td><td class="n">≈57–61</td><td><span class="pill g">Không</span> vẫn cần ≈6 người</td><td><span class="pill e">SUY LUẬN</span> chưa phân rã Task ID</td></tr>
+        <tr><td><b>E</b> — Giai đoạn 0</td><td class="n"><b>16</b></td><td><span class="pill f">Có</span> <code>16 ≤ 20 MD</code> = 2 người × 10 ngày</td><td><b>Truy được</b> theo từng Task ID</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="call crit">
+    <span class="eyebrow">Điều phải nói thẳng</span>
+    <p><strong>Không có phương án nào vừa go-live được sau 10 ngày, vừa nằm trong ngân sách 10.000.000 VND.</strong> Ba ràng buộc — phạm vi nhóm chính · 10 ngày · 10.000.000 VND — không thể cùng thỏa mãn. Bắt buộc phải nhả một ràng buộc, và E là phương án nhả có cái giá <strong>nhỏ nhất và minh bạch nhất</strong>: nhả <em>mục tiêu go-live của 10 ngày</em>, giữ lại cả ngân sách lẫn chất lượng thiết kế.</p>
+  </div>
+
+  <h3>Lộ trình đội đề xuất — E trước, rồi A (cân nhắc kết hợp D)</h3>
+  <div class="flow">
+    <div class="step"><span class="no">1</span><span class="bd"><b>10 ngày đầu = Giai đoạn 0</b><span>Phương án E, 16 MD, ≈2 người: đóng 11 Blocker, chốt 8 nhánh state machine, ra SDD + DB schema + API spec, wireframe hai luồng quan trọng nhất, dựng skeleton.</span></span></div>
+    <div class="step"><span class="no">2</span><span class="bd"><b>Ước lượng lại tầng CORE</b><span>Trên yêu cầu đã chốt — lúc này con số mới có nghĩa. Phần còn lại sau Giai đoạn 0 là <code>72,5 − 16 = 56,5 MD</code>, và <strong><code>FR-24</code>/<code>FR-25</code> vẫn chưa được tính</strong> vào con số này.</span></span></div>
+    <div class="step"><span class="no">3</span><span class="bd"><b>Sprint go-live</b><span>Dùng hình dạng của phương án A và cân nhắc kết hợp D, với hai điều kiện bắt buộc: <strong>(a)</strong> mọi MD cắt phải chỉ ra Task ID; <strong>(b)</strong> mốc thời gian và quy mô đội đặt lại theo con số thật, <strong>không đặt trước rồi bóp số cho vừa</strong> — đúng cái sai đã xảy ra ở bản trước của phương án A.</span></span></div>
   </div>
 </section>
 
@@ -1161,7 +1226,8 @@ a:focus-visible { outline: 2px solid var(--fixed); outline-offset: 2px; border-r
 
   <div class="call info">
     <span class="eyebrow">Bước tiếp theo đội đề xuất</span>
-    <p>Chọn <strong>phương án A</strong> nếu ưu tiên có hệ thống chạy được trong 10 ngày, hoặc <strong>phương án E</strong> nếu ưu tiên triệt tiêu rủi ro thiết kế trước. Cả hai đều bắt đầu bằng cùng một việc: <strong>trả lời 11 câu hỏi mức Blocker</strong>. Việc đó không tốn tiền phát triển và là hạng mục giảm rủi ro lớn nhất của cả dự án.</p>
+    <p>Chọn <strong>phương án E</strong> cho 10 ngày đầu — đây là phương án duy nhất có con số tự tái lập được và nằm trong năng lực 10 ngày. Sau đó ước lượng lại rồi mới đặt mốc go-live.</p>
+    <p>Việc đầu tiên trong E cũng là việc rẻ nhất: <strong>trả lời 11 câu hỏi mức Blocker</strong>. Nó không tốn tiền phát triển và là hạng mục giảm rủi ro lớn nhất của cả dự án — vì toàn bộ 72,5 MD hiện đang được ước lượng <em>trên giả định</em>, nên đóng 11 Blocker trước thì con số sau đó mới đáng dùng để quyết ngân sách.</p>
   </div>
 </section>
 

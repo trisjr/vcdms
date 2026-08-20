@@ -5,6 +5,7 @@ status: draft
 project: VETC
 owner: "@trisjr"
 created: 2026-08-20
+updated: 2026-08-20
 ---
 
 # 📊 WBS & ETA — Hệ thống Quản lý Xuất kho & Phân phối thẻ VETC (VCDMS)
@@ -72,7 +73,17 @@ Tỉ lệ này hàm ý một đội **cực nhỏ: 1–2 người kiêm nhiệm 
 
 ### 0.6. Tuyên bố bắt buộc về độ tin cậy của số liệu
 
-> 🔴 **Cột `Effort (MD)` trong toàn tài liệu này là ước lượng bottom-up của đội, CHƯA PHẢI CAM KẾT.** Số liệu được lập theo trình tự: ước lượng theo độ phức tạp từng hạng mục **trước**, đối chiếu với ràng buộc 10 ngày / 10.000.000 VND **sau**. Không có con số nào bị điều chỉnh để khớp ràng buộc.
+> 🔴 **Mọi con số man-day trong toàn tài liệu này là ước lượng bottom-up của đội, CHƯA PHẢI CAM KẾT.** Phạm vi tuyên bố này bao trùm **không chỉ cột `Effort (MD)` ở mục 2 và mục 3**, mà cả **toàn bộ các con số delta ở mục 5, mục 7 và mục 8** (ví dụ `+15 đến +20 MD`, `10–20 MD`, `≈5–6 MD`, `+1,5 MD`, `+1 MD`, `≈12–16 MD`, `≈57–61 MD`, `≈68 MD`). Số liệu được lập theo trình tự: ước lượng theo độ phức tạp từng hạng mục **trước**, đối chiếu với ràng buộc 10 ngày / 10.000.000 VND **sau**. Không có con số nào bị điều chỉnh để khớp ràng buộc.
+>
+> **Ba mức độ truy được của các con số delta** — người đọc phải phân biệt:
+>
+> | Mức | Nghĩa | Ví dụ trong tài liệu này |
+> | :--- | :--- | :--- |
+> | **Truy được từ bảng §2/§3** | Cộng ra được từ Task ID cụ thể | `+1,5 MD` (task 13.4 / 5.3), `+2 MD` (task 7.1), `≈68 MD` (= 72,5 − 4,5 nhóm 1.0), `59,5 MD` (mục 5.4 Phương án A) |
+> | **Truy được từ trích dẫn PRD/BRD** | Có câu nguyên văn làm căn cứ | `10–20 MD` (Q-04: PRD mục 9 ghi *"gấp 5–10 lần"* × 2 MD của task 9.4) |
+> | **[SUY LUẬN] chưa truy được** | Chưa chỉ được ra Task ID hoặc trích dẫn | `+15 đến +20 MD` (Q-01), `≈5–6 MD` (RT-01), `+1 MD` (RT-05), `≈12–16 MD` và `≈57–61 MD` (Phương án D) |
+>
+> Các con số ở nhóm thứ ba đã được gắn nhãn **[SUY LUẬN]** tại chỗ. **Không được dùng chúng làm căn cứ quyết định ngân sách** cho tới khi được phân rã ra Task ID.
 >
 > **Hai con số duy nhất có nguồn SRS** trong toàn bộ bộ tài liệu VETC là **tra cứu ≤ 2 giây** (NFR-06) và **sao lưu hàng ngày** (NFR-07). Mọi con số khác — bao gồm toàn bộ cột Effort ở đây — là ước lượng hoặc giả định thiết kế chờ xác nhận.
 >
@@ -109,8 +120,8 @@ Tỉ lệ này hàm ý một đội **cực nhỏ: 1–2 người kiêm nhiệm 
 | **5.0** | **Danh mục & Master data** | | | | |
 | 5.1 | CRUD Danh mục kho (tạo/sửa/xóa/**ẩn**) | Module Danh mục kho chạy được + test case pass | Engineer | CORE | FR-18 |
 | 5.2 | Thông tin chi tiết kho: tên, địa chỉ, NV phụ trách gửi hàng, SĐT liên hệ | Form chi tiết kho + validation | Engineer | CORE | FR-19 |
-| 5.3 | CRUD **Danh mục Loại thẻ** — ⚠️ *giả định thiết kế (PRD mục 9, **Q-27**), KHÔNG phải FR chính thức trong danh sách 25 FR* | Module Danh mục Loại thẻ | Engineer | BỔ SUNG | FR-27 *(giả định Q-27)* |
-| 5.4 | CRUD **Danh mục Đại lý** — ⚠️ *giả định thiết kế (PRD mục 9, **Q-31**), KHÔNG phải FR chính thức trong danh sách 25 FR* | Module Danh mục Đại lý | Engineer | BỔ SUNG | FR-31 *(giả định Q-31)* |
+| 5.3 | CRUD **Danh mục Loại thẻ** — ⚠️ *giả định thiết kế (PRD mục 9, **Q-27**), KHÔNG phải FR chính thức trong danh sách 25 FR* | Module Danh mục Loại thẻ | Engineer | BỔ SUNG | *(giả định Q-27)* |
+| 5.4 | CRUD **Danh mục Đại lý** — ⚠️ *giả định thiết kế (PRD mục 9, **Q-31**), KHÔNG phải FR chính thức trong danh sách 25 FR* | Module Danh mục Đại lý | Engineer | BỔ SUNG | *(giả định Q-31)* |
 | 5.5 | Quản lý danh mục nhân sự | `TBD` — chờ **Q-28**, xem mục 6 | Engineer | BỔ SUNG | FR-24 |
 | **6.0** | **Luồng Đơn xuất thẻ & Phê duyệt 2 cấp** | | | | |
 | 6.1 | Tạo Đơn xuất thẻ: chọn loại thẻ, nhập số lượng, submit | Màn hình tạo đơn + API tạo đơn | Engineer | CORE | FR-01 |
@@ -165,7 +176,7 @@ Tỉ lệ này hàm ý một đội **cực nhỏ: 1–2 người kiêm nhiệm 
 
 ## 2. Estimation (ETA) — Tầng CORE
 
-> 📌 **Cách đọc bảng này**: cột `Start`/`End` thể hiện **thứ tự thực thi và quan hệ phụ thuộc** nếu ràng buộc 10 ngày được giữ nguyên. Bảng này **không chứng minh** 72,5 MD vừa khít 10 ngày — phép đối chiếu năng lực nằm ở [mục 5](#5-️-phân-tích-khoảng-cách-gap-analysis).
+> 📌 **Cách đọc bảng này**: cột `Start`/`End` thể hiện **thứ tự thực thi và quan hệ phụ thuộc** nếu ràng buộc 10 ngày được giữ nguyên. Bảng này **không chứng minh** 72,5 MD vừa khít 10 ngày — phép đối chiếu năng lực nằm ở [mục 5](#5-phân-tích-khoảng-cách-gap-analysis).
 
 | Task ID | Description | Effort (MD) | Start | End | Status |
 | :--- | :--- | :---: | :---: | :---: | :--- |
@@ -209,7 +220,13 @@ Tỉ lệ này hàm ý một đội **cực nhỏ: 1–2 người kiêm nhiệm 
 | 14.2 | Quản lý thay đổi khi có câu trả lời `Q-NN` | 1.5 | D3 | D10 | Chưa bắt đầu |
 | | **TỔNG TẦNG CORE** | **72.5** | **D1** | **D10** | |
 
-> ⚠️ **Đỉnh tải rơi vào D6–D8**: riêng cửa sổ 3 ngày này chứa khoảng 26 MD (6.2, 6.3, 6.4, 6.5, 8.1, 8.2, 9.2, 10.1, 11.3, 11.4 và phần cuối của 6.1, 9.1, 12.1) → cần **≈ 9 người làm song song** trong 3 ngày đó. Đây là con số cần đối chiếu với mục 0.5 (đội suy luận 1–2 người).
+> ⚠️ **Đỉnh tải rơi vào D6–D8**: riêng cửa sổ 3 ngày này chứa khoảng **26 MD**, cộng ra như sau:
+>
+> - **10 task nằm trọn trong cửa sổ D6–D8**: `6.2` (2,5) + `6.3` (1) + `6.4` (1) + `6.5` (3) + `8.1` (3) + `8.2` (2) + `9.2` (2) + `10.1` (1,5) + `11.3` (2) + `11.4` (2) = **20 MD**
+> - **cộng `12.2`** (4 MD, D8–D9 — phần đầu rơi vào D8) = **24 MD**
+> - **cộng phần cuối của `6.1`, `9.1`, `12.1`** (ba task bắt đầu trước D6 và kết thúc trong cửa sổ) ≈ **2 MD** → **≈ 26 MD**
+>
+> → cần **≈ 9 người làm song song** trong 3 ngày đó (`26 ÷ 3 ≈ 8,7`). Đây là con số cần đối chiếu với mục 0.5 (đội suy luận 1–2 người).
 
 ---
 
@@ -276,7 +293,7 @@ Tỉ lệ này hàm ý một đội **cực nhỏ: 1–2 người kiêm nhiệm 
 
 ---
 
-## 5. ⚠️ Phân tích khoảng cách (Gap Analysis)
+## 5. Phân tích khoảng cách (Gap Analysis)
 
 ### 5.1. Khối 1 — Đội cần
 
@@ -340,17 +357,67 @@ FR-24 và FR-25 (`TBD`) chưa nằm trong 72,5 MD. Khi **Q-28** có câu trả l
 
 ### 5.4. Khối 4 — Phương án nếu có khoảng cách
 
-Có khoảng cách, nên bắt buộc phải chọn. Bốn phương án dưới đây tương ứng 4 trục cân nhắc.
+Có khoảng cách, nên bắt buộc phải chọn. Năm phương án dưới đây tương ứng 5 trục cân nhắc: **A** cắt phạm vi, **B** giãn thời gian, **C** tăng ngân sách, **D** đổi phương án kỹ thuật, **E** đổi mục tiêu của 10 ngày.
+
+> 🔴 **Quy tắc bắt buộc cho mọi con số trong mục 5.4 này**: mỗi MD tuyên bố cắt được **phải chỉ ra được Task ID** trong bảng mục 2. Con số nào không phân rã được ra Task ID thì phải gắn nhãn **[SUY LUẬN]** và **không được dùng để kết luận tính khả thi**. Quy tắc này được thêm vào sau khi phát hiện Phương án A ở phiên bản trước tuyên bố một con số (`≈ 32–35 MD`) không đối soát được với bất kỳ dòng nào của mục 2 hay mục 4.
 
 ---
 
-#### 🅐 Phương án A — Cắt tiếp trong nội bộ `P0` ("MVP tối giản 10 ngày") · **⭐ Em đề xuất**
+#### 🅐 Phương án A — Cắt tiếp trong nội bộ `P0` ("MVP tối giản") · **⚠️ KHÔNG còn khả thi trong 10 ngày**
 
 | | |
 | :--- | :--- |
 | **Cắt gì** | Cắt **4 hạng mục P0** khỏi 10 ngày đầu, đẩy sang ngay sau go-live: **FR-02** (kiểm tra tồn kho — tạm thay bằng NV Kho tự đối chiếu Excel ngoài hệ thống), **FR-14** (truy xuất nguồn gốc thẻ), **NFR-05** (gán + chặn trùng dải Series — tạm chỉ chặn số lượng âm), **NFR-04** (Audit Log đầy đủ — tạm chỉ log 3 mốc: tạo đơn, sửa số lượng, duyệt). Đồng thời cắt mỏng: Design system chỉ dùng component library mặc định, QA chỉ test luồng chính. Giữ nguyên: FR-01, FR-04, FR-05, FR-06, FR-07, FR-11, FR-12, FR-18, FR-19, FR-22, NFR-01, NFR-02, NFR-03 và **toàn bộ nhóm 1.0 Discovery**. |
-| **Được gì** | Ước lượng nhanh còn **≈ 32–35 MD** (giảm ≈ 38 MD): khả thi trong 10 ngày với đội **4 người**, hoặc ≈ 8 tuần với 1 người. Có hệ thống **thật sự chạy được**: Sale tạo đơn → Kho soát xét & điều chỉnh có lý do → Admin duyệt → Sale nhận hàng chụp ảnh POD + đối soát Series → đơn đóng. Đúng nghĩa *"chức năng chính để có thể hoạt động"*. |
+| **Được gì** | Tầng CORE còn **59,5 MD** (cắt trắng 13 MD), hoặc **≈ 57 MD** nếu tính thêm phần làm mỏng — **[SUY LUẬN]**. Cách cộng ra hai con số này nằm ở bảng đối soát ngay bên dưới khối A. Nội dung giữ lại vẫn là một luồng nghiệp vụ đóng được: Sale tạo đơn → Kho soát xét & điều chỉnh có lý do → Admin duyệt → Sale nhận hàng chụp ảnh POD + đối soát Series → đơn đóng — **nhưng luồng này chỉ đóng được nếu kéo task `7.1` vào CORE (+2 MD)**, xem caveat RT-02 bên dưới. |
 | **Mất gì** | **Mất mục tiêu G-02 (truy vết)** trong 10 ngày đầu — mà theo BRD mục 2.2, P-02 *"thiếu khả năng truy vết"* là một trong bốn lý do dự án ra đời. Mất khả năng chặn trùng dải Series → **rủi ro dữ liệu sai ngay từ ngày đầu**, sửa sau phải kèm migration dữ liệu thật. Audit Log không đầy đủ → BR-06 chỉ được thực thi một phần, giảm giá trị kiểm toán. Không kiểm tra tồn kho trong hệ thống → NV Kho vẫn phải mở Excel, đúng cái rủi ro mà PRD Q-26 cảnh báo *"hệ thống mất giá trị"*. |
+
+##### Bảng đối soát của Phương án A — mỗi MD cắt đi đều chỉ ra Task ID
+
+**Bước 1 — Cắt trắng** (xóa hẳn khỏi 10 ngày đầu). Mọi số lấy trực tiếp từ bảng mục 2:
+
+| Hạng mục A nêu cắt | Task ID | MD |
+| :--- | :---: | :---: |
+| FR-02 — kiểm tra tồn kho khả dụng | `6.2` | 2,5 |
+| FR-14 — mô hình thực thể Thẻ / Dải Series | `9.1` | 2,5 |
+| FR-14 — màn hình truy xuất nguồn gốc | `9.2` | 2 |
+| NFR-05 — gán + chặn trùng dải Series | `11.4` | 2 |
+| NFR-04 — Audit Log đầy đủ | `11.3` | 2 |
+| Design system | `3.3` | 2 |
+| **Tổng cắt trắng** | | **13** |
+
+→ `72,5 − 13 = **59,5 MD**`. Đây là con số **truy được 100%** theo Task ID.
+
+**Bước 2 — Làm mỏng** (không xóa). Toàn bộ bước này là **[SUY LUẬN]**: căn cứ chia là tỉ lệ số hạng mục, không phải đo thực tế:
+
+| Task ID | Làm mỏng gì | Căn cứ chia | MD cắt |
+| :---: | :--- | :--- | :---: |
+| `12.1` | Viết test case cho **13/17** hạng mục P0 còn lại (bỏ FR-02, FR-14, NFR-04, NFR-05) | `3 × 13/17 ≈ 2,3` | −0,7 |
+| `12.2` | Thực thi test cho **10/12** FR còn lại | `4 × 10/12 ≈ 3,3` | −0,7 |
+| `2.2` | Schema bỏ bảng Thẻ/Series, Audit Log rút gọn — còn 3/5 nhóm thực thể | `2 → 1,5` *(giữ dè dặt)* | −0,5 |
+| `3.1` | Wireframe bỏ phần hiển thị tồn kho — 1/7 FR trong task | `2 × 6/7 ≈ 1,7` | −0,3 |
+| **Tổng làm mỏng** | | | **−2,2** |
+
+→ `59,5 − 2,2 = 57,3` → **≈ 57 MD**.
+
+**Sàn tuyệt đối truy được**: kể cả **xóa sạch 100% QA** — điều Phương án A **không** làm, A chỉ nói *"QA chỉ test luồng chính"* — thì `12.1 (3) + 12.2 (4) + 12.3 (2) = 9 MD`, cho `59,5 − 9 = **50,5 MD**`. **Mọi con số dưới 50,5 MD đều không có nguồn.**
+
+##### Quy mô đội tương ứng — tính lại
+
+| Mốc | MD | Đội cần cho 10 ngày (`MD ÷ 10`) | Nếu 1 người (`MD ÷ 5 ngày/tuần`) |
+| :--- | :---: | :---: | :---: |
+| Chỉ cắt trắng | 59,5 | **≈ 6 người** (5,95) | **≈ 12 tuần** (11,9) |
+| Cắt trắng + làm mỏng **[SUY LUẬN]** | ≈ 57 | **≈ 5,7 người** | **≈ 11,5 tuần** |
+| Sàn tuyệt đối (xóa sạch QA) | 50,5 | **≈ 5 người** (5,05) | **≈ 10 tuần** (10,1) |
+
+> 🔴 **Kết luận thẳng: Phương án A KHÔNG khả thi trong 10 ngày với đội 4 người.** Bốn người trong 10 ngày cho `4 × 10 = 40 MD`. So với mức thực tế ≈ 57 MD thì **thiếu ≈ 17 MD**; so với **sàn tuyệt đối 50,5 MD** thì vẫn **thiếu 10,5 MD**. Không có cách cắt nào trong nội bộ A đưa được xuống 40 MD, vì A ghi rõ *"Giữ nguyên toàn bộ nhóm 1.0 Discovery"* (4,5 MD) và giữ 13/17 hạng mục P0.
+>
+> ⚠️ **Ràng buộc cấu trúc còn chặt hơn ràng buộc effort.** Đường găng ở mục 7.2 dài 22,5 MD tuần tự; Phương án A chỉ cắt được **2 mắt xích**: `9.1` (2,5) và `11.4` (2). Còn lại `22,5 − 4,5 = **18 MD tuần tự**` → **≈ 18 ngày làm việc** *(chịu cùng caveat về khả năng chia người ở mục 7.3)*, thêm người **không nén được**. Vậy A vượt ràng buộc 10 ngày **cả về tổng effort lẫn về cấu trúc phụ thuộc**.
+>
+> ⚠️ **A cũng chưa vá được RT-02.** A tuyên bố Sale *"nhận hàng ở Bước 5"*, nhưng theo mục 8.3 (RT-02), tầng CORE **không có đường nào** chuyển đơn từ `Ready for Shipping` sang `In Transit` (FR-08 là `P1`). Muốn luồng đóng được thì phải kéo task **`7.1`** (adapter thủ công, **2 MD**, bảng mục 3) vào CORE → `57 + 2 = **≈ 59 MD**`.
+>
+> ⚠️ **Bốn dòng trong bảng "cắt trắng" thực chất là làm mỏng theo đúng lời văn của A**: `11.3` (*"tạm chỉ log 3 mốc"*), `11.4` (*"tạm chỉ chặn số lượng âm"*), `3.3` (*"chỉ dùng component library mặc định"* — vẫn cần công tích hợp và dựng layout responsive), và `6.2` (*"tạm thay bằng NV Kho tự đối chiếu Excel"* — nhưng **màn hình soát xét vẫn phải tồn tại** cho FR-04/FR-05/FR-06, chỉ bỏ được phần hiển thị tồn kho khả dụng). Phần giữ lại của bốn task này sẽ **đẩy con số lên trên 57 MD**. Vì vậy **≈ 57 MD là sàn lạc quan, không phải trần** — và bảng cắt trắng 13 MD nên đọc là *"tối đa cắt được"*, không phải *"chắc chắn cắt được"*.
+>
+> 📌 **Đối chiếu ngân sách**: `10.000.000 ÷ 57 ≈ **175.000 VND/MD**` — vẫn thấp hơn mọi mức đơn giá trong bảng độ nhạy ở mục 5.3.b.
 
 ---
 
@@ -379,18 +446,42 @@ Có khoảng cách, nên bắt buộc phải chọn. Bốn phương án dưới 
 | | |
 | :--- | :--- |
 | **Cắt gì** | Cắt phần **tự xây** của các hạng mục nặng, thay bằng nền tảng/thư viện sẵn có: (1) nhóm 11.1 JWT auth → dùng dịch vụ authentication sẵn có thay vì tự viết; (2) nhóm 3.3 Design system → dùng component library mặc định, bỏ thiết kế token riêng; (3) nhóm 5.1/5.2 CRUD danh mục → dùng admin scaffold/generator; (4) nhóm 11.3 Audit Log → dùng trigger/CDC ở tầng database thay vì tự viết middleware; (5) nhóm 4.x hạ tầng → dùng PaaS thay vì tự dựng. |
-| **Được gì** | Ước lượng nhanh cắt được **≈ 12–16 MD** (chủ yếu ở nhóm 3.0, 4.0, 5.0, 11.0), đưa CORE về **≈ 57–61 MD** mà **không bỏ FR/NFR nào**. Kết hợp được với Phương án A hoặc B để cộng dồn hiệu quả. |
+| **Được gì** | Ước lượng nhanh cắt được **≈ 12–16 MD** — **[SUY LUẬN], chưa phân rã ra Task ID** (chủ yếu ở nhóm 3.0, 4.0, 5.0, 11.0), đưa CORE về **≈ 57–61 MD** *(cũng là **[SUY LUẬN]**, vì dẫn xuất từ con số trên)* mà **không bỏ FR/NFR nào**. Kết hợp được với Phương án A để cộng dồn — nhưng **em không cộng ra một con số A+D mới**, vì hai lý do: (1) con số 12–16 MD chưa truy được ra Task ID nên cộng vào sẽ tạo ra một con số giả chính xác; (2) D **trùng lặp** với A ở hai hạng mục `3.3` (Design system) và `11.3` (Audit Log) — A đã cắt trắng cả hai, nên phần D cắt thêm được trên nền A **nhỏ hơn 12–16 MD**. Trước khi dùng D để quyết ngân sách, **bắt buộc phân rã 12–16 MD ra Task ID** theo đúng quy tắc đầu mục 5.4. |
 | **Mất gì** | **Phụ thuộc vendor (lock-in)** và **chi phí subscription hàng tháng** — chi phí này chuyển từ CAPEX sang OPEX, cần tính vào tổng chi phí sở hữu. Nguy hiểm nhất: component library mặc định **rất khó tùy biến cho UX mobile Bước 5** (chụp ảnh trực tiếp từ camera, đối soát Series dưới ánh sáng ngoài trời) — PRD mục 7.2 cảnh báo đúng rủi ro *"làm đúng đặc tả nhưng sai thực tế"*, dẫn tới **FR-11 mức P0 không dùng được trên hiện trường**. Ngoài ra object storage/PaaS nước ngoài có thể vi phạm giả định Q-13 (dữ liệu đặt tại Việt Nam). |
 
 ---
 
-#### 🅔 Phương án E *(dự phòng)* — Đổi mục tiêu của 10 ngày thành "Giai đoạn 0"
+#### 🅔 Phương án E — Đổi mục tiêu của 10 ngày thành "Giai đoạn 0" · **⭐ Em đề xuất**
 
 | | |
 | :--- | :--- |
 | **Cắt gì** | **Cắt mục tiêu go-live khỏi 10 ngày.** Dùng 10 ngày cho nhóm 1.0 + 2.0 + 3.1 + 3.2 + 4.1 (4,5 + 6,5 + 2 + 1,5 + 1,5 = **16 MD**): chốt 11 câu Blocker, chốt 8 nhánh state machine, ra SDD + DB schema + API spec, wireframe hai luồng quan trọng nhất, dựng skeleton chạy được. |
 | **Được gì** | Khả thi hơn hẳn: 16 MD ≈ **2 người trong 10 ngày** (năng lực 20 MD). Sau 10 ngày anh có **ước lượng đáng tin cậy hơn nhiều** cho phần còn lại (vì 11 Blocker đã đóng), và **triệt tiêu rủi ro lớn nhất** của dự án — thiết kế mô hình dữ liệu trên 31 giả định chưa xác nhận (mục 8). |
 | **Mất gì** | Sau 10 ngày **chưa có hệ thống chạy được** — không đáp ứng đúng chữ *"để có thể hoạt động"* trong yêu cầu của anh. Kỳ vọng phải được điều chỉnh ngay từ đầu, nếu không sẽ bị hiểu là dự án chậm tiến độ. Ngân sách 10.000.000 VND vẫn cần đối chiếu: `10.000.000 ÷ 16 MD = **625.000 VND/MD**`. |
+
+---
+
+### 5.5. Vì sao nhãn đề xuất chuyển từ A sang E
+
+Ở phiên bản trước, Phương án A giữ nhãn **⭐ Em đề xuất** dựa trên con số `≈ 32–35 MD` và kết luận *"khả thi trong 10 ngày với đội 4 người"*. Con số đó **không đối soát được** với bất kỳ dòng nào của mục 2 hay mục 4. Sau khi cộng lại theo Task ID (bảng đối soát ở Phương án A), luận điểm cốt lõi của A **không còn đứng vững**, nên nhãn đề xuất phải chuyển.
+
+| Phương án | Con số MD sau khi cộng lại | Có khả thi trong 10 ngày? | Mức truy được |
+| :--- | :--- | :--- | :--- |
+| **A** — cắt phạm vi | ≈ 57 MD (sàn tuyệt đối 50,5) | ❌ **Không.** Cần ≈ 5,7 người, và đường găng còn **18 MD tuần tự ≈ 18 ngày** | Cắt trắng 13 MD truy được; phần làm mỏng **[SUY LUẬN]** |
+| **B** — giãn thời gian | 72,5 MD | ❌ Không (chính B đề nghị bỏ mốc 10 ngày) | Truy được |
+| **C** — tăng nhân sự | 72,5 MD | ⚠️ Trên giấy, nhưng vỡ ngân sách 3,6–7,25 lần và đỉnh tải đòi ≈ 9 người/3 ngày | Truy được |
+| **D** — đổi kỹ thuật | ≈ 57–61 MD | ❌ Không. Vẫn cần ≈ 6 người | **[SUY LUẬN]**, chưa phân rã Task ID |
+| **E** — Giai đoạn 0 | **16 MD** | ✅ **Có.** `16 MD ≤ 20 MD` = năng lực 2 người × 10 ngày | **Truy được**: `4,5 (nhóm 1.0) + 6,5 (nhóm 2.0) + 2 (3.1) + 1,5 (3.2) + 1,5 (4.1) = 16` |
+
+**Vì sao E:** đây là **phương án duy nhất mà con số tự tái lập được và nằm trong năng lực 10 ngày** của một đội quy mô phù hợp với ngân sách (mục 0.5 suy luận 1–2 người). Ngoài ra E còn tấn công trực diện rủi ro lớn nhất đã nêu ở mục 8.1: 11 câu Blocker chưa có câu trả lời, khiến toàn bộ 72,5 MD đang được ước lượng **trên giả định**. Đóng 11 Blocker trước rồi ước lượng lại thì con số sau đó mới đáng dùng để quyết ngân sách.
+
+> 🔴 **Điều phải nói thẳng với anh**: **không có phương án nào vừa go-live được sau 10 ngày, vừa nằm trong ngân sách 10.000.000 VND.** Ba ràng buộc (phạm vi CORE · 10 ngày · 10.000.000 VND) **không thể cùng thỏa mãn**. Bắt buộc phải nhả một ràng buộc, và E là phương án nhả ràng buộc có cái giá **nhỏ nhất và minh bạch nhất** — nhả *mục tiêu go-live của 10 ngày*, giữ lại cả ngân sách lẫn chất lượng thiết kế.
+
+**Lộ trình em đề xuất — E trước, rồi A (cân nhắc kết hợp D):**
+
+1. **10 ngày đầu = Giai đoạn 0** (Phương án E, 16 MD, ≈ 2 người): đóng 11 Blocker, chốt 8 nhánh state machine, ra SDD + DB schema + API spec, wireframe hai luồng quan trọng nhất, dựng skeleton.
+2. **Ước lượng lại tầng CORE** trên yêu cầu đã chốt — lúc này con số mới có nghĩa. Phần còn lại của tầng CORE sau Giai đoạn 0 là `72,5 − 16 = **56,5 MD**` (16 MD của Giai đoạn 0 nằm trong 72,5 MD, gồm cả 4,5 MD nhóm 1.0). Các caveat ở mục 8.1 vẫn áp dụng, và **FR-24/FR-25 vẫn chưa được tính** vào con số này.
+3. **Sprint go-live** dùng hình dạng của **Phương án A** (cắt trong nội bộ `P0`) và **cân nhắc kết hợp D**, với hai điều kiện bắt buộc: (a) mọi MD cắt phải chỉ ra Task ID; (b) mốc thời gian và quy mô đội được đặt lại theo con số thật, **không đặt trước rồi bóp số cho vừa** — đúng cái sai vừa xảy ra ở Phương án A.
 
 ---
 
@@ -447,6 +538,10 @@ PRD mục 1 ghi nguyên văn: bốn vấn đề này là **một khối** — kh
 >
 > **10 ngày là bất khả thi về mặt cấu trúc phụ thuộc**, không chỉ về mặt tổng effort. Thêm người rút ngắn được phần song song (nhóm 3.0, 5.0, 8.0, 10.0, 11.1, 11.2), **không** rút ngắn được đường găng.
 
+> ⚠️ **Caveat về con số 22–23 ngày** — **[SUY LUẬN]**: phép quy đổi `22,5 MD tuần tự → 22–23 ngày` giả định **mỗi mắt xích không chia được cho nhiều người**. Giả định này **không đúng tuyệt đối**: mắt xích 7 có task `12.2` (4 MD thực thi test + regression) **chia được cho 2 QA làm song song**, và một phần của `13.2` (migration import Excel) cũng chia được. Nếu chia tối đa các mắt xích chia được thì độ dài lịch có thể ngắn hơn 22–23 ngày.
+>
+> **Kết luận *"10 ngày bất khả thi"* vẫn đứng vững**, vì các mắt xích **thật sự không chia được** — `1.1` → `1.2` → `2.2` → `9.1` → `6.5` → `11.4` (quyết định nghiệp vụ phải chốt xong mới thiết kế được, schema phải xong mới code được) — cộng lại `2 + 1,5 + 2 + 2,5 + 3 + 2 = 13` → **13 MD tuần tự thuần**, đã vượt 10 ngày ngay cả khi mỗi mắt xích chỉ do đúng 1 người làm liền mạch, chưa tính `12.3` (UAT với khách hàng, 2 MD — phụ thuộc lịch của khách hàng, không nén được) và nhóm 13.0 nằm sau đó.
+
 Bốn nguyên tắc thứ tự phải giữ nếu vẫn theo ràng buộc 10 ngày:
 
 1. **D1–D3 phải dành cho Discovery.** Không được đổi chỗ với code để "tranh thủ". Bỏ 4,5 MD Discovery để lấy thêm 4,5 MD code là đổi rủi ro migration dữ liệu thật lấy 4,5 MD — cái giá đắt nhất trong toàn bảng.
@@ -472,11 +567,18 @@ Nghịch lý của bản ước lượng này:
 
 > 🔴 **Kết luận**: độ tin cậy của con số 72,5 MD **phụ thuộc trực tiếp vào việc 11 Blocker được trả lời trước D1**. Nếu chúng được trả lời **trước** D1, tầng CORE giảm còn ≈ 68 MD và rủi ro làm lại gần như bằng 0. Nếu chúng được trả lời **trong hoặc sau** 10 ngày, con số 72,5 MD là **sàn**, không phải trần.
 
+> ⚠️ **Caveat về con số ≈ 68 MD** — **[SUY LUẬN]**: con số này = `72,5 − 4,5`, tức giả định **xóa trọn nhóm 1.0 Discovery** khi 11 Blocker đã được trả lời trước D1. Giả định đó **lạc quan**, vì nhóm 1.0 **không biến mất hết**:
+>
+> - Task `1.2` (chốt 8 nhánh state machine `T-a`…`T-h`, **1,5 MD**) phụ thuộc **`Q-24`, `Q-25`, `Q-15`, `Q-16`** — theo BRD mục 9.1, **cả 4 mã này KHÔNG nằm trong 11 Blocker** (11 Blocker là `Q-01`, `Q-02`, `Q-03`, `Q-04`, `Q-05`, `Q-06`, `Q-09`, `Q-10`, `Q-11`, `Q-12`, `Q-21`). Trả lời xong 11 Blocker thì `1.2` **vẫn còn nguyên việc**.
+> - Task `1.3` (cập nhật PRD/BRD, **1 MD**) vẫn phải làm để ghi lại chính các câu trả lời đó.
+>
+> → Phần nhóm 1.0 thật sự triệt tiêu được chỉ là task `1.1` (**2 MD**), cho `72,5 − 2 = **70,5 MD**` ở mức dè dặt. Con số **≈ 68 MD chỉ đạt được nếu `1.2` và `1.3` cũng được đóng trước D1**, tức khách hàng trả lời thêm 4 mã ngoài nhóm Blocker. Vì vậy **68 MD là biên dưới lạc quan**, khoảng thực tế là **≈ 68–70,5 MD**.
+
 ### 8.2. Tác động của 11 Blocker lên ước lượng
 
 | Mã | Nếu khách hàng trả lời khác giả định | Task bị ảnh hưởng | Tác động lên effort |
 | :--- | :--- | :--- | :--- |
-| **Q-01** | Có làm luồng nhập kho | 2.2, 6.2, 9.1, 11.4, 13.2 | 🔴 **Tác động lớn nhất toàn dự án.** Thêm thực thể phiếu nhập + luồng duyệt riêng + pool Series đầy đủ. Ước lượng thô **+15 đến +20 MD**, kèm migration nếu đã có dữ liệu thật |
+| **Q-01** | Có làm luồng nhập kho | 2.2, 6.2, 9.1, 11.4, 13.2 | 🔴 **Tác động lớn nhất toàn dự án.** Thêm thực thể phiếu nhập + luồng duyệt riêng + pool Series đầy đủ. Ước lượng thô **+15 đến +20 MD** — **[SUY LUẬN]**, chưa phân rã ra Task ID vì luồng nhập kho hiện **không có** hạng mục nào trong mục 1; kèm migration nếu đã có dữ liệu thật |
 | **Q-02** | Carrier chỉ có API tra cứu, không có API tạo đơn | 2.5, 7.1, 7.2 | FR-08 **bất khả thi như mô tả** → phải làm lại thiết kế tích hợp |
 | **Q-03** | "Real-time" phải dưới 1 phút | 2.5, 7.2 | Bắt buộc webhook thay polling → đổi kiến trúc tích hợp, effort nhóm 7.0 tăng |
 | **Q-04** | Cần thanh toán online cho đền bù | 9.4 | PRD ghi rõ *"khối lượng công có thể gấp 5–10 lần"* → 2 MD có thể thành 10–20 MD |
@@ -484,7 +586,7 @@ Nghịch lý của bản ước lượng này:
 | **Q-06** | Gán dải Series tay hoàn toàn, hoặc ở bước khác | 9.1, 11.4 | **NFR-05 không thực thi được**; đổi thời điểm khóa tồn kho → thiết kế lại 9.1 |
 | **Q-09** | Cho sửa & gửi lại đơn bị từ chối trực tiếp | 1.2, 6.5, 11.3 | Thêm trạng thái `Draft`/`Resubmitted` + versioning đơn → ảnh hưởng Audit Log |
 | **Q-10** | Đơn bị Admin từ chối phải quay lại NV Kho | 1.2, 6.5 | Thêm nhánh vòng lặp + cơ chế chống lặp vô tận vào state machine |
-| **Q-11** | Kho phải **giao bù** phần thiếu thay vì đóng đơn | 1.2, 8.2, 9.3 | Cần cơ chế đơn con/đơn bù → **thay đổi mô hình dữ liệu đơn hàng** |
+| **Q-11** | Kho phải **giao bù** phần thiếu thay vì đóng đơn | 1.2, 8.2, 9.3 | Cần cơ chế đơn con/đơn bù → **thay đổi mô hình dữ liệu Đơn xuất thẻ** |
 | **Q-12** | Có cấp quản lý trung gian (Trưởng vùng, Quản lý Sale) | 11.2, 10.1, 10.4 | Thêm mô hình cây tổ chức vào **mọi query và mọi API**. PRD ghi *"sửa sau rất tốn kém"* |
 | **Q-21** | Phải tách ngay 2 vai trò Sale và Đại lý | 11.2, 5.4 | Làm lại ma trận phân quyền + migration user + có thể đổi mô hình chủ sở hữu đơn |
 
@@ -492,11 +594,11 @@ Nghịch lý của bản ước lượng này:
 
 | # | Rủi ro | Mức | Ảnh hưởng ước lượng |
 | :--- | :--- | :---: | :--- |
-| RT-01 | **8 nhánh state machine T-a…T-h chưa định nghĩa** (PRD mục 6.2 gọi là *"rủi ro thiết kế lớn nhất"*). Task 6.5 đang được ước lượng cho **5 trạng thái luồng thuận**. | 🔴 Cao | Chốt thêm 4–5 trạng thái → 6.5 tăng từ 3 MD lên **≈ 5–6 MD**, kèm sửa 11.3 và toàn bộ test case |
-| RT-02 | **Tầng CORE (`P0` thuần) không đóng được vòng đời đơn.** FR-08 (đẩy đơn sang carrier) là `P1`, nên trong CORE **không có đường nào** chuyển đơn từ `Ready for Shipping` sang `In Transit` để Sale nhận hàng ở Bước 5. | 🔴 Cao | Cần đưa task **7.1 (adapter thủ công, 2 MD)** vào CORE → **72,5 → 74,5 MD**. Đây là điểm **cần anh và PM xác nhận**, PO không tự chia lại tầng |
+| RT-01 | **8 nhánh state machine T-a…T-h chưa định nghĩa** (PRD mục 6.2 gọi là *"rủi ro thiết kế lớn nhất"*). Task 6.5 đang được ước lượng cho **5 trạng thái luồng thuận**. | 🔴 Cao | Chốt thêm 4–5 trạng thái → 6.5 tăng từ 3 MD lên **≈ 5–6 MD** — **[SUY LUẬN]**, chưa phân rã được ra hạng mục cụ thể, kèm sửa 11.3 và toàn bộ test case |
+| RT-02 | **Tầng CORE (`P0` thuần) không đóng được vòng đời đơn — thiếu ở HAI đầu của Bước 5.** (a) **Đầu vào**: FR-08 (đẩy đơn sang carrier) là `P1`, nên trong CORE **không có đường nào** chuyển đơn từ `Ready for Shipping` sang `In Transit` để Sale nhận hàng ở Bước 5. (b) **Đầu ra**: PRD mục 7.1 gán cho Bước 5 **ba** FR — `FR-11`, `FR-12` và **`FR-13`** (sinh Biên bản Bàn giao Thẻ). `FR-13` cũng là `P1` (task 8.3, tầng BỔ SUNG), nên tầng CORE **không thực thi được `BR-05`** — BRD mục 7 ghi nguyên văn *"Biên bản Bàn giao Thẻ được sinh **tự động ngay khi** bấm [Hoàn thành]"*. Bước 5 trong CORE vì vậy **vừa không có đường vào, vừa không sinh ra chứng từ đầu ra**. | 🔴 Cao | Để đóng được vòng đời cần kéo **cả hai** task từ tầng BỔ SUNG vào CORE: **7.1 (adapter thủ công, 2 MD)** + **8.3 (Biên bản Bàn giao PDF/Excel, 2,5 MD)** → `72,5 + 4,5 = **77 MD**`. Nếu chỉ vá đầu vào (7.1) thì **72,5 → 74,5 MD** nhưng `BR-05` vẫn bị vi phạm. Đây là điểm **cần anh và PM xác nhận**, PO không tự chia lại tầng |
 | RT-03 | **Backup (NFR-07) và perf test (NFR-06) nằm ở tầng BỔ SUNG** vì PRD xếp `P1`, nhưng dữ liệu thật đã chạy trên production từ D10. | 🟡 Trung bình | Go-live không có backup là rủi ro vận hành, không phải rủi ro tiến độ — nhưng nếu phải kéo 13.4 vào CORE thì **+1,5 MD** |
 | RT-04 | **Danh mục Loại thẻ (Q-27) ở tầng BỔ SUNG** nhưng FR-01 (`P0`) yêu cầu *"chọn loại thẻ"*. CORE phải tạm dùng dữ liệu seed cứng. | 🟡 Trung bình | Nếu anh yêu cầu CRUD Loại thẻ ngay ở CORE thì **+1,5 MD**; nếu giữ seed cứng thì mỗi loại thẻ mới phải sửa code và deploy lại |
-| RT-05 | **FR-11 mức `P0` có thể không dùng được thực tế** nếu chỉ tối ưu desktop (PRD mục 7.2). Task 8.1 đã tính chi phí mobile (3 MD); phần kiểm thử trên thiết bị di động thật nằm bên trong task 12.2. | 🟡 Trung bình | Nếu nén 12.2 và bỏ kiểm thử thiết bị thật → **rủi ro làm đúng đặc tả nhưng sai thực tế**, phải làm lại sau go-live. Nếu tách thành task QA riêng thì **+1 MD** |
+| RT-05 | **FR-11 mức `P0` có thể không dùng được thực tế** nếu chỉ tối ưu desktop (PRD mục 7.2). Task 8.1 đã tính chi phí mobile (3 MD); phần kiểm thử trên thiết bị di động thật nằm bên trong task 12.2. | 🟡 Trung bình | Nếu nén 12.2 và bỏ kiểm thử thiết bị thật → **rủi ro làm đúng đặc tả nhưng sai thực tế**, phải làm lại sau go-live. Nếu tách thành task QA riêng thì **+1 MD** — **[SUY LUẬN]**, con số này chưa có Task ID tương ứng trong mục 2 hay mục 3 |
 | RT-06 | **Không có tiêu chí nghiệm thu định lượng** (BRD RK-02, chờ **Q-29**). | 🔴 Cao | Không ảnh hưởng số MD, nhưng **không có căn cứ để tuyên bố Increment "Done"** → task 12.3 (UAT) có thể kéo dài vô định |
 | RT-07 | **18 mâu thuẫn nội tại trong SRS** (PRD mục 10), 8 mức 🔴, **chưa được sửa** vì SRS thuộc quyền khách hàng. | 🟡 Trung bình | Mỗi mâu thuẫn 🔴 được giải theo hướng khác giả định đều làm ước lượng lệch — xem bảng 8.2 |
 | RT-08 | **FR-24, FR-25 chưa ước lượng được** (mục 6). | 🟡 Trung bình | Tổng 72,5 / 39,5 MD **chỉ có thể tăng** khi **Q-28** có câu trả lời |

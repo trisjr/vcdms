@@ -125,15 +125,78 @@ Các con số dẫn xuất cũng được cộng lại và **đều đúng**: `1
 
 ---
 
+## Vòng sửa — writer mới (`product-owner` #2)
+
+Writer mới trả `STATUS: DONE`, `FILES_TOUCHED` đúng một file được cấp. Sửa tại chỗ cả 8 hạng mục, không viết lại file.
+
+### Kết quả CRITICAL 2 — và ba phát hiện thêm
+
+Con số mới của Phương án A, **PM đã cộng lại và xác nhận đúng**:
+
+| Mốc | Cách cộng | MD |
+|---|---|---|
+| Cắt trắng (truy được 100% theo Task ID) | `72,5 − 13` | **59,5** |
+| Cắt trắng + làm mỏng **[SUY LUẬN]** | `59,5 − 2,2` (12.1 −0,7 · 12.2 −0,7 · 2.2 −0,5 · 3.1 −0,3) | **≈57** |
+| Sàn tuyệt đối (xóa sạch 100% QA — điều A không làm) | `59,5 − 9` | **50,5** |
+| A + vá RT-02 (kéo task 7.1 vào CORE) | `57 + 2` | **≈59** |
+
+Quy mô đội: `59,5 ÷ 10 ≈ 6 người` · `57 ÷ 10 ≈ 5,7 người` — **không phải 4 người**.
+
+**Phương án A đã bị tước nhãn `⭐ Em đề xuất`**, heading đổi thành `⚠️ KHÔNG còn khả thi trong 10 ngày`. Nhãn chuyển sang **Phương án E** (16 MD, khả thi vì `16 ≤ 20 MD` = năng lực 2 người × 10 ngày, và là phương án duy nhất có con số tự tái lập).
+
+**Ba phát hiện writer tìm thêm ngoài danh sách PM giao — đều làm A yếu thêm, không mạnh thêm:**
+
+1. **Đường găng dưới A còn 18 MD tuần tự.** A chỉ cắt được 2 mắt xích (`9.1` 2,5 + `11.4` 2) khỏi đường găng 22,5 MD → `22,5 − 4,5 = 18 MD` ≈ 18 ngày. Vậy A vượt 10 ngày **cả về tổng effort lẫn về cấu trúc phụ thuộc** — hai lý do độc lập nhau. Đây là lập luận chặn A dứt điểm, không phụ thuộc con số MD.
+2. **A chưa vá được RT-02.** A tuyên bố *"Sale nhận hàng ở Bước 5"* nhưng CORE không có đường `Ready for Shipping → In Transit`. Phải kéo `7.1` vào → ≈59 MD.
+3. **Bảng "cắt trắng" 13 MD tự nó đã lạc quan.** Theo đúng lời văn của A thì `11.3`, `11.4`, `3.3`, `6.2` là *làm mỏng chứ không xóa* — riêng `6.2`, màn hình soát xét **vẫn phải tồn tại** cho `FR-04/05/06`. Nên 13 MD phải đọc là *"tối đa cắt được"*, và **≈57 MD là sàn lạc quan, không phải trần**.
+
+### Kết luận mới, quan trọng nhất của cả run
+
+> **Không có phương án nào vừa go-live được sau 10 ngày, vừa nằm trong ngân sách 10.000.000 VND.** Ba ràng buộc — phạm vi CORE · 10 ngày · 10.000.000 VND — **không thể cùng thỏa mãn**. Bắt buộc phải nhả một ràng buộc; E là phương án nhả có cái giá nhỏ nhất và minh bạch nhất.
+
+Lộ trình writer đề xuất: **E trước** (Giai đoạn 0, 16 MD) → **ước lượng lại** (`72,5 − 16 = 56,5 MD` còn lại, chưa gồm FR-24/FR-25) → **sprint go-live** theo hình dạng A, cân nhắc kết hợp D, với điều kiện *"mọi MD cắt phải chỉ ra Task ID"* và *"không đặt mốc trước rồi bóp số cho vừa"*.
+
+### Hạn chế của vòng sửa — ghi trung thực
+
+Writer mới **không có tool `Bash`** trong phiên của nó nên không chạy được `awk`/`grep` để cộng. Nó bù bằng cách cross-check với bảng §4 đã được verifier xác nhận ĐẠT, và viết phép cộng hiện rõ trong tài liệu để người đọc tự đối soát. **PM đã tự cộng lại toàn bộ con số mới bằng Bash và xác nhận đúng hết** — nên hạn chế này không để lại rủi ro. Việc verify sự tồn tại mã `FR`/`Q`/`BR` writer dùng Grep tool nên vẫn đủ chặt.
+
+Writer cũng **từ chối cộng ra con số A+D**, lý do: `≈12–16 MD` của D chưa truy được ra Task ID và D còn trùng `3.3`/`11.3` với A — cộng vào sẽ tạo một con số *giả chính xác*, đúng lỗi vừa xảy ra. PM đồng ý với quyết định này.
+
 ## Trạng thái xử lý
 
 | Lỗi | Trạng thái |
 |---|---|
-| CRITICAL 1 — root cause tại `outline.md` L64 | ✅ PM đã sửa |
-| CRITICAL 1 — deliverable `WBS-ETA-VETC.md` L112–113 | 🔄 dispatch writer mới |
-| CRITICAL 2 — `WBS-ETA-VETC.md` §5.4 | 🔄 dispatch writer mới |
-| CRITICAL 2 — đồng bộ `Proposal-VETC.html` | ⏳ PM làm sau khi có con số mới |
-| W1, W2, W3, S1–S4, anchor emoji | 🔄 dispatch writer mới |
-| S5 — ghi ngoại lệ naming trong MOC | ⏳ PM làm ở close-step |
+| CRITICAL 1 — root cause tại `outline.md` | ✅ PM đã sửa + ghi quy tắc rút ra |
+| CRITICAL 1 — deliverable `WBS-ETA-VETC.md` | ✅ writer mới sửa · PM grep xác nhận `FR-(2[6-9]\|3[0-9])` = **0 kết quả** |
+| CRITICAL 2 — `WBS-ETA-VETC.md` §5.4 | ✅ writer mới sửa · thêm 2 bảng đối soát Task ID + §5.5 mới · PM cộng lại xác nhận đúng |
+| CRITICAL 2 — đồng bộ `Proposal-VETC.html` | ✅ PM đã đồng bộ + republish (`v3-post-verify`) |
+| W1 phạm vi tuyên bố ước lượng | ✅ mở rộng ra toàn tài liệu + bảng phân loại 3 mức truy được |
+| W2 thuật ngữ `đơn hàng` | ✅ PM grep xác nhận **0 kết quả** |
+| W3 quy đổi tuần sai | ✅ xử lý cùng CRITICAL 2 |
+| S1 đỉnh tải 26 MD | ✅ thêm `12.2` vào danh sách + phép cộng hiện rõ |
+| S2 RT-02 thiếu FR-13 | ✅ bổ sung `FR-13` + `BR-05` |
+| S3, S4 caveat | ✅ đã thêm, kết luận giữ nguyên |
+| S5 ngoại lệ naming trong MOC | ✅ PM đã ghi cả 2 ngoại lệ (WBS `.md` gộp + Proposal `.html`) |
+| Anchor emoji | ✅ bỏ `⚠️` khỏi heading §5 · PM grep xác nhận `#5-️` = **0 kết quả** |
 
-> **Run chưa đóng được.** Theo `pm-doc.md` Bước 6.3: *"Có lỗi CRITICAL → quay lại Bước 5 với worker mới, kèm nguyên văn lỗi. Không tự vá rồi tuyên bố xong."* PM đã dispatch writer mới với toàn văn hai lỗi CRITICAL kèm bảng cộng lại của PM.
+### PM kiểm lại sau vòng sửa
+
+| Kiểm | Kết quả |
+|---|---|
+| `grep -cE "FR-(2[6-9]\|3[0-9])"` trên WBS | **0** ✅ |
+| `grep -ci "đơn hàng"` trên WBS | **0** ✅ |
+| `grep -c "#5-️"` trên WBS | **0** ✅ |
+| `⭐` trong WBS | chỉ còn ở heading Phương án E ✅ |
+| Frontmatter `updated: 2026-08-20` | có ✅ |
+| Số học Phương án A mới (13 · 2,2 · 59,5 · 57 · 50,5 · 18 · 59) | PM cộng lại — **đúng hết** ✅ |
+| Số học Phương án E (`4,5+6,5+2+1,5+1,5 = 16`) | **đúng** ✅ |
+| `72,5 − 16 = 56,5` · `10.000.000 ÷ 57 ≈ 175.000` · `10.000.000 ÷ 16 = 625.000` | **đúng hết** ✅ |
+| `Đội đề xuất` trong HTML | chỉ còn ở E ✅ |
+| `32–35` trong HTML | chỉ còn ở đoạn giải thích vì sao con số đó sai ✅ |
+| `8 tuần` trong HTML | **0** ✅ |
+
+## Kết luận cuối
+
+**Không còn lỗi `CRITICAL`.** Cả hai deliverable dùng được. Run đóng được.
+
+Hạng mục duy nhất còn để mở là phát hiện **ngoài phạm vi**: `Glossary.md` trỏ sai mã `Q-27` cho dòng định nghĩa `VETC`. PM cố ý **không sửa** — nó thuộc tầng `999-Resources`, không nằm trong ownership map đã duyệt tại gate, và sửa ngầm là mở rộng scope không qua gate. Ghi lại ở đây để một run sau xử lý.
