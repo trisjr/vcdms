@@ -290,12 +290,29 @@ Bốn cái còn lại: biên trên dải D làm tròn rộng 0,15; rủi ro **th
 
 | Hạng mục | Trạng thái |
 |---|---|
-| W1 — nhãn điều kiện ở §5.6 (`WBS-ETA-VETC.md`) | 🔄 dispatch writer |
-| W1 — lan sang `Proposal-VETC.html` | ✅ PM đã sửa: thêm cột **"Độ chắc chắn"** vào bảng ba trục + callout *"Ba trục không chắc chắn như nhau"* + nhãn `SUY LUẬN — phụ thuộc A-11 + A-12` cho con số 44,75 |
-| W2, W3, W4 | 🔄 dispatch writer |
-| S1, S2, S3, S4 | 🔄 dispatch writer |
+| W1 — nhãn điều kiện ở §5.6 (`WBS-ETA-VETC.md`) | ✅ writer sửa: nhãn ở tiêu đề cột bảng Trục 2 + ô bảng Tổng kết + câu điều kiện trỏ `RT-10`/`RT-11` + **tiểu mục mới "Ba trục KHÔNG chắc chắn như nhau"** |
+| W1 — lan sang `Proposal-VETC.html` | ✅ PM sửa: thêm cột **"Độ chắc chắn"** vào bảng ba trục + callout *"Ba trục không chắc chắn như nhau"* + nhãn `SUY LUẬN — phụ thuộc A-11 + A-12` cho con số 44,75 |
+| W2 — lý do hệ số dòng 12.5 | ✅ writer bổ sung, lý do truy được từ chính bảng đó (trộn 12.1 = 0,60 với 12.2a = 0,70) |
+| W3 — danh sách sai lệch làm tròn | ✅ writer chọn **cách (b)**: bỏ hẳn liệt kê, chỉ giữ quy tắc chung ±0,25 + *"khi lệch lấy ô §4"*. Lý do: liệt kê sẽ lại lạc hậu ở vòng sửa sau. PM grep xác nhận `"Hai/Bốn trường hợp"` = **0** |
+| W4 — sàn 13,5 MD | ✅ writer chọn **cách (b)**: giữ 13,5 + câu khai rõ giả định lạc quan. Lý do: 13,5 xuất hiện ở **4 chỗ**, đổi sang ≈15,1 sẽ vi phạm ràng buộc "không đổi số đã verify" và kéo sửa lan |
+| S1, S2, S3, S4 | ✅ writer sửa đủ |
 | MOC / Index đồng bộ hai cột | ✅ verifier xác nhận 0 lệch |
 | `C-18` không có trong Glossary | ⏸️ **ngoài scope** — ghi lại cho run sau |
+
+### Một lỗi PM tự mắc và writer bắt được — đáng ghi lại
+
+Writer phát hiện con số **`0,83` xuất hiện với hai nghĩa hoàn toàn khác nhau**:
+
+| Biểu thức | Đại lượng |
+|---|---|
+| `0,83 = 60 ÷ 72,5` | **Ngưỡng đảo chiều** của trục tổng effort — hệ số mà tại đó đội 6 người vừa đủ |
+| `0,83 = 18,75 ÷ 22,5` | **Hệ số hiệu dụng của đường găng** |
+
+Trùng giá trị hoàn toàn tình cờ, nhưng khác đại lượng. Writer chủ động ghi rõ điều này trong WBS.
+
+**PM kiểm lại bản HTML thì thấy mình đã mắc đúng lỗi đó**: `0,83` xuất hiện ở 6 chỗ, 3 chỗ mang nghĩa này và 3 chỗ mang nghĩa kia, **không chỗ nào phân biệt** — người đọc sẽ hiểu là cùng một con số. PM đã sửa: ghi kèm biểu thức tại mọi chỗ, và thêm một đoạn nói thẳng *"con số 0,83 xuất hiện hai lần với hai nghĩa khác nhau, đừng nhập một"*.
+
+Đây là lần thứ hai trong run này một worker bắt lỗi của PM (lần đầu: mã `FR-27`/`FR-31` trong `outline.md`). Cả hai lần đều là lỗi PM **không thể tự thấy** vì PM là người viết ra nó.
 
 ---
 

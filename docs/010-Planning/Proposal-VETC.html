@@ -997,7 +997,7 @@ a:focus-visible { outline: 2px solid var(--fixed); outline-offset: 2px; border-r
   <div class="call warn">
     <span class="eyebrow">Hai điều đi ngược trực giác</span>
     <p><strong>1. Nhóm bảo mật được gán hệ số cao hơn nhóm CRUD.</strong> Trực giác nói AI giỏi code nên phần kỹ thuật nào cũng nhanh. Nhưng chỗ AI sai <em>tinh vi</em> lại đắt hơn chỗ AI sai <em>lộ liễu</em>: một màn hình CRUD sai thì thấy ngay, một điều kiện phân quyền theo phạm vi dữ liệu sai thì code vẫn chạy và chỉ lộ khi kiểm toán.</p>
-    <p><strong>2. Đường găng co ít hơn mức trung bình</strong> — hệ số <code>0,83</code> so với hệ số tổng <code>0,78</code>. Vì hai mắt xích đầu là Discovery (hệ số 1,00) và mắt xích áp cuối chứa UAT + kiểm thử thiết bị thật (cũng 1,00). <strong>AI nén phần chạy song song mạnh hơn phần chạy tuần tự</strong> — nên nó làm đường găng thành <strong>cổ chai tương đối lớn hơn trước</strong>, không nhỏ hơn.</p>
+    <p><strong>2. Đường găng co ít hơn mức trung bình</strong> — hệ số hiệu dụng <code>0,83 = 18,75 ÷ 22,5</code> so với hệ số tổng <code>0,78</code>. Vì hai mắt xích đầu là Discovery (hệ số 1,00) và mắt xích áp cuối chứa UAT + kiểm thử thiết bị thật (cũng 1,00). <strong>AI nén phần chạy song song mạnh hơn phần chạy tuần tự</strong> — nên nó làm đường găng thành <strong>cổ chai tương đối lớn hơn trước</strong>, không nhỏ hơn.</p>
   </div>
 
   <div class="call warn">
@@ -1139,7 +1139,7 @@ a:focus-visible { outline: 2px solid var(--fixed); outline-offset: 2px; border-r
         <span class="eyebrow">Vì sao A bị tước nhãn đề xuất</span>
         <p>Bốn người trong 10 ngày cho <code>4 × 10 = 40 MD</code>. So với mức thực tế ≈57 MD thì <strong>thiếu ≈17 MD</strong>; so với sàn tuyệt đối 50,5 MD thì <strong>vẫn thiếu 10,5 MD</strong>. Không có cách cắt nào trong nội bộ A đưa được xuống 40 MD.</p>
         <p><strong>Hệ số AI cứu được trục effort của A, nhưng không cứu được A.</strong> Ở cột AI-assisted, A còn ≈44,75 MD <span class="pill e">SUY LUẬN — phụ thuộc A-11 + A-12</span> — đội 5 người trong 10 ngày cho 50 MD, tức <strong>qua được trục effort</strong>. Nhưng A vẫn trượt hai trục còn lại: đường găng của A ở cột AI còn <strong>≈15 ngày</strong>, và đơn giá phải đạt là <strong>223.000 VND/MD</strong> — vẫn dưới mức thấp nhất của bảng độ nhạy. Nói cách khác, AI làm A <em>gần khả thi hơn</em> chứ không làm A khả thi.</p>
-        <p>Và mệnh đề "qua được trục effort" này là mệnh đề <strong>kém chắc chắn nhất</strong> trong toàn tài liệu: nó đảo chiều nếu hệ số thật ≥ 0,83, hoặc nếu nhà thầu không thực sự dùng Claude. Hai kết luận "vẫn vỡ" kia thì không đảo được như vậy.</p>
+        <p>Và mệnh đề "qua được trục effort" này là mệnh đề <strong>kém chắc chắn nhất</strong> trong toàn tài liệu: nó đảo chiều nếu hệ số thật ≥ <code>0,83 = 60 ÷ 72,5</code> (năng lực 6 người chia tổng CORE truyền thống), hoặc nếu nhà thầu không thực sự dùng Claude. Hai kết luận "vẫn vỡ" kia thì không đảo được như vậy.</p>
         <p><strong>Ràng buộc cấu trúc còn chặt hơn ràng buộc effort.</strong> A chỉ cắt được 2 mắt xích khỏi đường găng (<code>9.1</code> và <code>11.4</code>), còn lại <code>22,5 − 4,5 = 18 MD tuần tự</code> ≈ 18 ngày làm việc — thêm người không nén được. Vậy A vượt 10 ngày <strong>cả về tổng effort lẫn về cấu trúc phụ thuộc</strong>, hai lý do độc lập nhau.</p>
         <p><strong>≈57 MD là sàn lạc quan, không phải trần.</strong> Bốn dòng trong bảng "cắt trắng" thực chất chỉ là làm mỏng theo đúng lời văn của A — riêng <code>6.2</code>, màn hình soát xét <strong>vẫn phải tồn tại</strong> cho <code>FR-04/05/06</code>, chỉ bỏ được phần hiển thị tồn kho. Phần giữ lại sẽ đẩy con số lên trên 57 MD. Đối chiếu ngân sách: <code>10.000.000 ÷ 57 ≈ 175.000 VND/MD</code>.</p>
       </div>
@@ -1220,7 +1220,7 @@ a:focus-visible { outline: 2px solid var(--fixed); outline-offset: 2px; border-r
           <td>Vỡ — cần 7,25 người</td>
           <td><span class="pill e">Mềm đi thật — SUY LUẬN, phụ thuộc A-11 + A-12</span> 6 người đủ trên giấy; phương án A + 5 người <strong>qua được trục này về effort</strong> (vẫn vỡ hai trục còn lại)</td>
           <td class="c"><strong>Đổi</strong> — trục duy nhất đổi</td>
-          <td><span class="pill g">Không robust</span> Đảo chiều chỉ với <strong>0,05 lệch hệ số</strong> — ngưỡng ≈0,83, đội gán 0,78. Nếu <code>A-11</code> sai (nhà thầu không dùng AI) thì trục này <strong>quay về kết luận cũ</strong>.</td>
+          <td><span class="pill g">Không robust</span> Đảo chiều chỉ với <strong>0,05 lệch hệ số</strong> — ngưỡng <code>≈0,83 = 60 ÷ 72,5</code>, đội gán 0,78. Nếu <code>A-11</code> sai (nhà thầu không dùng AI) thì trục này <strong>quay về kết luận cũ</strong>.</td>
         </tr>
         <tr>
           <td><b>Cấu trúc phụ thuộc</b></td>
@@ -1237,7 +1237,8 @@ a:focus-visible { outline: 2px solid var(--fixed); outline-offset: 2px; border-r
   <div class="call warn">
     <span class="eyebrow">Ba trục không chắc chắn như nhau — đọc trước khi trích một dòng ra khỏi bảng</span>
     <p>Cột cuối của bảng trên là phần đội muốn anh chú ý nhất. <strong>Hai trục "vẫn vỡ" thì robust; trục duy nhất "đổi" thì không.</strong></p>
-    <p>Kết luận về <strong>ngân sách</strong> và <strong>cấu trúc phụ thuộc</strong> đứng vững bất kể hệ số AI đúng hay sai — vì chúng dựng trên phần việc con người bắt buộc phải làm, thứ không co lại được. Ngược lại, mệnh đề <em>"phương án A + 5 người là đủ"</em> là mệnh đề <strong>có điều kiện</strong>: nó đảo chiều nếu hệ số thật ≥ 0,83, hoặc nếu nhà thầu không thực sự dùng Claude.</p>
+    <p>Kết luận về <strong>ngân sách</strong> và <strong>cấu trúc phụ thuộc</strong> đứng vững bất kể hệ số AI đúng hay sai — vì chúng dựng trên phần việc con người bắt buộc phải làm, thứ không co lại được. Ngược lại, mệnh đề <em>"phương án A + 5 người là đủ"</em> là mệnh đề <strong>có điều kiện</strong>: nó đảo chiều nếu hệ số thật ≥ <code>0,83 = 60 ÷ 72,5</code>, hoặc nếu nhà thầu không thực sự dùng Claude.</p>
+    <p><strong>Một lưu ý về con số 0,83 — nó xuất hiện hai lần với hai nghĩa khác nhau, đừng nhập một:</strong> <code>0,83 = 60 ÷ 72,5</code> là <em>ngưỡng đảo chiều</em> của trục tổng effort (hệ số mà tại đó đội 6 người vừa đủ); còn <code>0,83 = 18,75 ÷ 22,5</code> là <em>hệ số hiệu dụng của đường găng</em>. Hai đại lượng khác nhau hoàn toàn, trùng giá trị chỉ là tình cờ.</p>
     <p>⇒ Mệnh đề đó <strong>không được nhặt ra khỏi ngữ cảnh</strong> như một kết luận chắc chắn. Nó khác bản chất với hai kết luận kia — và nó là mệnh đề mang tin "tốt", nên cũng là mệnh đề dễ bị trích lẻ nhất.</p>
   </div>
 

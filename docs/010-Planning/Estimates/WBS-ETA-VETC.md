@@ -125,7 +125,7 @@ Hai mã dưới đây là **mã giả định riêng của bản ước lượng
 
 Chi phí **con người đọc, kiểm chứng và sửa** code/tài liệu/test case do AI sinh ra được **gộp thẳng vào hệ số**, **không** tách thành dòng riêng và **không** tính hai lần. Cụ thể:
 
-- Hệ số của một nhóm = *(công AI hỗ trợ sinh ra kết quả)* **+** *(công người review kết quả đó)* ÷ *(công truyền thống)*. Vì vậy **không nhóm nào có hệ số dưới 0,50** — phần review luôn còn lại.
+- **Hệ số của một nhóm** = `[ (công AI sinh ra kết quả) + (công người review kết quả đó) ] ÷ (công truyền thống)`. Dấu ngoặc vuông là **bắt buộc**: cả tử số gồm **hai** thành phần cộng lại rồi mới chia cho công truyền thống — **không** phải `công AI + (công review ÷ công truyền thống)`. Vì vậy **không nhóm nào có hệ số dưới 0,50** — phần review luôn còn lại.
 - **Nhóm 11.0 (Xác thực, Phân quyền & Audit Log) được gán hệ số CAO (0,85) một cách có chủ ý** — cao hơn cả các nhóm CRUD (0,50) và nhóm tra cứu (0,60). Lý do: `NFR-02` (RBAC **theo phạm vi dữ liệu** — PRD mục 5.1 ghi rõ SRS *"không định nghĩa quyền theo phạm vi dữ liệu"* → `Q-12`) và `NFR-04` (Audit Log ghi **toàn bộ** lịch sử tác động dữ liệu) là hai chỗ AI sai **tinh vi**: code chạy đúng, test happy-path pass, nhưng rò rỉ dữ liệu ngoài phạm vi hoặc thiếu mutation trong Audit Log chỉ lộ ra khi kiểm toán. **Review ở nhóm này phải NẶNG hơn, không nhẹ hơn.**
 
 **e) Quy tắc làm tròn và nguồn canon — bắt buộc đọc trước khi đối soát**
@@ -134,7 +134,7 @@ Chi phí **con người đọc, kiểm chứng và sửa** code/tài liệu/test
 | :--- | :--- |
 | **Nguồn canon** | **Các ô ở bảng mục 4 (mức nhóm) là con số chuẩn.** Mọi tổng của cột `MD AI-assisted` phải cộng ra từ 14 dòng của mục 4. |
 | **Làm tròn** | `MD_nhóm × hệ số` → làm tròn tới **bậc 0,25 gần nhất**, tie làm tròn **lên** (dè dặt). Áp dụng **theo từng dòng, từng bảng**. |
-| **Sai lệch đã biết** | Vì làm tròn áp ở hai mức khác nhau (mức nhóm ở mục 4, mức task ở mục 7.2 / mục 5.4), tổng mức task có thể **lệch ±0,25 MD/nhóm** so với ô mục 4. Hai trường hợp đã biết: **nhóm 2.0** (cộng theo task ra 4,75 vs ô mục 4 là **4,5**) và **nhóm 11.0** (cộng theo task ra 7,5 vs ô mục 4 là **7,25**). Khi lệch, **lấy ô mục 4**. |
+| **Sai lệch đã biết** | Vì làm tròn áp ở hai mức khác nhau (mức nhóm ở mục 4, mức task ở mục 7.2 / mục 5.4), tổng mức task có thể **lệch ±0,25 MD/nhóm** so với ô mục 4. **Quy tắc chung áp cho MỌI nhóm, không liệt kê từng trường hợp** — biên độ lệch tối đa là ±0,25 MD/nhóm, và **khi lệch thì lấy ô mục 4**. *(Bản trước liệt kê 2 trường hợp cụ thể; cách liệt kê đã được bỏ vì nó tạo ấn tượng sai rằng chỉ có 2 nhóm bị lệch — trong khi quy tắc ±0,25 đã phủ đúng biên độ cho tất cả các nhóm.)* |
 
 **f) Tuyên bố bắt buộc về độ tin cậy — cột AI-assisted YẾU HƠN cột cũ**
 
@@ -347,6 +347,10 @@ Chi phí **con người đọc, kiểm chứng và sửa** code/tài liệu/test
 
 **Tổng cả hai tầng**: `56,75 + 29,5 = **86,25 MD**` (so với **112 MD** truyền thống).
 
+> 📌 **Nguồn của con số `0,78` — bắt buộc đọc trước khi trích nó ra khỏi bảng này.** `0,78` **không phải** trung bình có trọng số của 14 hệ số em gán. Nó là **hệ quả của quy tắc làm tròn** (mục 0.7.e): mỗi ô `MD AI CORE` đã được làm tròn tới bậc 0,25 (tie làm tròn **lên**, dè dặt) **trước khi** cộng lại, nên `0,78` được suy từ **tổng đã làm tròn** — `56,75 ÷ 72,5 = 0,7828`. Nếu cộng từ **tích thô chưa làm tròn** thì tổng là `56,17` → tỉ số `0,7748` → tức **0,77**. Chênh lệch do làm tròn là **+0,580 MD** ở tầng CORE và **+0,075 MD** ở tầng BỔ SUNG.
+>
+> ⇒ Đây **không phải lỗi** — nó đúng theo hướng dè dặt của quy tắc tie làm tròn lên ở mục 0.7.e (thà ước lượng cao hơn thà ước lượng thấp). Nhưng **khi trích `0,78` ra ngoài như một đại lượng độc lập** (ví dụ trong bản trình bày cho khách hàng), phải hiểu nó là **tỉ số của hai tổng đã làm tròn**, không phải một hệ số được gán hay một trung bình có trọng số.
+
 #### Phép chia nhỏ của nhóm 12.0 — bắt buộc, vì mục 7.2 và Phương án A truy qua đây
 
 Nhóm 12.0 **không được gán một hệ số phẳng**, vì trong nó có cả phần AI nén mạnh và phần AI **không nén được chút nào**:
@@ -359,7 +363,7 @@ Nhóm 12.0 **không được gán một hệ số phẳng**, vì trong nó có c
 | 12.3 | **UAT với khách hàng** | 2 | **1.00** 🔒 — cần khách hàng ngồi nghiệm thu | 2 |
 | | **Tổng nhóm 12.0 tầng CORE** | **9** | **0.78** *(= 7 ÷ 9, suy ra)* | **7** |
 | 12.4 | Performance test tra cứu ≤ 2 giây | 2 | 0.80 — phép **đo** không nén được, chỉ soạn kịch bản nhanh hơn | 1.5 |
-| 12.5 | Test case + thực thi test tầng BỔ SUNG | 3 | 0.65 | 2 |
+| 12.5 | Test case + thực thi test tầng BỔ SUNG | 3 | 0.65 — trộn hai phần việc: **viết test case** (như 12.1, hệ số 0,60 — AI mạnh) và **thực thi test** (như 12.2 phần a, hệ số 0,70 — người vẫn phải chạy) | 2 |
 | | **Tổng nhóm 12.0 tầng BỔ SUNG** | **5** | **0.70** *(= 3,5 ÷ 5, suy ra)* | **3.5** |
 
 > 📌 **Cách xử lý phần kiểm thử thiết bị di động thật** (nằm bên trong task 12.2, xem mục 1 và RT-05): em **tách 1,5 MD trong 4 MD của task 12.2** ra và **chốt hệ số 1,0** cho phần đó. Con số 1,5 MD này là **[SUY LUẬN]** — mục 2 và mục 3 không tách riêng dòng cho phần này, nên đây là phép chia của em, không phải dòng có sẵn. Hệ quả: kể cả khi AI nén phần còn lại của QA, **1,5 MD thiết bị thật + 2 MD UAT = 3,5 MD trong nhóm 12.0 không co được một chút nào**.
@@ -549,6 +553,8 @@ Mỗi dòng dưới đây = `MD truyền thống × hệ số của nhóm chứa
 | **Tổng cắt trắng (AI-assisted)** | | | **13** | | **10,5** |
 
 → `56,75 − 10,5 = **46,25 MD**` (cắt trắng, AI-assisted).
+
+> ⚠️ **Chú thích bắt buộc về mức làm tròn của bảng này**: **tổng cắt 10,5 MD được tính ở mức task**, trong khi `56,75` là tổng của các ô **mức nhóm** ở mục 4. Do sai lệch làm tròn ở mục 0.7.e, con số **46,25** (và **44,75** dẫn xuất từ nó) **có thể lạc quan tới 0,25 MD ở nhóm 11.0** — ở đó bảng trừ 3,5 MD mức task khỏi ô 7,25 mức nhóm, để lại 3,75 MD cho `11.1` + `11.2`, nhưng cộng theo mức task hai việc đó ra 4,00. Sai lệch này **nằm trong biên ±0,25 MD/nhóm đã khai** và **không đổi kết luận nào** — 44,75 hay 45,00 đều ≤ 50 MD năng lực của đội 5 người.
 → Phần làm mỏng quy đổi tương tự: `12.1: 0,7 × 0,60 = 0,42` + `12.2: 0,7 × 0,70 = 0,49` + `2.2: 0,5 × 0,70 = 0,35` + `3.1: 0,3 × 0,85 = 0,26` = **≈ 1,5 MD** → `46,25 − 1,5 = **≈ 44,75 MD**`.
 → **Sàn tuyệt đối AI-assisted** (xóa sạch QA tầng CORE = **7 MD** theo mục 4): `46,25 − 7 = **39,25 MD**`.
 → **Vá RT-02** (kéo task `7.1` vào CORE): `2 × 0,85 = 1,75` → `44,75 + 1,75 = **≈ 46,5 MD**`.
@@ -690,7 +696,7 @@ Mỗi dòng dưới đây = `MD truyền thống × hệ số của nhóm chứa
 
 #### Trục 2 — TỔNG EFFORT: 🟡 **MỀM ĐI RÕ RỆT. Đây là trục duy nhất đổi.**
 
-| Câu hỏi | Cột truyền thống | Cột AI-assisted |
+| Câu hỏi | Cột truyền thống | Cột AI-assisted — **[SUY LUẬN]** — phụ thuộc `A-11` + `A-12` |
 | :--- | :--- | :--- |
 | Cần bao nhiêu người để nhồi CORE vào 10 ngày? | **7,25 người** | **5,675 người** → thực tế **6 người là đủ** (60 ≥ 56,75, dư 3,25 MD) |
 | Đội 4 người (40 MD) có đủ không? | Thiếu 32,5 MD | Thiếu **16,75 MD** |
@@ -719,7 +725,7 @@ Sàn tốt nhất **13,5 MD** vẫn **vượt 10 ngày**, và sàn đó đòi m�
 | Trục | Kết luận cũ | Sau khi áp hệ số AI | Đổi hay không |
 | :--- | :--- | :--- | :--- |
 | **Ngân sách** | 🔴 Vỡ (cần 138.000 VND/MD) | 🔴 **Vẫn vỡ** (cần 176.000 VND/MD; dải bất biến 176.000–276.000) | ❌ **Không đổi** — và là trục **cứng nhất** |
-| **Tổng effort** | 🔴 Vỡ (cần 7,25 người; A cần ≈ 5,7 người) | 🟡 **Mềm đi**: 6 người đủ cho trọn CORE; **A + 5 người là đủ** | ✅ **ĐỔI** |
+| **Tổng effort** | 🔴 Vỡ (cần 7,25 người; A cần ≈ 5,7 người) | 🟡 **Mềm đi**: 6 người đủ cho trọn CORE; **A + 5 người là đủ** — **[SUY LUẬN]** — phụ thuộc `A-11` + `A-12` | ✅ **ĐỔI** |
 | **Cấu trúc phụ thuộc** | 🔴 Vỡ (22,5 MD ≈ 22–23 ngày) | 🔴 **Vẫn vỡ** (18,75 MD ≈ 19 ngày; sàn tốt nhất 13,5 MD) | ❌ **Không đổi** |
 
 > 🔴 **Phát biểu lại kết luận cho chính xác — đây là câu anh nên dùng khi quyết ngân sách:**
@@ -727,6 +733,23 @@ Sàn tốt nhất **13,5 MD** vẫn **vượt 10 ngày**, và sàn đó đòi m�
 > **Ba ràng buộc `phạm vi CORE · 10 ngày · 10.000.000 VND` vẫn KHÔNG THỂ CÙNG THỎA MÃN, kể cả khi phát triển bằng Claude.** Điều AI thay đổi **không phải là tính khả thi**, mà là **vị trí của chỗ nghẽn**: trước đây nghẽn cả ba trục; giờ nghẽn ở **ngân sách** và **cấu trúc phụ thuộc**, còn **tổng effort không còn là lý do chính để nói "không".**
 >
 > **Hệ quả thực tế cho việc đàm phán**: thêm người hoặc thêm AI **không** mở khóa được 10 ngày. Hai thứ duy nhất mở khóa được là (1) **chốt 11 Blocker trước khi đồng hồ chạy** (rút đường găng từ 18,75 xuống 16,75 MD, và chuỗi thuần xuống 8,75 MD), và (2) **nhả một trong ba ràng buộc**.
+>
+> ⚠️ **Điều kiện kèm theo phát biểu trên**: riêng mệnh đề về trục tổng effort phụ thuộc `A-11` + `A-12`; nếu `A-11` sai thì trục này quay về kết luận cũ (xem **RT-11**), và nếu hệ số thật ≥ 0,83 thì nó cũng quay về kết luận cũ (xem **RT-10**).
+
+#### Ba trục KHÔNG chắc chắn như nhau
+
+> 🔴 **Ba trục ở bảng tổng kết trên KHÔNG có cùng độ tin cậy.** Đọc chúng ngang hàng nhau là cách sai nhất để dùng mục 5.6 này.
+
+**Hai trục robust trước sai số hệ số** — kết luận của chúng đứng vững dù hệ số AI em gán có sai:
+
+- **Trục ngân sách**: sàn cứng **12,5 MD** được dựng **hoàn toàn từ các hạng mục hệ số 1,00** 🔒 (`4,5` nhóm 1.0 Discovery + `4,5` nhóm 14.0 Quản trị dự án + `2` task 12.3 UAT + `1,5` kiểm thử thiết bị di động thật trong 12.2 — mục 5.3.b). Vì không hạng mục nào trong sàn đó phụ thuộc một hệ số nào cả, kết luận trục ngân sách **không phụ thuộc vào việc hệ số em gán đúng hay sai**. Kiểm hai đầu dải theo **RT-10**: hệ số thật 0,90 → đơn giá phải đạt **153.000 VND/MD**; hệ số thật 0,60 → **230.000 VND/MD** — **cả hai vẫn dưới mức thấp nhất (300.000)** của bảng độ nhạy.
+- **Trục cấu trúc**: đường găng bị chặn bởi **3,5 MD Discovery** (hai mắt xích đầu, hệ số 1,00 🔒) **+ 3,5 MD UAT/kiểm thử thiết bị thật** trong mắt xích 7 (cũng 1,00 🔒) — mục 7.2. Bảy MD này **không co được bằng bất kỳ hệ số nào**, nên sàn cấu trúc vẫn vượt 10 ngày ở mọi giả thiết hệ số.
+
+**Một trục KHÔNG robust:**
+
+- **Trục tổng effort phụ thuộc HOÀN TOÀN vào `A-11` + `A-12`.** Nó **đảo chiều ở ngưỡng hệ số ≈ 0,83** (`= 60 ÷ 72,5` — đây là ngưỡng của *tổng effort*, **không phải** con số 0,83 hệ số hiệu dụng của đường găng ở Trục 3, hai đại lượng khác nhau). Ngưỡng đó chỉ cách hệ số em gán (0,78) đúng **0,05**, tức **một bậc độ nhạy duy nhất** theo chính thang ở **RT-10** (*"mỗi 0,05 lệch = 3,6 MD"*). Nếu hệ số thật là 0,90 thì CORE = **65,25 MD**, đội 6 người (60 MD) **thiếu 5,25 MD** → mệnh đề *"6 người là đủ"* **sai**. Nếu `A-11` sai (nhà thầu không thực sự dùng AI) thì cả cột AI-assisted vô hiệu → quay về **72,5 MD**, xem **RT-11**.
+
+> 🔴 **Câu kết — quan trọng nhất của cả mục 5.6:** người đọc **không được** nhặt mệnh đề *"A + 5 người là đủ"* (hay *"6 người là đủ"*) ra khỏi ngữ cảnh này. Đó là **mệnh đề CÓ ĐIỀU KIỆN** — điều kiện là `A-11` đúng **và** hệ số thật không lệch quá 0,05 về phía trên. Nó **khác bản chất** với hai kết luận kia: kết luận trục ngân sách và trục cấu trúc **không có điều kiện kèm theo**. Đây cũng chính là mệnh đề mang tin "tốt" duy nhất trong mục 5.6 — nên nó là mệnh đề **dễ bị trích rời ngữ cảnh nhất** khi quyết ngân sách.
 
 #### Nhãn `⭐ Em đề xuất` — có cần chuyển nữa không?
 
@@ -830,6 +853,8 @@ PRD mục 1 ghi nguyên văn: bốn vấn đề này là **một khối** — kh
 > `8,75 (chuỗi thuần, Blocker đã đóng) + 2 (task 12.3 UAT — phụ thuộc lịch khách hàng, hệ số 1,00 🔒) + 2,75 (nhóm 13.0: deploy production + migration import Excel) = **13,5 MD**`
 >
 > ⇒ **Sàn tốt nhất về mặt cấu trúc, ở điều kiện thuận lợi nhất có thể tưởng tượng — 11 Blocker đã đóng trước D1, AI hoạt động đúng như giả định `A-11`, mọi mắt xích chia được đều được chia tối đa — vẫn là ≈ 13,5 MD ≈ 13–14 ngày làm việc.** Vẫn **vượt ràng buộc 10 ngày**. *(Nếu 4 mã ngoài Blocker cũng được đóng thì sàn này còn `13,5 − 1,5 = 12 MD` — vẫn vượt.)*
+>
+> ⚠️ **Sàn này còn giả định 3,25 MD của task 12.2 được chia đủ song song để không chiếm thêm ngày lịch — giả định lạc quan; nếu chia cho 2 QA thì sàn là ≈ 15 ngày.** Nói rõ để không ai đọc 13,5 MD như một con số dè dặt: **hướng lệch của nó là lạc quan một chiều**, tức sàn thật **DÀI hơn** con số công bố. Vì kết luận cần chứng minh ở đây là *"vẫn vượt 10 ngày"*, sai lệch này **làm kết luận mạnh hơn**, không yếu đi — nó **không đảo chiều** bất kỳ kết luận nào của mục 7 hay mục 5.6.
 
 > ✅ **Kết luận mục 7.3 sau khi áp hệ số AI — trả lời trực tiếp câu hỏi của anh:**
 >
@@ -899,7 +924,7 @@ Nghịch lý của bản ước lượng này:
 | RT-05 | **FR-11 mức `P0` có thể không dùng được thực tế** nếu chỉ tối ưu desktop (PRD mục 7.2). Task 8.1 đã tính chi phí mobile (3 MD); phần kiểm thử trên thiết bị di động thật nằm bên trong task 12.2. | 🟡 Trung bình | Nếu nén 12.2 và bỏ kiểm thử thiết bị thật → **rủi ro làm đúng đặc tả nhưng sai thực tế**, phải làm lại sau go-live. Nếu tách thành task QA riêng thì **+1 MD** — **[SUY LUẬN]**, con số này chưa có Task ID tương ứng trong mục 2 hay mục 3 |
 | RT-06 | **Không có tiêu chí nghiệm thu định lượng** (BRD RK-02, chờ **Q-29**). | 🔴 Cao | Không ảnh hưởng số MD, nhưng **không có căn cứ để tuyên bố Increment "Done"** → task 12.3 (UAT) có thể kéo dài vô định |
 | RT-07 | **18 mâu thuẫn nội tại trong SRS** (PRD mục 10), 8 mức 🔴, **chưa được sửa** vì SRS thuộc quyền khách hàng. | 🟡 Trung bình | Mỗi mâu thuẫn 🔴 được giải theo hướng khác giả định đều làm ước lượng lệch — xem bảng 8.2 |
-| RT-08 | **FR-24, FR-25 chưa ước lượng được** (mục 6). | 🟡 Trung bình | Tổng 72,5 / 39,5 MD **chỉ có thể tăng** khi **Q-28** có câu trả lời |
+| RT-08 | **FR-24, FR-25 chưa ước lượng được** (mục 6). | 🟡 Trung bình | Tổng 72,5 / 39,5 MD (và **56,75 / 29,5 MD** ở cột AI-assisted) **chỉ có thể tăng** khi **Q-28** có câu trả lời |
 | RT-09 | **13 hạng mục NFR còn thiếu hoàn toàn** (PRD mục 5.2: uptime SLA, concurrent users, throughput, DR, rate limiting…). | 🟡 Trung bình | Không hạng mục nào trong 72,5 MD tính chi phí cho 13 hạng mục này |
 
 ### 8.4. Rủi ro riêng của mô hình AI-assisted (bổ sung 2026-08-20)
