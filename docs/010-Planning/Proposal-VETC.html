@@ -1,0 +1,1171 @@
+<title>Đề xuất Triển khai VCDMS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@600;700;800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+
+<style>
+:root {
+  --ground: #F2F4F6;
+  --surface: #FCFCFB;
+  --surface-sunk: #E9EDF0;
+  --ink: #131A24;
+  --ink-soft: #3D4854;
+  --ink-mute: #5E6B78;
+  --hair: #D7DDE3;
+  --hair-soft: #E4E9ED;
+
+  --fixed: #0089A7;
+  --fixed-wash: #E2F1F5;
+  --est: #C2860A;
+  --est-wash: #FAF0DC;
+  --gap: #BC3524;
+  --gap-wash: #FAE7E3;
+
+  --core: #0089A7;
+  --extra: #86C8D8;
+
+  --shadow: 0 1px 2px rgba(19, 26, 36, .06), 0 8px 24px -16px rgba(19, 26, 36, .18);
+
+  --display: "Be Vietnam Pro", "Segoe UI", system-ui, sans-serif;
+  --body: "Source Serif 4", Georgia, "Times New Roman", serif;
+  --mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --ground: #0D1218;
+    --surface: #12181F;
+    --surface-sunk: #0A0F14;
+    --ink: #E4EAF0;
+    --ink-soft: #C2CCD6;
+    --ink-mute: #8D9AA7;
+    --hair: #232C36;
+    --hair-soft: #1B222B;
+
+    --fixed: #2E9DB4;
+    --fixed-wash: #11282F;
+    --est: #BB8C1B;
+    --est-wash: #2A2312;
+    --gap: #D8546B;
+    --gap-wash: #2E151C;
+
+    --core: #2E9DB4;
+    --extra: #1F5F6E;
+
+    --shadow: 0 1px 2px rgba(0, 0, 0, .4), 0 8px 24px -16px rgba(0, 0, 0, .7);
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground: #0D1218;
+  --surface: #12181F;
+  --surface-sunk: #0A0F14;
+  --ink: #E4EAF0;
+  --ink-soft: #C2CCD6;
+  --ink-mute: #8D9AA7;
+  --hair: #232C36;
+  --hair-soft: #1B222B;
+
+  --fixed: #2E9DB4;
+  --fixed-wash: #11282F;
+  --est: #BB8C1B;
+  --est-wash: #2A2312;
+  --gap: #D8546B;
+  --gap-wash: #2E151C;
+
+  --core: #2E9DB4;
+  --extra: #1F5F6E;
+
+  --shadow: 0 1px 2px rgba(0, 0, 0, .4), 0 8px 24px -16px rgba(0, 0, 0, .7);
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 17px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+.wrap {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 0 24px 96px;
+}
+
+.prose { max-width: 66ch; }
+
+h1, h2, h3, h4 {
+  font-family: var(--display);
+  line-height: 1.18;
+  text-wrap: balance;
+  margin: 0;
+}
+
+.eyebrow {
+  font-family: var(--mono);
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+}
+
+code, .m { font-family: var(--mono); font-size: .88em; }
+.num { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+
+/* ---------- masthead ---------- */
+
+.mast {
+  border-bottom: 2px solid var(--ink);
+  padding: 56px 0 28px;
+  margin-bottom: 0;
+}
+
+.mast .stamp {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+  align-items: baseline;
+  margin-bottom: 26px;
+}
+
+.mast h1 {
+  font-size: clamp(30px, 5vw, 50px);
+  font-weight: 800;
+  letter-spacing: -.022em;
+  margin-bottom: 14px;
+}
+
+.mast .sub {
+  font-size: clamp(17px, 2vw, 20px);
+  color: var(--ink-soft);
+  max-width: 62ch;
+  margin: 0;
+}
+
+.docmeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 20px;
+  margin-top: 24px;
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--ink-mute);
+}
+
+/* ---------- verdict banner ---------- */
+
+.verdict {
+  margin: 0 0 40px;
+  border: 1px solid var(--gap);
+  border-left: 5px solid var(--gap);
+  background: var(--gap-wash);
+  padding: 22px 24px;
+  border-radius: 3px;
+}
+
+.verdict .eyebrow { color: var(--gap); }
+
+.verdict p {
+  margin: 8px 0 0;
+  font-size: 18px;
+  color: var(--ink);
+}
+
+.verdict strong { font-weight: 600; }
+
+/* ---------- ledger (the thesis) ---------- */
+
+.ledger {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  background: var(--hair);
+  border: 1px solid var(--hair);
+  border-radius: 3px;
+  overflow: hidden;
+  margin: 0 0 12px;
+}
+
+.ledger > section {
+  background: var(--surface);
+  padding: 22px 24px 24px;
+}
+
+.ledger h3 {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  margin-bottom: 18px;
+  color: var(--ink-mute);
+}
+
+.figrow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 22px 32px;
+}
+
+.fig .v {
+  font-family: var(--mono);
+  font-variant-numeric: tabular-nums;
+  font-size: clamp(26px, 3.4vw, 36px);
+  font-weight: 600;
+  line-height: 1.05;
+  letter-spacing: -.02em;
+  display: block;
+}
+
+.fig .k {
+  display: block;
+  font-family: var(--display);
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--ink-mute);
+  margin-top: 5px;
+}
+
+.v.est { color: var(--est); }
+.v.fixed { color: var(--fixed); }
+.v.gap { color: var(--gap); }
+
+/* ---------- legend ---------- */
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 10px;
+  margin: 0 0 44px;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--display);
+  font-size: 12.5px;
+  font-weight: 600;
+  padding: 6px 12px 6px 10px;
+  border-radius: 100px;
+  border: 1px solid var(--hair);
+  background: var(--surface);
+  color: var(--ink-soft);
+}
+
+.chip i {
+  width: 9px;
+  height: 9px;
+  border-radius: 2px;
+  flex: none;
+}
+
+.chip.f i { background: var(--fixed); }
+.chip.e i { background: var(--est); }
+.chip.g i { background: var(--gap); }
+
+/* ---------- sections ---------- */
+
+section.blk { margin: 0 0 56px; }
+
+section.blk > .eyebrow { display: block; margin-bottom: 10px; }
+
+section.blk > h2 {
+  font-size: clamp(23px, 2.9vw, 31px);
+  font-weight: 700;
+  letter-spacing: -.014em;
+  margin-bottom: 18px;
+}
+
+section.blk h3 {
+  font-size: 18px;
+  font-weight: 700;
+  margin: 34px 0 12px;
+}
+
+section.blk h4 {
+  font-size: 15px;
+  font-weight: 700;
+  margin: 24px 0 8px;
+}
+
+p { margin: 0 0 15px; }
+
+.hr {
+  height: 1px;
+  background: var(--hair);
+  border: 0;
+  margin: 52px 0;
+}
+
+/* ---------- pills ---------- */
+
+.pill {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 11.5px;
+  font-weight: 500;
+  padding: 2px 7px;
+  border-radius: 3px;
+  border: 1px solid transparent;
+  white-space: nowrap;
+}
+
+.pill.f { background: var(--fixed-wash); color: var(--fixed); border-color: var(--fixed); }
+.pill.e { background: var(--est-wash); color: var(--est); border-color: var(--est); }
+.pill.g { background: var(--gap-wash); color: var(--gap); border-color: var(--gap); }
+.pill.n { background: var(--surface-sunk); color: var(--ink-mute); border-color: var(--hair); }
+
+/* ---------- tables ---------- */
+
+.tw {
+  overflow-x: auto;
+  border: 1px solid var(--hair);
+  border-radius: 3px;
+  background: var(--surface);
+  margin: 0 0 18px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14.5px;
+  min-width: 480px;
+}
+
+thead th {
+  font-family: var(--display);
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  text-align: left;
+  color: var(--ink-mute);
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--hair);
+  background: var(--surface-sunk);
+  white-space: nowrap;
+}
+
+tbody td {
+  padding: 11px 14px;
+  border-bottom: 1px solid var(--hair-soft);
+  vertical-align: top;
+}
+
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr.tot td { background: var(--surface-sunk); font-weight: 600; }
+
+td.n, th.n { text-align: right; font-family: var(--mono); font-variant-numeric: tabular-nums; white-space: nowrap; }
+td.c, th.c { text-align: center; }
+
+caption {
+  caption-side: bottom;
+  text-align: left;
+  font-size: 12.5px;
+  color: var(--ink-mute);
+  padding: 10px 14px 12px;
+  font-family: var(--display);
+}
+
+/* ---------- gap bars ---------- */
+
+.gapchart {
+  border: 1px solid var(--hair);
+  border-radius: 3px;
+  background: var(--surface);
+  padding: 24px;
+  margin: 0 0 20px;
+}
+
+.gbar { margin-bottom: 20px; }
+.gbar:last-child { margin-bottom: 0; }
+
+.gbar .lab {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 7px;
+  font-family: var(--display);
+  font-size: 13.5px;
+  font-weight: 600;
+}
+
+.gbar .lab b {
+  font-family: var(--mono);
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+
+.track {
+  height: 22px;
+  background: var(--surface-sunk);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.fill {
+  height: 100%;
+  border-radius: 0 4px 4px 0;
+  min-width: 3px;
+}
+
+.fill.need { background: var(--gap); }
+.fill.have { background: var(--fixed); }
+.fill.crit { background: var(--est); }
+
+.gbar .note {
+  font-size: 12.5px;
+  color: var(--ink-mute);
+  margin-top: 6px;
+}
+
+/* ---------- grouped effort chart ---------- */
+
+.effort {
+  border: 1px solid var(--hair);
+  border-radius: 3px;
+  background: var(--surface);
+  padding: 24px 24px 18px;
+  margin: 0 0 18px;
+}
+
+.ekey {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--hair-soft);
+}
+
+.ekey span {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--display);
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--ink-soft);
+}
+
+.ekey i { width: 14px; height: 10px; border-radius: 2px; flex: none; }
+.ekey i.k1 { background: var(--core); }
+.ekey i.k2 { background: var(--extra); }
+
+.erow {
+  display: grid;
+  grid-template-columns: minmax(112px, 190px) 1fr;
+  gap: 14px;
+  align-items: center;
+  padding: 5px 8px;
+  margin: 0 -8px;
+  border-radius: 3px;
+  cursor: default;
+}
+
+.erow:hover, .erow:focus-visible {
+  background: var(--surface-sunk);
+  outline: none;
+}
+
+.erow .who {
+  font-family: var(--display);
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--ink-soft);
+  line-height: 1.3;
+}
+
+.erow .who em {
+  font-family: var(--mono);
+  font-style: normal;
+  font-size: 11px;
+  color: var(--ink-mute);
+  display: block;
+}
+
+.bars { display: flex; flex-direction: column; gap: 2px; }
+
+.b {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  height: 11px;
+}
+
+.b .seg {
+  height: 100%;
+  border-radius: 0 3px 3px 0;
+  min-width: 2px;
+}
+
+.b .seg.s1 { background: var(--core); }
+.b .seg.s2 { background: var(--extra); }
+
+.b .val {
+  font-family: var(--mono);
+  font-variant-numeric: tabular-nums;
+  font-size: 10.5px;
+  font-weight: 500;
+  color: var(--ink-mute);
+  flex: none;
+}
+
+.b .val.z { opacity: .45; }
+
+/* ---------- options ---------- */
+
+.opts { display: grid; gap: 2px; background: var(--hair); border: 1px solid var(--hair); border-radius: 3px; overflow: hidden; }
+
+.opt { background: var(--surface); padding: 22px 24px; }
+
+.opt.rec { background: var(--fixed-wash); }
+
+.opt .top {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  align-items: baseline;
+  margin-bottom: 14px;
+}
+
+.opt .tag {
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink-mute);
+  flex: none;
+}
+
+.opt h4 {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 700;
+  flex: 1 1 auto;
+  min-width: 200px;
+}
+
+.opt dl { margin: 0; display: grid; gap: 11px; }
+
+.opt dt {
+  font-family: var(--display);
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  margin-bottom: 3px;
+}
+
+.opt dd { margin: 0; font-size: 14.5px; line-height: 1.6; }
+
+/* ---------- flow ---------- */
+
+.flow { display: grid; gap: 2px; background: var(--hair); border: 1px solid var(--hair); border-radius: 3px; overflow: hidden; }
+
+.step {
+  background: var(--surface);
+  padding: 15px 18px;
+  display: grid;
+  grid-template-columns: 30px 1fr;
+  gap: 14px;
+  align-items: start;
+}
+
+.step .no {
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--fixed);
+  padding-top: 2px;
+}
+
+.step .bd { font-size: 14.5px; }
+.step .bd b { font-family: var(--display); font-weight: 700; font-size: 14px; display: block; margin-bottom: 2px; }
+.step .bd span { color: var(--ink-mute); }
+
+/* ---------- callouts ---------- */
+
+.call {
+  border: 1px solid var(--hair);
+  border-left: 4px solid var(--ink-mute);
+  background: var(--surface);
+  padding: 16px 20px;
+  border-radius: 3px;
+  margin: 0 0 18px;
+  font-size: 15px;
+}
+
+.call.warn { border-left-color: var(--est); background: var(--est-wash); }
+.call.crit { border-left-color: var(--gap); background: var(--gap-wash); }
+.call.info { border-left-color: var(--fixed); background: var(--fixed-wash); }
+
+.call > *:last-child { margin-bottom: 0; }
+.call .eyebrow { display: block; margin-bottom: 6px; }
+.call.warn .eyebrow { color: var(--est); }
+.call.crit .eyebrow { color: var(--gap); }
+.call.info .eyebrow { color: var(--fixed); }
+
+/* ---------- ask list ---------- */
+
+.asks { display: grid; gap: 2px; background: var(--hair); border: 1px solid var(--hair); border-radius: 3px; overflow: hidden; }
+
+.ask {
+  background: var(--surface);
+  padding: 18px 22px;
+  display: grid;
+  grid-template-columns: 58px 1fr;
+  gap: 16px;
+}
+
+.ask .id {
+  font-family: var(--mono);
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--gap);
+}
+
+.ask b { font-family: var(--display); font-size: 15px; font-weight: 700; display: block; margin-bottom: 4px; }
+.ask p { margin: 0; font-size: 14.5px; }
+
+ul.tight, ol.tight { margin: 0 0 15px; padding-left: 22px; }
+ul.tight li, ol.tight li { margin-bottom: 7px; }
+
+footer.doc {
+  border-top: 2px solid var(--ink);
+  padding-top: 22px;
+  margin-top: 72px;
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--ink-mute);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 24px;
+}
+
+a { color: var(--fixed); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+a:focus-visible { outline: 2px solid var(--fixed); outline-offset: 2px; border-radius: 2px; }
+
+@media (max-width: 720px) {
+  body { font-size: 16px; }
+  .ledger { grid-template-columns: 1fr; }
+  .erow { grid-template-columns: 1fr; gap: 6px; }
+  .ask { grid-template-columns: 1fr; gap: 6px; }
+  .step { grid-template-columns: 24px 1fr; gap: 10px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; animation: none !important; }
+}
+</style>
+
+<div class="wrap">
+
+<header class="mast">
+  <div class="stamp">
+    <span class="eyebrow">Đề xuất triển khai</span>
+    <span class="pill n">status: draft</span>
+    <span class="pill n">2026-08-20</span>
+  </div>
+  <h1>Hệ thống Quản lý Xuất kho &amp; Phân phối thẻ VETC</h1>
+  <p class="sub">Bản đề xuất triển khai giai đoạn 1, tổng hợp từ PRD-VETC, BRD-001 và bảng WBS&nbsp;+&nbsp;ETA. Tài liệu nội bộ, phục vụ quyết định về phạm vi và tiến độ.</p>
+  <div class="docmeta">
+    <span>Dự án: VCDMS</span>
+    <span>Nguồn: PRD-VETC · BRD-001 · WBS-ETA-VETC</span>
+    <span>Run: 2026-08-20-wbs-eta-va-proposal-vetc</span>
+  </div>
+</header>
+
+<div style="height:40px"></div>
+
+<div class="verdict">
+  <span class="eyebrow">Kết luận cần đọc trước</span>
+  <p>Ước lượng bottom-up cho nhóm chức năng chính là <strong>72,5 man-day</strong>. Ràng buộc là <strong>10 ngày</strong> và <strong>~10.000.000&nbsp;VND</strong>. Khoảng cách này không đóng được bằng cách thêm người: riêng <strong>đường găng đã dài 22,5 MD tuần tự</strong>, tức tối thiểu ~22 ngày làm việc. Vì vậy tài liệu này không trình bày một kế hoạch 10 ngày — nó trình bày <strong>khoảng cách</strong> và <strong>5 phương án</strong> để anh chọn.</p>
+</div>
+
+<div class="ledger">
+  <section>
+    <h3>Đội cần</h3>
+    <div class="figrow">
+      <div class="fig"><span class="v est">72,5</span><span class="k">MD — nhóm chính (P0)</span></div>
+      <div class="fig"><span class="v est">39,5</span><span class="k">MD — nhóm bổ sung</span></div>
+      <div class="fig"><span class="v est">22,5</span><span class="k">MD — đường găng tuần tự</span></div>
+    </div>
+  </section>
+  <section>
+    <h3>Anh có</h3>
+    <div class="figrow">
+      <div class="fig"><span class="v fixed">10</span><span class="k">ngày</span></div>
+      <div class="fig"><span class="v fixed">~10tr</span><span class="k">VND</span></div>
+      <div class="fig"><span class="v gap">−62,5</span><span class="k">MD thiếu (đội 1 người)</span></div>
+    </div>
+  </section>
+</div>
+
+<div class="legend">
+  <span class="chip f"><i></i>Số liệu đã xác lập</span>
+  <span class="chip e"><i></i>Ước lượng của đội — chờ xác nhận</span>
+  <span class="chip g"><i></i>Khoảng cách &amp; rủi ro chặn</span>
+</div>
+
+<div class="call info">
+  <span class="eyebrow">Cách đọc con số trong tài liệu này</span>
+  <p>Chỉ <strong>hai</strong> con số trong toàn bộ tài liệu là số liệu gốc của khách hàng: <span class="pill f">tra cứu ≤ 2 giây</span> và <span class="pill f">sao lưu hàng ngày</span>. Hai con số <span class="pill f">10 ngày</span> và <span class="pill f">~10.000.000 VND</span> là <strong>ràng buộc anh cấp tại gate 2026-08-20</strong> — không có trong PRD hay BRD, vì cả hai tài liệu đó ghi rõ là dự án chưa có ngân sách và chưa có mốc go-live. <strong>Mọi con số còn lại</strong> — toàn bộ man-day, và mọi con số trong 31 giả định thiết kế — đều là <span class="pill e">ước lượng chờ xác nhận</span>, không phải cam kết.</p>
+</div>
+
+<hr class="hr">
+
+<section class="blk">
+  <span class="eyebrow">Tóm tắt điều hành</span>
+  <h2>VCDMS làm gì, và vì sao nó tồn tại</h2>
+  <div class="prose">
+    <p><strong>VCDMS</strong> quản lý việc xuất thẻ VETC từ kho tới mạng lưới Sale/Đại lý, xây dựng quanh <strong>luồng phê duyệt 2 cấp bắt buộc</strong> và <strong>khả năng truy vết trọn vòng đời thẻ</strong>.</p>
+    <p>Phạm vi sản phẩm gồm <strong>25 yêu cầu chức năng</strong> (<code>FR-01…FR-25</code>) và <strong>7 yêu cầu phi chức năng</strong> (<code>NFR-01…NFR-07</code>), tất cả rút trực tiếp từ SRS của khách hàng.</p>
+  </div>
+
+  <h3>Bốn vấn đề nghiệp vụ mà hệ thống ra đời để giải</h3>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Mã</th><th>Vấn đề</th><th>Biểu hiện</th></tr></thead>
+      <tbody>
+        <tr><td class="m">P-01</td><td><b>Thất thoát thẻ</b></td><td>Thẻ mất/hỏng trong quá trình phân phối mà không có cơ chế ghi nhận và quy trách nhiệm.</td></tr>
+        <tr><td class="m">P-02</td><td><b>Thiếu khả năng truy vết</b></td><td>Không xác định được một chiếc thẻ ra từ kho nào, qua tay ai, giao cho ai, thời điểm nào.</td></tr>
+        <tr><td class="m">P-03</td><td><b>Phê duyệt lỏng lẻo</b></td><td>Sale bấm gửi 2 lần gây xuất kho thừa; không có chốt kiểm soát trước khi hàng rời kho.</td></tr>
+        <tr><td class="m">P-04</td><td><b>Thiếu bằng chứng giao nhận</b></td><td>Tranh chấp khi Đại lý khai không nhận đủ số lượng, không có căn cứ đối chứng.</td></tr>
+      </tbody>
+      <caption>Nguồn: BRD-001 mục 2.2. Cả bốn vấn đề mang nhãn <span class="pill e">SUY LUẬN</span> — suy ra từ việc SRS dành hẳn chức năng để xử lý chúng, chưa được khách hàng xác nhận trực tiếp.</caption>
+    </table>
+  </div>
+</section>
+
+<section class="blk">
+  <span class="eyebrow">Giải pháp</span>
+  <h2>Vòng đời một Đơn xuất thẻ</h2>
+  <div class="prose">
+    <p>Nghiệp vụ đi qua đúng 5 bước, và hệ thống có đúng 5 trạng thái tương ứng. Đây là phần <strong>duy nhất</strong> của thiết kế có căn cứ đầy đủ trong SRS.</p>
+  </div>
+  <div class="flow">
+    <div class="step"><span class="no">1</span><span class="bd"><b>Sale/Đại lý tạo đơn</b><span>Chọn loại thẻ và số lượng yêu cầu. Đơn vào trạng thái <code>Pending Warehouse</code>.</span></span></div>
+    <div class="step"><span class="no">2</span><span class="bd"><b>Nhân viên Kho soát xét</b><span>Kiểm tồn kho, điều chỉnh số lượng duyệt kèm <strong>lý do bắt buộc</strong>, gán kho xuất, cấp dải Series. Chuyển <code>Pending Admin Approval</code>.</span></span></div>
+    <div class="step"><span class="no">3</span><span class="bd"><b>Admin phê duyệt cuối</b><span>Mắt xích thứ hai của luồng 2 cấp. Chuyển <code>Ready for Shipping</code>.</span></span></div>
+    <div class="step"><span class="no">4</span><span class="bd"><b>Đẩy sang đơn vị vận chuyển</b><span>Đơn chuyển <code>In Transit</code>, đồng bộ tracking. <span class="pill g">Xem RT-02 bên dưới</span></span></span></div>
+    <div class="step"><span class="no">5</span><span class="bd"><b>Sale/Đại lý nghiệm thu</b><span>Chụp ảnh POD, đối soát dải Series, bấm hoàn thành. Hệ thống sinh Biên bản Bàn giao. Đơn <code>Completed</code>.</span></span></div>
+  </div>
+
+  <div class="call crit">
+    <span class="eyebrow">Rủi ro thiết kế lớn nhất của dự án</span>
+    <p>Năm bước trên là <strong>toàn bộ luồng thuận</strong>. SRS định nghĩa đúng 5 trạng thái và 5 phép chuyển — tất cả đều là happy path. <strong>8 nhánh nghiệp vụ chưa được định nghĩa</strong> (<code>T-a…T-h</code>), trong đó có những nhánh xảy ra hàng ngày: <em>từ chối đơn</em>, <em>giao hàng thất bại</em>, <em>nhận thiếu hàng</em>, <em>hủy đơn</em>. Chốt muộn thì phải thay đổi mô hình dữ liệu <strong>sau khi đã có dữ liệu thật</strong> — kèm migration.</p>
+  </div>
+</section>
+
+<section class="blk">
+  <span class="eyebrow">Phạm vi</span>
+  <h2>Hai tầng: nhóm chính và nhóm bổ sung</h2>
+  <div class="prose">
+    <p>Anh yêu cầu <em>"hoàn thành các chức năng chính để có thể hoạt động, còn các chức năng bổ sung thì hoàn thành sau"</em>. Phép chia dưới đây <strong>không do đội tự đặt ra</strong> — nó dùng đúng cột ưu tiên đã có trong PRD, nơi <code>P0</code> được định nghĩa nguyên văn là <em>"bắt buộc cho bản chạy được đầu tiên"</em>.</p>
+  </div>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Tầng</th><th>Mức ưu tiên</th><th class="c">FR</th><th class="c">NFR</th><th>Nội dung</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><b>CORE</b><br><span class="pill f">10 ngày</span></td>
+          <td class="m">P0</td>
+          <td class="c num">12</td>
+          <td class="c num">5</td>
+          <td><code>FR-01, 02, 04, 05, 06, 07, 11, 12, 14, 18, 19, 22</code> · <code>NFR-01…05</code><br>Tạo đơn → soát xét có lý do → duyệt 2 cấp → nhận hàng có ảnh POD → đối soát Series → truy vết thẻ. Kèm xác thực, phân quyền, mã hóa, audit log, validation.</td>
+        </tr>
+        <tr>
+          <td><b>BỔ SUNG</b><br><span class="pill e">chưa có mốc</span></td>
+          <td class="m">P1 → P2</td>
+          <td class="c num">13</td>
+          <td class="c num">2</td>
+          <td><code>P1</code>: <code>FR-03, 08, 09, 10, 13, 15, 20, 21, 23, 24</code> · <code>NFR-06, 07</code><br><code>P2</code>: <code>FR-16, 17, 25</code><br>Chống trùng đơn, tích hợp vận chuyển, biên bản tự động, tra cứu &amp; báo cáo, đền bù thẻ mất.</td>
+        </tr>
+      </tbody>
+      <caption>Tổng 25 FR + 7 NFR. <code>FR-24</code> và <code>FR-25</code> nằm trong tầng bổ sung nhưng <strong>không được ước lượng công</strong> — xem phần cuối tài liệu.</caption>
+    </table>
+  </div>
+
+  <h3>Không nằm trong phạm vi</h3>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Mã</th><th>Ngoài phạm vi</th><th>Phụ thuộc</th></tr></thead>
+      <tbody>
+        <tr><td class="m">NG-01</td><td><b>Luồng nhập kho đầy đủ.</b> Giai đoạn 1 chỉ khởi tạo tồn kho bằng import Excel một lần.</td><td class="m">Q-01</td></tr>
+        <tr><td class="m">NG-02</td><td><b>Tích hợp cổng thanh toán</b> cho khoản đền bù. Chỉ ghi nhận thủ công.</td><td class="m">Q-04</td></tr>
+        <tr><td class="m">NG-03</td><td><b>Ứng dụng native iOS/Android.</b> Chỉ web responsive, tối ưu riêng luồng nhận hàng trên điện thoại.</td><td class="m">Q-23</td></tr>
+        <tr><td class="m">NG-04</td><td><b>Theo dõi thẻ sau khi Đại lý bàn giao cho khách cuối.</b></td><td class="m">Q-16</td></tr>
+        <tr><td class="m">NG-05</td><td><b>SSO và xác thực 2 lớp.</b> Dùng tài khoản riêng của hệ thống.</td><td class="m">Q-14</td></tr>
+        <tr><td class="m">NG-06</td><td><b>Quản lý công nợ / hạn mức tín dụng Đại lý.</b></td><td>—</td></tr>
+      </tbody>
+      <caption><strong>NG-01 là thay đổi phạm vi lớn nhất có thể xảy ra.</strong> Nếu khách hàng trả lời <code>Q-01</code> khác đi, phải thiết kế lại mô hình tồn kho, cách sinh dải Series và cách hiện thực <code>FR-02</code>.</caption>
+    </table>
+  </div>
+</section>
+
+<hr class="hr">
+
+<section class="blk">
+  <span class="eyebrow">Kế hoạch &amp; Ngân sách</span>
+  <h2>Effort theo 14 nhóm công việc</h2>
+  <div class="prose">
+    <p>Phân rã bottom-up từ phạm vi PRD. Đơn vị man-day. Con số dưới đây là <span class="pill e">ước lượng của đội</span> — <strong>chưa bị điều chỉnh</strong> để khớp ràng buộc 10 ngày.</p>
+  </div>
+
+  <div class="effort">
+    <div class="ekey">
+      <span><i class="k1"></i>Tầng CORE</span>
+      <span><i class="k2"></i>Tầng BỔ SUNG</span>
+      <span style="color:var(--ink-mute);font-weight:400">Trục ngang: man-day, thang chung 0–10</span>
+    </div>
+
+    <div class="erow" tabindex="0" title="Discovery & Chốt yêu cầu — CORE 4,5 MD · BỔ SUNG 1 MD">
+      <span class="who">Discovery &amp; Chốt yêu cầu<em>1.0</em></span>
+      <span class="bars">
+        <span class="b"><span class="seg s1" style="width:45%"></span><span class="val">4,5</span></span>
+        <span class="b"><span class="seg s2" style="width:10%"></span><span class="val">1</span></span>
+      </span>
+    </div>
+    <div class="erow" tabindex="0" title="Kiến trúc & Thiết kế hệ thống — CORE 6,5 MD · BỔ SUNG 1,5 MD">
+      <span class="who">Kiến trúc &amp; Thiết kế<em>2.0</em></span>
+      <span class="bars">
+        <span class="b"><span class="seg s1" style="width:65%"></span><span class="val">6,5</span></span>
+        <span class="b"><span class="seg s2" style="width:15%"></span><span class="val">1,5</span></span>
+      </span>
+    </div>
+    <div class="erow" tabindex="0" title="Thiết kế UI/UX — CORE 5,5 MD · BỔ SUNG 2 MD">
+      <span class="who">Thiết kế UI/UX<em>3.0</em></span>
+      <span class="bars">
+        <span class="b"><span class="seg s1" style="width:55%"></span><span class="val">5,5</span></span>
+        <span class="b"><span class="seg s2" style="width:20%"></span><span class="val">2</span></span>
+      </span>
+    </div>
+    <div class="erow" tabindex="0" title="Nền tảng & Hạ tầng — CORE 6 MD · BỔ SUNG 1,5 MD">
+      <span class="who">Nền tảng &amp; Hạ tầng<em>4.0</em></span>
+      <span class="bars">
+        <span class="b"><span class="seg s1" style="width:60%"></span><span class="val">6</span></span>
+        <span class="b"><span class="seg s2" style="width:15%"></span><span class="val">1,5</span></span>
+      </span>
+    </div>
+    <div class="erow" tabindex="0" title="Danh mục & Master data — CORE 3 MD · BỔ SUNG 3 MD">
+      <span class="who">Danh mục &amp; Master data<em>5.0</em></span>
+      <span class="bars">
+        <span class="b"><span class="seg s1" style="width:30%"></span><span class="val">3</span></span>
+        <span class="b"><span class="seg s2" style="width:30%"></span><span class="val">3</span></span>
+      </span>
+    </div>
+    <div class="erow" tabindex="0" title="Luồng Đơn xuất thẻ & Phê duyệt 2 cấp — CORE 9,5 MD · BỔ SUNG 1,5 MD — nhóm nặng nhất tầng CORE">
+      <span class="who">Đơn xuất thẻ &amp; Phê duyệt<em>6.0</em></span>
+      <span class="bars">
+        <span class="b"><span class="seg s1" style="width:95%"></span><span class="val">9,5</span></span>
+        <span class="b"><span class="seg s2" style="width:15%"></span><span class="val">1,5</span></span>
+      </span>
+    </div>
+    <div class="erow" tabindex="0" title="Vận chuyển & Tracking — CORE 0 MD · BỔ SUNG 7 MD — toàn bộ nằm ở tầng bổ sung, xem RT-02">
+      <span class="who">Vận chuyển &amp; Tracking<em>7.0</em></span>
+      <span class="bars">
+        <span class="b"><span class="val z">0</span></span>
+        <span class="b"><span class="seg s2" style="width:70%"></span><span class="val">7</span></span>
+      </span>
+    </div>
+    <div class="erow" tabindex="0" title="Nhận hàng & Chứng từ giao nhận — CORE 5 MD · BỔ SUNG 2,5 MD">
+      <span class="who">Nhận hàng &amp; Chứng từ<em>8.0</em></span>
+      <span class="bars">
+        <span class="b"><span class="seg s1" style="width:50%"></span><span class="val">5</span></span>
+        <span class="b"><span class="seg s2" style="width:25%"></span><span class="val">2,5</span></span>
+      </span>
+    </div>
+    <div class="erow" tabindex="0" title="Truy vết & Quản lý thất thoát — CORE 4,5 MD · BỔ SUNG 4 MD">
+      <span class="who">Truy vết &amp; Thất thoát<em>9.0</em></span>
+      <span class="bars">
+        <span class="b"><span class="seg s1" style="width:45%"></span><span class="val">4,5</span></span>
+        <span class="b"><span class="seg s2" style="width:40%"></span><span class="val">4</span></span>
+      </span>
+    </div>
+    <div class="erow" tabindex="0" title="Tra cứu, Bộ lọc & Báo cáo — CORE 1,5 MD · BỔ SUNG 5,5 MD">
+      <span class="who">Tra cứu &amp; Báo cáo<em>10.0</em></span>
+      <span class="bars">
+        <span class="b"><span class="seg s1" style="width:15%"></span><span class="val">1,5</span></span>
+        <span class="b"><span class="seg s2" style="width:55%"></span><span class="val">5,5</span></span>
+      </span>
+    </div>
+    <div class="erow" tabindex="0" title="Xác thực, Phân quyền & Audit Log — CORE 8,5 MD · BỔ SUNG 1,5 MD">
+      <span class="who">Xác thực &amp; Audit Log<em>11.0</em></span>
+      <span class="bars">
+        <span class="b"><span class="seg s1" style="width:85%"></span><span class="val">8,5</span></span>
+        <span class="b"><span class="seg s2" style="width:15%"></span><span class="val">1,5</span></span>
+      </span>
+    </div>
+    <div class="erow" tabindex="0" title="QA & Kiểm thử — CORE 9 MD · BỔ SUNG 5 MD — không nén được bằng thêm người">
+      <span class="who">QA &amp; Kiểm thử<em>12.0</em></span>
+      <span class="bars">
+        <span class="b"><span class="seg s1" style="width:90%"></span><span class="val">9</span></span>
+        <span class="b"><span class="seg s2" style="width:50%"></span><span class="val">5</span></span>
+      </span>
+    </div>
+    <div class="erow" tabindex="0" title="Triển khai & Go-live — CORE 4,5 MD · BỔ SUNG 1,5 MD">
+      <span class="who">Triển khai &amp; Go-live<em>13.0</em></span>
+      <span class="bars">
+        <span class="b"><span class="seg s1" style="width:45%"></span><span class="val">4,5</span></span>
+        <span class="b"><span class="seg s2" style="width:15%"></span><span class="val">1,5</span></span>
+      </span>
+    </div>
+    <div class="erow" tabindex="0" title="Quản trị dự án — CORE 4,5 MD · BỔ SUNG 2 MD">
+      <span class="who">Quản trị dự án<em>14.0</em></span>
+      <span class="bars">
+        <span class="b"><span class="seg s1" style="width:45%"></span><span class="val">4,5</span></span>
+        <span class="b"><span class="seg s2" style="width:20%"></span><span class="val">2</span></span>
+      </span>
+    </div>
+  </div>
+
+  <div class="tw">
+    <table>
+      <thead><tr><th>Tầng</th><th class="n">Effort</th><th>Ghi chú</th></tr></thead>
+      <tbody>
+        <tr><td><b>CORE</b> (P0)</td><td class="n">72,5 MD</td><td>Trong đó phần <strong>không phải code</strong> chiếm 30 MD (≈41%): Discovery, Kiến trúc, UI/UX, QA, Quản trị dự án.</td></tr>
+        <tr><td><b>BỔ SUNG</b> (P1→P2)</td><td class="n">39,5 MD</td><td>Chưa có mốc thời gian.</td></tr>
+        <tr class="tot"><td><b>TỔNG</b></td><td class="n">112 MD</td><td><strong>Chưa gồm <code>FR-24</code> và <code>FR-25</code></strong> — hai hạng mục này chỉ có thể làm tổng tăng thêm.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="call warn">
+    <span class="eyebrow">Quy mô đội — điểm cần anh xác nhận</span>
+    <p>PRD và BRD <strong>không nói gì</strong> về quy mô đội. Con số <em>1–2 người</em> dùng trong các phép tính dưới đây là <span class="pill e">SUY LUẬN</span> từ tỉ lệ <code>10.000.000 ÷ 10 ngày = 1.000.000 VND/ngày cho toàn đội</code>. Đây không phải dữ kiện.</p>
+  </div>
+</section>
+
+<section class="blk">
+  <span class="eyebrow">Phân tích khoảng cách</span>
+  <h2>10 ngày bất khả thi theo hai cách độc lập</h2>
+  <div class="prose">
+    <p>Hai kết luận dưới đây <strong>không phụ thuộc lẫn nhau</strong>. Ngay cả khi giải được cái thứ nhất bằng tiền, cái thứ hai vẫn đứng.</p>
+  </div>
+
+  <h3>Cách thứ nhất — tổng effort</h3>
+  <div class="gapchart">
+    <div class="gbar">
+      <span class="lab"><span>Cần cho tầng CORE</span><b>72,5 MD</b></span>
+      <span class="track"><span class="fill need" style="width:100%"></span></span>
+    </div>
+    <div class="gbar">
+      <span class="lab"><span>Năng lực 10 ngày · đội 2 người</span><b>20 MD</b></span>
+      <span class="track"><span class="fill have" style="width:27.6%"></span></span>
+      <span class="note">Thiếu 52,5 MD — phủ 28% khối lượng</span>
+    </div>
+    <div class="gbar">
+      <span class="lab"><span>Năng lực 10 ngày · đội 1 người</span><b>10 MD</b></span>
+      <span class="track"><span class="fill have" style="width:13.8%"></span></span>
+      <span class="note">Thiếu 62,5 MD — phủ 14% khối lượng</span>
+    </div>
+  </div>
+
+  <h3>Cách thứ hai — cấu trúc phụ thuộc</h3>
+  <div class="gapchart">
+    <div class="gbar">
+      <span class="lab"><span>Đường găng — bắt buộc tuần tự</span><b>22,5 MD</b></span>
+      <span class="track"><span class="fill crit" style="width:100%"></span></span>
+      <span class="note">Tối thiểu ~22–23 ngày làm việc, bất kể bao nhiêu người</span>
+    </div>
+    <div class="gbar">
+      <span class="lab"><span>Ràng buộc</span><b>10 ngày</b></span>
+      <span class="track"><span class="fill have" style="width:44.4%"></span></span>
+    </div>
+  </div>
+
+  <div class="call crit">
+    <span class="eyebrow">Vì sao thêm người không giải được</span>
+    <p>Chuỗi <code>Q-01 → Q-26 → Q-06</code> → chốt 8 nhánh state machine → DB schema → mô hình Thẻ/Series → state machine engine → validation chống trùng Series → test &amp; UAT → deploy <strong>phải chạy tuần tự</strong>. PRD gọi bốn câu hỏi đầu là <em>"một khối"</em> và khuyến nghị nguyên văn: <em>"không nên bắt đầu thiết kế mô hình dữ liệu tồn kho trước khi <code>Q-01</code> được chốt"</em>. Thêm người rút ngắn được phần song song — UI/UX, hạ tầng, JWT, test plan — nhưng <strong>không</strong> rút ngắn được chuỗi này. Ngoài ra đỉnh tải D6–D8 sẽ cần ≈9 người song song trong 3 ngày rồi giải tán; mô hình nhân sự đó không tồn tại trong thực tế.</p>
+  </div>
+
+  <h3>Quy đổi ngân sách</h3>
+  <div class="prose">
+    <p>Phép chia trực tiếp: <code>10.000.000 VND ÷ 72,5 MD ≈ 138.000 VND/MD</code>. Đây là đơn giá ngày mà nguồn lực thực hiện phải đạt để ngân sách phủ hết tầng CORE.</p>
+  </div>
+  <div class="tw">
+    <table>
+      <thead><tr><th class="n">Đơn giá giả định</th><th class="n">10tr phủ được</th><th class="n">Tỉ lệ phủ</th><th>So với 72,5 MD</th></tr></thead>
+      <tbody>
+        <tr><td class="n">138.000</td><td class="n">72,5 MD</td><td class="n">100%</td><td>Vừa đủ — cần xác nhận có nguồn lực nào ở mức này</td></tr>
+        <tr><td class="n">300.000</td><td class="n">≈33 MD</td><td class="n">46%</td><td>Thiếu ≈39,5 MD</td></tr>
+        <tr><td class="n">500.000</td><td class="n">20 MD</td><td class="n">28%</td><td>Thiếu 52,5 MD</td></tr>
+        <tr><td class="n">1.000.000</td><td class="n">10 MD</td><td class="n">14%</td><td>Thiếu 62,5 MD</td></tr>
+        <tr><td class="n">2.000.000</td><td class="n">5 MD</td><td class="n">7%</td><td>Thiếu 67,5 MD</td></tr>
+      </tbody>
+      <caption>Các mức đơn giá là <span class="pill e">tham số để anh chọn</span>, không phải số liệu thị trường mà đội khẳng định.</caption>
+    </table>
+  </div>
+</section>
+
+<section class="blk">
+  <span class="eyebrow">Phương án</span>
+  <h2>Năm hướng xử lý khoảng cách</h2>
+  <div class="prose">
+    <p>Có khoảng cách nên bắt buộc phải chọn. Năm phương án tương ứng năm trục: cắt phạm vi, giãn thời gian, tăng ngân sách, đổi phương án kỹ thuật, hoặc đổi mục tiêu của 10 ngày.</p>
+  </div>
+
+  <div class="opts">
+    <article class="opt rec">
+      <div class="top"><span class="tag">A</span><h4>Cắt tiếp trong nội bộ P0 — "MVP tối giản 10 ngày"</h4><span class="pill f">Đội đề xuất</span></div>
+      <dl>
+        <div><dt>Cắt gì</dt><dd>Hoãn <strong>4 hạng mục P0</strong> sang ngay sau go-live: <code>FR-02</code> (kiểm tra tồn kho — tạm để NV Kho đối chiếu Excel ngoài hệ thống), <code>FR-14</code> (truy xuất nguồn gốc), <code>NFR-05</code> (chặn trùng dải Series — tạm chỉ chặn số lượng âm), <code>NFR-04</code> (Audit Log đầy đủ — tạm log 3 mốc: tạo đơn, sửa số lượng, duyệt). Cắt mỏng design system và QA. <strong>Giữ nguyên toàn bộ nhóm Discovery.</strong></dd></div>
+        <div><dt>Được gì</dt><dd>Còn <strong>≈32–35 MD</strong>. Khả thi trong 10 ngày với đội 4 người, hoặc ≈8 tuần với 1 người. Có hệ thống <strong>thật sự chạy được</strong>: tạo đơn → soát xét có lý do → duyệt 2 cấp → nhận hàng chụp ảnh POD → đối soát Series → đóng đơn. Đúng nghĩa <em>"chức năng chính để có thể hoạt động"</em>.</dd></div>
+        <div><dt>Mất gì</dt><dd><strong>Mất mục tiêu truy vết</strong> trong 10 ngày đầu — mà đó là một trong bốn lý do dự án ra đời (<code>P-02</code>). Mất khả năng chặn trùng dải Series → <strong>rủi ro dữ liệu sai ngay từ ngày đầu</strong>, sửa sau phải kèm migration dữ liệu thật. Audit Log không đầy đủ → giảm giá trị kiểm toán. NV Kho vẫn phải mở Excel — đúng cái rủi ro mà PRD cảnh báo <em>"hệ thống mất giá trị"</em>.</dd></div>
+      </dl>
+    </article>
+
+    <article class="opt">
+      <div class="top"><span class="tag">B</span><h4>Giãn thời gian, giữ nguyên phạm vi CORE</h4></div>
+      <dl>
+        <div><dt>Cắt gì</dt><dd>Cắt ràng buộc 10 ngày. Không cắt FR/NFR nào. Mốc mới theo quy mô đội: 1 người → 72,5 ngày làm việc; 2 người → ≈36 ngày; 4 người → ≈18 ngày.</dd></div>
+        <div><dt>Được gì</dt><dd>Giữ trọn 12 FR + 5 NFR mức P0, gồm cả truy vết và chặn trùng Series — <strong>không sinh nợ kỹ thuật kèm migration</strong>. Chất lượng không bị bóp. Đường găng được tôn trọng: <code>Q-01</code> chốt xong mới thiết kế tồn kho.</dd></div>
+        <div><dt>Mất gì</dt><dd>Go-live muộn hơn kỳ vọng — trễ 62,5 ngày (1 người) hoặc 26 ngày (2 người). <strong>Không giải quyết vấn đề ngân sách</strong>: 72,5 MD vẫn là 72,5 MD, chi phí không đổi khi trải dài hơn. Rủi ro mất động lượng và yêu cầu thay đổi trong thời gian dài.</dd></div>
+      </dl>
+    </article>
+
+    <article class="opt">
+      <div class="top"><span class="tag">C</span><h4>Tăng nhân sự, giữ nguyên 10 ngày và phạm vi</h4><span class="pill g">Không khuyến nghị</span></div>
+      <dl>
+        <div><dt>Cắt gì</dt><dd>Cắt ràng buộc ngân sách. Bổ sung nhân sự lên ≈7–8 người, riêng cửa sổ D6–D8 cần ≈9 người song song.</dd></div>
+        <div><dt>Được gì</dt><dd>Về lý thuyết là phương án duy nhất giữ được <strong>cả</strong> 10 ngày <strong>lẫn</strong> trọn phạm vi CORE.</dd></div>
+        <div><dt>Mất gì</dt><dd><strong>Ngân sách vỡ nặng</strong>: ở 500.000 VND/MD → ≈36.250.000 VND, gấp <strong>3,6 lần</strong>; ở 1.000.000 VND/MD → ≈72.500.000 VND, gấp <strong>7,25 lần</strong>. Và effort <strong>không scale tuyến tính</strong>: đường găng tuần tự không nén được bằng thêm người, chi phí onboarding và giao tiếp làm tổng MD <em>tăng</em>. Mô hình "9 người trong 3 ngày rồi giải tán" không khả thi về tổ chức.</dd></div>
+      </dl>
+    </article>
+
+    <article class="opt">
+      <div class="top"><span class="tag">D</span><h4>Đổi phương án kỹ thuật cho các hạng mục nặng</h4><span class="pill n">kết hợp được với A hoặc B</span></div>
+      <dl>
+        <div><dt>Cắt gì</dt><dd>Cắt phần <em>tự xây</em>, thay bằng nền tảng sẵn có: dịch vụ authentication thay vì tự viết JWT; component library mặc định thay vì design token riêng; admin scaffold cho CRUD danh mục; trigger/CDC ở tầng database cho Audit Log; PaaS thay vì tự dựng hạ tầng.</dd></div>
+        <div><dt>Được gì</dt><dd>Cắt được <strong>≈12–16 MD</strong>, đưa CORE về ≈57–61 MD mà <strong>không bỏ FR/NFR nào</strong>.</dd></div>
+        <div><dt>Mất gì</dt><dd>Phụ thuộc vendor và chi phí subscription hàng tháng (CAPEX → OPEX). Nguy hiểm nhất: component library mặc định <strong>rất khó tùy biến cho UX mobile ở bước nhận hàng</strong> — chụp ảnh trực tiếp từ camera, đối soát Series dưới ánh sáng ngoài trời — dẫn tới <code>FR-11</code> mức P0 <em>làm đúng đặc tả nhưng không dùng được trên hiện trường</em>. Ngoài ra PaaS nước ngoài có thể vi phạm giả định dữ liệu đặt tại Việt Nam.</dd></div>
+      </dl>
+    </article>
+
+    <article class="opt">
+      <div class="top"><span class="tag">E</span><h4>Đổi mục tiêu của 10 ngày thành "Giai đoạn 0"</h4><span class="pill n">dự phòng</span></div>
+      <dl>
+        <div><dt>Cắt gì</dt><dd>Cắt mục tiêu go-live khỏi 10 ngày. Dùng 10 ngày cho <strong>16 MD</strong>: chốt 11 câu Blocker, chốt 8 nhánh state machine, ra SDD + DB schema + API spec, wireframe hai luồng quan trọng nhất, dựng skeleton chạy được.</dd></div>
+        <div><dt>Được gì</dt><dd>Khả thi hơn hẳn: 16 MD ≈ 2 người trong 10 ngày. Sau đó anh có <strong>ước lượng đáng tin cậy hơn nhiều</strong> cho phần còn lại vì 11 Blocker đã đóng, và <strong>triệt tiêu rủi ro lớn nhất</strong> của dự án — thiết kế mô hình dữ liệu trên 31 giả định chưa xác nhận.</dd></div>
+        <div><dt>Mất gì</dt><dd>Sau 10 ngày <strong>chưa có hệ thống chạy được</strong> — không đáp ứng đúng chữ <em>"để có thể hoạt động"</em>. Kỳ vọng phải điều chỉnh ngay từ đầu, nếu không sẽ bị hiểu là chậm tiến độ. Ngân sách vẫn cần đối chiếu: <code>10.000.000 ÷ 16 MD = 625.000 VND/MD</code>.</dd></div>
+      </dl>
+    </article>
+  </div>
+</section>
+
+<hr class="hr">
+
+<section class="blk">
+  <span class="eyebrow">Giả định &amp; Điều kiện tiên quyết</span>
+  <h2>Nền của bản đề xuất này mỏng hơn vẻ ngoài của nó</h2>
+  <div class="prose">
+    <p>Toàn bộ ước lượng ở trên đứng trên <strong>31 giả định thiết kế</strong> chưa được khách hàng xác nhận. Đây không phải phần phụ lục cho đủ thủ tục — nó là điều kiện quyết định con số 72,5 MD có còn đúng hay không.</p>
+  </div>
+
+  <div class="tw">
+    <table>
+      <thead><tr><th class="c">Số lượng</th><th>Mức độ</th><th>Ý nghĩa với ước lượng</th></tr></thead>
+      <tbody>
+        <tr><td class="c num">11</td><td><span class="pill g">Blocker</span></td><td>Trả lời khác đi thì <strong>phải thiết kế lại</strong>. Ước lượng của các nhóm liên quan mất hiệu lực.</td></tr>
+        <tr><td class="c num">11</td><td><span class="pill e">Quan trọng</span></td><td>Ảnh hưởng đáng kể tới khối lượng công hoặc chi phí hạ tầng.</td></tr>
+        <tr><td class="c num">9</td><td><span class="pill n">Nên có</span></td><td>Ảnh hưởng cục bộ, không đổi kiến trúc.</td></tr>
+        <tr class="tot"><td class="c num">31</td><td><b>Tổng</b></td><td>Toàn bộ nằm trong PRD mục 9, mỗi giả định có bản đồ tác động riêng.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="call crit">
+    <span class="eyebrow">Khối phụ thuộc gốc — chốt trước mọi thứ khác</span>
+    <p><code>Q-01</code> <em>(có luồng nhập kho không?)</em> → <code>Q-26</code> <em>(tồn kho lấy từ đâu?)</em> → <code>Q-06</code> <em>(ai gán dải Series, lúc nào?)</em> → <code>NFR-05</code> <em>(chặn Series trùng bằng cách nào?)</em></p>
+    <p>Bốn vấn đề này là <strong>một khối</strong>: khách hàng trả lời <code>Q-01</code> khác đi thì cả bốn phải thiết kế lại — kèm migration nếu đã có dữ liệu thật. Đây là mắt xích đầu tiên của đường găng, và cũng là lý do phương án E tồn tại.</p>
+  </div>
+
+  <h3>Hai lỗ hổng trong chính phép chia tầng</h3>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Mã</th><th>Phát hiện</th><th>Tác động</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="m">RT-02<br><span class="pill g">Cao</span></td>
+          <td><b>Tầng CORE (P0 thuần) không đóng được vòng đời đơn.</b> <code>FR-08</code> — đẩy đơn sang đơn vị vận chuyển — được PRD xếp <code>P1</code>, nên trong CORE <strong>không có đường nào</strong> chuyển đơn từ <code>Ready for Shipping</code> sang <code>In Transit</code> để Sale nghiệm thu ở bước 5.</td>
+          <td>Cần đưa adapter thủ công (2 MD) vào CORE → <strong>72,5 → 74,5 MD</strong>. <strong>Cần anh xác nhận</strong> — đội không tự chia lại tầng.</td>
+        </tr>
+        <tr>
+          <td class="m">RT-04<br><span class="pill e">Trung bình</span></td>
+          <td><b>Danh mục Loại thẻ ở tầng bổ sung, nhưng <code>FR-01</code> mức P0 lại yêu cầu "chọn loại thẻ".</b></td>
+          <td>CORE phải dùng dữ liệu seed cứng. Nếu cần CRUD ngay ở CORE thì <strong>+1,5 MD</strong>; nếu giữ seed cứng thì mỗi loại thẻ mới phải sửa code và deploy lại.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Hai hạng mục không được ước lượng</h3>
+  <div class="call warn">
+    <p><code>FR-24</code> (Quản lý danh mục nhân sự) và <code>FR-25</code> (Báo cáo tổng hợp) <strong>chỉ tồn tại trong một ô của bảng phân quyền</strong> — SRS không có bất kỳ đặc tả nào cho chúng. PRD ghi nguyên văn: <em>"không được thiết kế màn hình, không được viết test case, và không được ước lượng công cho tới khi <code>Q-28</code> có câu trả lời"</em>.</p>
+    <p>Vì vậy hai con số 72,5 MD và 39,5 MD <strong>chưa bao gồm</strong> hai hạng mục này. Đây là phần <strong>chắc chắn sẽ tăng thêm</strong>, chưa biết bao nhiêu. Riêng <code>FR-25</code> là nguồn scope creep điển hình — cụm từ "báo cáo tổng hợp" có thể nở ra vô hạn.</p>
+  </div>
+</section>
+
+<section class="blk">
+  <span class="eyebrow">Rủi ro</span>
+  <h2>Bốn rủi ro cần theo dõi ngoài khoảng cách tiến độ</h2>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Rủi ro</th><th>Mức</th><th>Ảnh hưởng</th></tr></thead>
+      <tbody>
+        <tr><td><b>8 nhánh state machine chưa định nghĩa</b> — PRD gọi đây là <em>"rủi ro thiết kế lớn nhất"</em>.</td><td><span class="pill g">Cao</span></td><td>Chốt thêm 4–5 trạng thái làm nhóm state machine tăng từ 3 lên ≈5–6 MD, kèm sửa Audit Log và toàn bộ test case.</td></tr>
+        <tr><td><b>Không có tiêu chí nghiệm thu định lượng</b> — SRS không chứa KPI nào, chờ <code>Q-29</code>.</td><td><span class="pill g">Cao</span></td><td>Không ảnh hưởng số MD, nhưng <strong>không có căn cứ để tuyên bố "Done"</strong> → UAT có thể kéo dài vô định. Đây là câu hỏi đội <strong>không thể trả lời thay khách hàng</strong>.</td></tr>
+        <tr><td><b>Backup và perf test nằm ở tầng bổ sung</b> vì PRD xếp <code>P1</code>, nhưng dữ liệu thật đã chạy trên production từ ngày go-live.</td><td><span class="pill e">Trung bình</span></td><td>Go-live không có backup là rủi ro vận hành. Nếu kéo backup vào CORE thì +1,5 MD.</td></tr>
+        <tr><td><b>13 hạng mục phi chức năng còn thiếu hoàn toàn</b> — uptime SLA, concurrent users, throughput, disaster recovery, rate limiting…</td><td><span class="pill e">Trung bình</span></td><td>Không hạng mục nào trong 72,5 MD tính chi phí cho 13 hạng mục này.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="blk">
+  <span class="eyebrow">Cần anh quyết</span>
+  <h2>Ba câu chặn, và một lựa chọn phương án</h2>
+  <div class="prose">
+    <p>Đội không tự trả lời ba câu dưới đây vì mỗi câu đều làm đổi kết luận, và trả lời thay anh là cách nhanh nhất để ra một con số đẹp mà sai.</p>
+  </div>
+  <div class="asks">
+    <div class="ask">
+      <span class="id">E-01</span>
+      <div><b>Quy mô đội thực tế là bao nhiêu người?</b><p>Hiện đội chỉ suy luận 1–2 người từ tỉ lệ ngân sách chia thời gian. Con số này quyết định toàn bộ bảng khoảng cách thời gian.</p></div>
+    </div>
+    <div class="ask">
+      <span class="id">E-02</span>
+      <div><b>~10.000.000 VND là chi phí nhân công, hay chi phí công cụ và hạ tầng?</b><p>Nếu là loại thứ hai — ví dụ nhân công do chính anh đảm nhiệm, 10 triệu dành cho AI agent, hosting, domain, object storage — thì <strong>toàn bộ phép quy đổi VND/MD ở trên không áp dụng</strong>, và bài toán còn lại chỉ là khoảng cách thời gian. Đội <strong>không xây thêm con số nào</strong> trên giả thiết này cho tới khi anh xác nhận.</p></div>
+    </div>
+    <div class="ask">
+      <span class="id">E-03</span>
+      <div><b>Đơn giá VND/MD thực tế của nguồn lực?</b><p>Đội không giả định đơn giá thị trường, chỉ đưa bảng tham số để anh chọn.</p></div>
+    </div>
+    <div class="ask">
+      <span class="id">RT-02</span>
+      <div><b>Có đưa adapter vận chuyển thủ công vào tầng CORE không?</b><p>Nếu không thì tầng CORE không đóng được vòng đời đơn. Nếu có thì tổng thành 74,5 MD. Đội không tự chia lại tầng đã chốt.</p></div>
+    </div>
+  </div>
+
+  <div class="call info">
+    <span class="eyebrow">Bước tiếp theo đội đề xuất</span>
+    <p>Chọn <strong>phương án A</strong> nếu ưu tiên có hệ thống chạy được trong 10 ngày, hoặc <strong>phương án E</strong> nếu ưu tiên triệt tiêu rủi ro thiết kế trước. Cả hai đều bắt đầu bằng cùng một việc: <strong>trả lời 11 câu hỏi mức Blocker</strong>. Việc đó không tốn tiền phát triển và là hạng mục giảm rủi ro lớn nhất của cả dự án.</p>
+  </div>
+</section>
+
+<footer class="doc">
+  <span>VCDMS · Đề xuất triển khai giai đoạn 1</span>
+  <span>Nguồn: PRD-VETC · BRD-001 · WBS-ETA-VETC</span>
+  <span>status: draft · 2026-08-20</span>
+  <span>TNMCORE-OS</span>
+</footer>
+
+</div>
