@@ -195,8 +195,127 @@ Writer cũng **từ chối cộng ra con số A+D**, lý do: `≈12–16 MD` c�
 | `32–35` trong HTML | chỉ còn ở đoạn giải thích vì sao con số đó sai ✅ |
 | `8 tuần` trong HTML | **0** ✅ |
 
+---
+
+# Vòng verify thứ hai — chiều AI-assisted (E4)
+
+**Verifier**: `context-auditor` (cùng agent đã audit vòng một — nó đã tìm ra 2 CRITICAL lần đó). Read-only, `FILES_TOUCHED: none`.
+**Đối tượng**: `WBS-ETA-VETC.md` sau khi writer thêm cột `MD AI-assisted`.
+
+## Tổng kết
+
+| Mức | Số lượng |
+|---|---|
+| `CRITICAL` | **0** |
+| `WARNING` | 4 |
+| `SUGGESTION` | 8 |
+| Không kiểm được | 2 (đã ghi rõ lý do) |
+
+**Cả hai `CRITICAL` của vòng một đều KHÔNG tái phát**: 0 mã `FR` ngoài dải `FR-01…FR-25`; con số Phương án A truy được 100% theo Task ID.
+
+## Số học — ĐẠT hoàn toàn
+
+Verifier cộng/nhân lại bằng `awk`: 38 dòng task §2, 22 dòng §3, 14 nhóm × 2 tầng ở §4, 6 dòng phân rã 12.0, 8 mắt xích §7.2, toàn bộ phép chia đơn giá và ~40 con số dẫn xuất.
+
+| Kiểm | Kết quả |
+|---|---|
+| §2 = 72,5 · §3 = 39,5 (cột cũ **không bị xô lệch**) | ✅ — chứng minh bằng `git diff 1aef29f d616ae5`: **0 dòng task bị chạm** |
+| 14 ô §4 khớp rollup từ §2/§3 theo prefix nhóm | ✅ 14/14 cả hai cột |
+| 28 phép nhân `MD AI = MD × hệ số` | ✅ đúng 100% quy tắc bậc 0,25 tie-up |
+| Tổng cột AI: 56,75 / 29,5 · cả hai tầng 86,25 | ✅ |
+| Hệ số suy ra `0,7828 → 0,78` và `0,7468 → 0,75` | ✅ |
+| §7.2 đường găng = 18,75 · hệ số hiệu dụng 0,8333 | ✅ |
+| Mắt xích 7 tự đóng `1,75+1,5+2 = 5,25` · `5,25÷6 = 0,875` | ✅ |
+| Phép tách 12.2: `2,5 + 1,5 = 4` = giá trị gốc §2 | ✅ |
+| Sàn cứng `12,5 MD` → `0,17` → `800.000 VND/MD` | ✅ |
+| Phương án A = 44,75 (truy được từng bước) · sàn 39,25 · vá RT-02 46,5 · đường găng A 15 · 223.000 VND/MD | ✅ |
+| Phương án E = 13 · hệ số 0,8125 → 0,81 · 769.000 VND/MD · đường găng trong E 5 MD | ✅ — và writer tính **per-nhóm**, không áp hệ số tổng (áp hệ số tổng sẽ ra 12,5, khác 13) |
+| Dải bất biến 176.000–276.000 — biên trên ứng hệ số 0,50 | ✅ `72,5 × 0,50 = 36,25` · `10.000.000 ÷ 36,25 = 275.862` |
+
+**Floor 1,0 không bị vi phạm**: nhóm 1.0, nhóm 14.0, task 12.3, và phần kiểm thử thiết bị di động thật — cả bốn đúng `1,00`.
+
+**`FR-24`/`FR-25` giữ `TBD` ở cả hai cột** — 13 lần xuất hiện, không lần nào có con số. §4.1 còn có khối riêng: *"Không tồn tại hệ số nào biến TBD thành một con số, kể cả hệ số 1,0"*.
+
+**Không bịa số đo năng suất AI** — grep `benchmark / nghiên cứu / thống kê / khảo sát / năng suất` cho 3 hit, **cả 3 đều là câu phủ định**. Verifier gọi đây là *"điểm mạnh nhất của bản này"*.
+
+## Xác nhận độc lập hai lập luận đi ngược trực giác
+
+- **"Đường găng thành cổ chai tương đối lớn hơn"** — **ĐÚNG**, verifier xác nhận bằng phép so `0,8333 > 0,7828`, và tính thêm: tỉ số `đường găng ÷ tổng` tăng từ `22,5/72,5 = 0,3103` lên `18,75/56,75 = 0,3304`. Nguyên nhân cũng đúng: `7 MD / 18,75 MD = 37,3%` đường găng bị chốt ở hệ số 1,0.
+- **Nhóm 11.0 hệ số CAO (0,85)** — **CÓ CĂN CỨ TÀI LIỆU**, không phải cảm tính. Verifier đối chiếu trực tiếp: PRD §5.1 (NFR-02 *"không định nghĩa quyền theo phạm vi dữ liệu"*), PRD §5.1 (NFR-04 *"toàn bộ lịch sử"*), PRD §9 Q-12 (*"mọi query và mọi API. Sửa sau rất tốn kém"*), BRD §9.1 (*"rủi ro rò rỉ dữ liệu kinh doanh"*).
+
+Verifier cũng ghi nhận writer **gán hệ số đi ngược hướng lạc quan** ở đúng nhóm rủi ro nhất, tự tuyên bố không trích benchmark nào, và xếp cột AI **dưới** cột cũ về độ tin cậy — *"dấu hiệu writer không bóp số theo hướng dễ nghe"*. Sàn 0,17 là một **phép tự-bác-bỏ chủ động**: tự dựng con số mạnh nhất có thể có lợi cho AI rồi chỉ ra nó vẫn không đủ.
+
+## 🟡 WARNING 1 — lỗi nặng nhất còn lại, và là lý do run chưa đóng được ngay
+
+**Trục duy nhất đổi kết luận lại là trục duy nhất không được ghi nhãn.**
+
+§5.6 là mục kết luận lớn nhất của tài liệu. Grep vùng đó chỉ ra **2 lần** `[SUY LUẬN]`, **không lần nào ở Trục 2**. Bảng Trục 2 và bảng Tổng kết ba trục phát biểu *"6 người là đủ"*, *"A + 5 người là đủ"*, *"✅ ĐỔI"* mà **không nhắc `A-11`, không nhắc `A-12`** — trong khi §5.3.a-bis, §5.4-B/C/D/E, §7.3 **đều có nhãn**.
+
+Vì sao nặng: chính writer khai ở `RT-10` rằng hệ số thật 0,90 → CORE 65,25 MD → đội 6 người **thiếu 5,25 MD** → **Trục 2 đảo lại**. Ngưỡng đảo chiều ở hệ số ≈0,83, **cách 0,78 đúng 0,05** — một bậc độ nhạy duy nhất theo chính thang writer khai.
+
+Trong khi đó hai trục kia **robust trước sai số hệ số**: sàn 12,5 MD dựng hoàn toàn từ hạng mục hệ số 1,00; verifier test hai đầu dải (0,90 → 153.000 VND/MD; 0,60 → 230.000) và **cả hai vẫn dưới 300.000**.
+
+⇒ **Hai trục robust đang được trình bày ngang hàng độ tin cậy với một trục fragile, và trục fragile lại là trục mang tin "tốt"** — đúng loại tin người quyết ngân sách dễ nhặt ra khỏi ngữ cảnh. Verifier gọi đây là *"`CRITICAL 2` của vòng trước ở dạng nhẹ hơn: khi đó là con số không truy được, giờ là con số truy được nhưng thiếu nhãn điều kiện"*.
+
+**Xử lý**: dispatch writer sửa (thêm nhãn ở 3 chỗ + thêm tiểu mục *"Ba trục không chắc chắn như nhau"*). PM đã tự sửa bản HTML song song: thêm **cột "Độ chắc chắn"** vào bảng ba trục, và một callout riêng cảnh báo mệnh đề *"A + 5 người là đủ"* là mệnh đề **có điều kiện**, không được trích lẻ.
+
+## 🟡 WARNING 2, 3, 4
+
+| # | Vấn đề | Tác động | Xử lý |
+|---|---|---|---|
+| W2 | §4 bảng phân rã 12.0, dòng `12.5` có hệ số `0.65` **trần, không có lý do**, trong khi 5/6 dòng cùng bảng đều nhúng lý do. | Con số đúng (`3 × 0,65 = 1,95 → 2`), chỉ thiếu lý do. | Writer bổ sung lý do. |
+| W3 | §0.7.e khai *"Hai trường hợp"* sai lệch làm tròn, thực tế có **bốn** — thiếu **9.0 BỔ SUNG** (3,25 vs 3,0) và **10.0 BỔ SUNG** (3,5 vs 3,25). | **0 MD** — quy tắc chung ±0,25 đã phủ đúng biên độ, và không phép tính downstream nào đi qua chúng ở mức task. | Writer chọn: liệt kê đủ 4, hoặc bỏ liệt kê chỉ giữ quy tắc chung. |
+| W4 | §7.3 sàn `13,5 MD` **loại hẳn 3,25 MD của task 12.2** về 0 ngày lịch với lý do *"chia được cho 2 QA"*, nhưng task `13.2` cũng được khai *"chia được"* mà **vẫn giữ nguyên** 2,75 MD. Hai task cùng thuộc tính, hai cách xử lý. | **Lệch theo hướng lạc quan một chiều** — sàn tự nhất quán là `≈15,1 MD` chứ không phải 13,5. Vì kết luận cần chứng minh là *"vẫn vượt 10 ngày"*, sai lệch này **làm kết luận mạnh hơn**. Không đảo chiều gì. | Writer chọn: đưa 12.2 vào sàn ở dạng đã chia, hoặc giữ 13,5 kèm câu khai rõ giả định lạc quan. |
+
+## 🔵 Tám SUGGESTION — bốn cái đã giao writer sửa
+
+Đã giao: **S1** hệ số 0,78 suy từ tổng đã làm tròn (56,75/0,7828) chứ không từ tổng tích thô (56,17/0,7748) — bias `+0,58 MD`, đúng hướng dè dặt, cần chú thích nguồn. **S2** công thức hệ số ở §0.7.d **thiếu dấu ngoặc**, đọc ra `A + (R ÷ T)` thay vì `(A + R) ÷ T` — đây là định nghĩa của đại lượng trung tâm cả vòng. **S3** RT-08 chưa đồng bộ cột AI. **S4** bảng cắt trắng A trừ số mức task khỏi tổng mức nhóm → `44,75` lạc quan 0,25 MD (trong biên đã khai).
+
+Bốn cái còn lại: biên trên dải D làm tròn rộng 0,15; rủi ro **thị giác** ở ô *"A + 5 người"* cạnh `✅ ĐỔI` trong bảng tổng kết (PM đã xử lý ở bản HTML bằng cột "Độ chắc chắn"); mã `C-18` **không tồn tại trong Glossary** (nó ở PRD §10 và BRD RK-06 — đề xuất thêm vào Glossary, **ngoài scope run này**); và xác nhận `000-Index.md` / `Planning-MOC.md` / `Proposal-VETC.html` **đã đồng bộ hai cột, 0 con số lệch**.
+
+## Phán xét độc lập của verifier về kết luận ba trục
+
+> *"Kết luận ĐƯỢC CHỐNG ĐỠ. Không quá mạnh cũng không quá nhẹ ở bất kỳ trục nào. Nhưng độ chắc chắn của ba trục rất khác nhau, và tài liệu chưa nói rõ sự khác nhau đó."*
+
+- **Trục ngân sách** — chống đỡ **mạnh nhất**. Điểm quyết định không phải con số 176.000 (phụ thuộc `A-12`) mà là **sàn 12,5 MD**, dựng hoàn toàn từ hạng mục hệ số 1,00 nên không phụ thuộc hệ số nào đúng.
+- **Trục cấu trúc** — chống đỡ **mạnh hơn cả mức writer tự nhận**: verifier tính sàn tự nhất quán là ≈15 ngày thay vì 13,5 (W4), tức lệch về phía **bất lợi cho writer**, nên kết luận còn đứng vững hơn con số công bố.
+- **Trục tổng effort** — đúng nhưng **yếu nhất**, và tài liệu chưa nói rõ nó yếu. Đây là nội dung của W1.
+
+## Hai hạng mục verifier từ chối kết luận — ghi trung thực
+
+- **`E-01` và `E-03`** (quy mô đội thật, đơn giá thuê ngoài thật): không có nguồn nào trong repo. Vì `E-03` mở, verifier **không phán xét** được 176.000 VND/MD có khả thi hay không — chỉ xác nhận **phép chia** đúng.
+- **Bản thân 14 hệ số đúng hay sai**: **về nguyên tắc không kiểm được từ tài liệu** — không có benchmark nội bộ, không có dữ liệu đo. Verifier chỉ kiểm được: chúng được gán nhất quán, 4 hạng mục floor 1,0 không bị vi phạm, 28 phép nhân đúng, và không số đo nào bị bịa. `A-12` là giả định mở, không phải phát hiện.
+
+## Trạng thái xử lý vòng hai
+
+| Hạng mục | Trạng thái |
+|---|---|
+| W1 — nhãn điều kiện ở §5.6 (`WBS-ETA-VETC.md`) | 🔄 dispatch writer |
+| W1 — lan sang `Proposal-VETC.html` | ✅ PM đã sửa: thêm cột **"Độ chắc chắn"** vào bảng ba trục + callout *"Ba trục không chắc chắn như nhau"* + nhãn `SUY LUẬN — phụ thuộc A-11 + A-12` cho con số 44,75 |
+| W2, W3, W4 | 🔄 dispatch writer |
+| S1, S2, S3, S4 | 🔄 dispatch writer |
+| MOC / Index đồng bộ hai cột | ✅ verifier xác nhận 0 lệch |
+| `C-18` không có trong Glossary | ⏸️ **ngoài scope** — ghi lại cho run sau |
+
+---
+
 ## Kết luận cuối
 
-**Không còn lỗi `CRITICAL`.** Cả hai deliverable dùng được. Run đóng được.
+**Không còn lỗi `CRITICAL` ở cả hai vòng verify.** Cả hai deliverable dùng được.
 
-Hạng mục duy nhất còn để mở là phát hiện **ngoài phạm vi**: `Glossary.md` trỏ sai mã `Q-27` cho dòng định nghĩa `VETC`. PM cố ý **không sửa** — nó thuộc tầng `999-Resources`, không nằm trong ownership map đã duyệt tại gate, và sửa ngầm là mở rộng scope không qua gate. Ghi lại ở đây để một run sau xử lý.
+### Hai phát hiện ngoài phạm vi — cố ý không sửa
+
+Cả hai đều thuộc tầng `999-Resources`, **không nằm trong ownership map đã duyệt tại gate**. Sửa ngầm là mở rộng scope không qua gate, nên PM ghi lại cho một run sau:
+
+1. `Glossary.md` — dòng định nghĩa `VETC` trỏ sai mã `Q-27` (Q-27 thực tế là *"Bổ sung Danh mục Loại thẻ"*, không liên quan việc định nghĩa VETC).
+2. `Glossary.md` — mã **`C-18`** (chuẩn hóa thuật ngữ *"Đơn xuất thẻ"*) **không tồn tại trong Glossary**; nó chỉ nằm ở PRD §10, PRD phần quy ước, và BRD `RK-06`. Glossary có **quy tắc nội dung** tương đương nhưng không mang mã, nên mã không truy được từ SSOT thuật ngữ. Đề xuất thêm `(mã C-18)` vào dòng *"Đơn xuất thẻ"*.
+
+### Giá trị thực tế của việc verify bởi agent thứ ba — đúc kết cho run sau
+
+Ba phát hiện có giá trị nhất của cả run này đều **không thể tự phát hiện được** bởi người tạo ra chúng:
+
+- **`CRITICAL 1` vòng một** (mã `FR-27`/`FR-31` bịa) — root cause nằm trong `outline.md` do **PM** viết. Writer không bắt được vì lỗi nằm trong chỉ thị nó nhận và nó không được phép sửa outline; PM không bắt được vì PM là người tạo ra nó.
+- **`CRITICAL 2` vòng một** (con số 32–35 MD không truy được) — writer không bắt được vì nó đọc đúng bộ context nó vừa tạo ra.
+- **`WARNING 1` vòng hai** (trục duy nhất đổi kết luận lại là trục duy nhất không ghi nhãn) — đây là loại lỗi **không phải lỗi số học**, nên chỉ lộ ra khi có người đọc lại toàn bộ tài liệu với câu hỏi *"mệnh đề nào ở đây dễ bị trích lẻ nhất?"*.
+
+Điểm chung: cả ba đều là lỗi **về độ tin cậy được trình bày**, không phải lỗi tính toán. Đó là lý do `context-auditor` — agent có remit về consistency và context hygiene, không phải về estimation — là verifier đúng cho lane tài liệu, và là lý do quy tắc *"verify phải do agent KHÁC agent đã thực thi"* không phải nghi thức rỗng.
