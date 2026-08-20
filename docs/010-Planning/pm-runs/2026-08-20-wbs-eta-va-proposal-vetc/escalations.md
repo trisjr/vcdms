@@ -55,3 +55,35 @@
   3. PM đồng bộ `Proposal-VETC.html` **sau khi** có con số mới — vì bản HTML đang publish mang nguyên con số sai.
   4. PM ghi ngoại lệ naming convention cho `WBS-ETA-VETC.md` vào `Planning-MOC.md` (SUGGESTION S5).
 - **Tier không đổi**: vẫn T2. Đây là vòng sửa trong phạm vi Bước 5–6, không phải leo tier.
+
+## E4 — Anh đổi scope SAU khi run đã đóng: thêm chiều ước lượng AI-assisted
+
+- **Tầng**: 3 (anh quyết). Đây là **thay đổi scope do anh khởi xướng**, không phải sửa lỗi.
+- **Thời điểm**: sau khi PM đã báo cáo kết thúc run và push branch. **Lần `result:` trước bị thay thế** — run này có lần đóng thứ hai.
+- **Yêu cầu nguyên văn của anh**:
+  > *"Vì dự án này sẽ phát triển bằng claude (coding kết hợp AI) nên anh nghĩ cần tinh chỉnh lại man-day. Em nghĩ sao?"*
+
+- **Hai câu PM hỏi lại và câu trả lời của anh** (nguyên văn lựa chọn):
+  1. *"10.000.000 VND là chi phí gì?"* → **"Chi phí nhân công thuê ngoài"**.
+     ⇒ **`E-02` ĐÃ CÓ CÂU TRẢ LỜI.** Phép quy đổi `VND/MD` và bảng độ nhạy đơn giá ở mục 5.3.b **vẫn còn hiệu lực** — phải **tính lại** trên con số MD mới, **không được bỏ**. PM đã đoán sai khi cho rằng 10 triệu có thể là chi phí công cụ/hạ tầng.
+  2. *"Trình bày con số AI-assisted thế nào?"* → **"Thêm cột song song, giữ cột cũ"**.
+     ⇒ Không ghi đè cột `Effort (MD)` gốc. Không tách file riêng.
+
+- **Quyết định của PM**: **tiếp tục trong run hiện tại**, không mở run mới. Lý do: cùng cặp deliverable, cùng ownership map đã duyệt tại gate, cùng nguồn sự thật. Mở run mới sẽ phân tán dấu vết của cùng một cặp file thành hai chỗ.
+
+- **Assumption MỚI phát sinh**:
+  - **A-11** — **Nhà thầu thuê ngoài thực sự dùng Claude khi phát triển.**
+    Căn cứ: lời anh *"dự án này sẽ phát triển bằng claude (coding kết hợp AI)"*.
+    → **sai thì hỏng ở đâu**: hệ số AI **vô hiệu hoàn toàn**, và cột `MD truyền thống` là con số phải trả. Đây chính là lý do phương án "thêm cột song song" mà anh chọn có giá trị thật — nếu nhà cung cấp không dùng AI thì bảng vẫn dùng được, không phải làm lại.
+  - **A-12** — Hệ số AI là **một tầng giả định mới xếp trên tầng giả định cũ**. Con số `MD AI-assisted` vì vậy có **độ tin cậy thấp hơn** cả `MD truyền thống`, vốn đã là ước lượng chờ xác nhận. Phải ghi nhãn phân biệt rõ trong cả hai deliverable.
+    → **sai thì hỏng ở đâu**: nếu trình bày cột AI-assisted ngang hàng độ tin cậy với cột cũ, người đọc sẽ dùng nó làm cam kết — đúng loại lỗi mà `CRITICAL 2` của run này vừa bị bắt.
+
+- **Câu còn mở**: `E-01` (quy mô đội) và **`E-03` (đơn giá thuê ngoài thực tế)**. Sau khi `E-02` được trả lời, **`E-03` trở thành ẩn số then chốt nhất** — vì ngân sách 10 triệu giờ đã xác định là tiền nhân công, nên tính khả thi phụ thuộc trực tiếp vào đơn giá.
+
+- **Rủi ro PM tự nhận diện và cách phòng**: PM đã tự tính nhẩm sơ bộ một khoảng hệ số và con số tổng để trả lời câu hỏi của anh. **Tuyệt đối không đưa các con số đó vào prompt dispatch** — làm vậy là *anchor* ước lượng của writer vào con số PM đoán trước, tức là phiên bản đảo ngược của đúng lỗi bóp số mà `CRITICAL 2` vừa phát hiện. Prompt chỉ đưa **băng hệ số** và **danh sách nhóm bị chốt ở hệ số 1,0**; writer sở hữu con số cuối và phải kèm lý do từng nhóm.
+
+- **Hành động**:
+  1. PM cập nhật `outline.md` — pin rõ **hệ số sống ở đâu** (§4 per-nhóm và §7.2 per-mắt-xích), tránh writer rải hệ số lên 60 dòng task khiến verify không cộng nổi.
+  2. Dispatch `product-owner` mới.
+  3. Dispatch `context-auditor` verify — **bắt buộc**, vì hai cột số học song song đúng là remit của nó, và `product-owner` không có `Bash` nên không ai cộng bằng tool cho đến khi verifier làm.
+  4. PM đồng bộ `Proposal-VETC.html`, cập nhật `Planning-MOC.md` + `000-Index.md` (hai file này đang hardcode `72,5 MD`).

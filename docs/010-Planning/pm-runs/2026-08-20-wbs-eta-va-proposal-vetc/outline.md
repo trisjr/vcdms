@@ -3,6 +3,30 @@
 > [!IMPORTANT]
 > **Bản cập nhật sau gate (2026-08-20).** Anh đã cấp ràng buộc thật tại QĐ-03: **ngân sách ~10.000.000 VND**, **10 ngày** cho các chức năng chính, chức năng bổ sung làm sau. Điều này thay thế assumption A-03/A-04/A-06 và làm outline dưới đây khác bản trình gate ban đầu. Chi tiết hệ quả: `run-plan.md` mục Gate, `escalations.md` mục E1.
 >
+> [!IMPORTANT]
+> **Vòng bổ sung — AI-assisted (2026-08-20, sau lần đóng run thứ nhất).** Anh yêu cầu tinh chỉnh lại man-day vì dự án sẽ phát triển bằng Claude. Chi tiết escalation tại `escalations.md` mục **E4**.
+>
+> **Nơi hệ số AI được phép sống — chốt cứng để verify cộng được:**
+>
+> | Vị trí | Nội dung | Vì sao ở đây |
+> |---|---|---|
+> | **§4** (Tổng hợp effort) | 14 dòng, mỗi nhóm thêm 3 cột: `Hệ số AI` · `Lý do gán hệ số` (một dòng) · `MD AI-assisted` | Đây là chỗ duy nhất có đúng 14 dòng — cộng tay được, verify được. |
+> | **§7.2** (Đường găng) | 8 dòng mắt xích, thêm `Hệ số AI` + `MD AI-assisted` | Đường găng phải tính lại **per-mắt-xích**, vì hệ số của Discovery và của code khác nhau rất xa. Đây là phần quyết định kết luận về cấu trúc phụ thuộc. |
+> | **§2 và §3** (bảng ETA chi tiết) | **KHÔNG thêm hệ số.** Giữ nguyên `MD truyền thống` làm nguồn sự thật duy nhất ở mức task. | Rải hệ số lên ~60 dòng task là cách chắc chắn nhất để không ai cộng lại nổi, và tạo ra hai nguồn sự thật ở mức chi tiết. |
+>
+> **Nhóm bị chốt ở hệ số 1,0** — không được gán thấp hơn, vì AI không làm hộ được:
+> - **1.0 Discovery** — Claude không trả lời 31 câu `Q-NN` thay khách hàng. Chốt `Q-01` là quyết định nghiệp vụ của con người.
+> - **12.3 UAT** — cần khách hàng ngồi nghiệm thu.
+> - **Phần kiểm thử thiết bị di động thật trong 12.2** — cầm điện thoại ra ngoài trời chụp ảnh POD, mạng yếu.
+> - **14.0 Quản trị dự án** — họp, chốt thay đổi, báo cáo với khách hàng.
+>
+> **Ba ràng buộc bắt buộc của vòng này:**
+> 1. `FR-24` / `FR-25` **vẫn giữ `TBD`**. Lệnh cấm của PRD là về **thiếu đặc tả**, không phải về năng lực thực hiện — một hệ số AI không mở khóa được nó.
+> 2. **Chi phí review code AI sinh ra** phải hoặc gộp vào hệ số (và **nói rõ là đã gộp**), hoặc tách thành dòng riêng. Không được im lặng bỏ qua, cũng không được tính hai lần.
+> 3. Cột `MD AI-assisted` mang **hai tầng giả định** (A-11 nhà thầu thực sự dùng Claude + A-12 hệ số là suy luận), nên độ tin cậy **thấp hơn** cột cũ. Phải ghi nhãn phân biệt.
+>
+> **`E-02` đã có câu trả lời**: 10.000.000 VND là **chi phí nhân công thuê ngoài** → phép quy đổi `VND/MD` **giữ nguyên và tính lại**, không bỏ.
+
 > **Hai tầng phạm vi** dùng xuyên suốt run này:
 > - **CORE** = toàn bộ mức `P0` của PRD = **12 FR** (FR-01, 02, 04, 05, 06, 07, 11, 12, 14, 18, 19, 22) + **5 NFR** (NFR-01…NFR-05). Ràng buộc: 10 ngày, ~10 triệu VND.
 > - **BỔ SUNG** = `P1` (10 FR: FR-03, 08, 09, 10, 13, 15, 20, 21, 23, 24 + NFR-06, NFR-07), rồi `P2` (3 FR: FR-16, 17, 25). Chưa có mốc thời gian — anh nói *"hoàn thành sau"*.
