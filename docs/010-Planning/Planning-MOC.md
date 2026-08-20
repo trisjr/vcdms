@@ -16,7 +16,10 @@ updated: 2026-08-20
 
 ## Estimates — Ước lượng & Ngân sách
 
-- [WBS-ETA-VETC](./Estimates/WBS-ETA-VETC.md) — WBS 14 nhóm kết hợp ETA cho dự án VCDMS, chia hai tầng CORE (`P0`, 72,5 MD) và BỔ SUNG (`P1`→`P2`, 39,5 MD), kèm Gap Analysis đối chiếu ràng buộc 10 ngày / ~10.000.000 VND và 5 phương án xử lý khoảng cách.
+- [WBS-ETA-VETC](./Estimates/WBS-ETA-VETC.md) — WBS 14 nhóm kết hợp ETA cho dự án VCDMS, chia hai tầng CORE (`P0`) và BỔ SUNG (`P1`→`P2`), kèm Gap Analysis đối chiếu ràng buộc 10 ngày / ~10.000.000 VND (nhân công thuê ngoài) và 5 phương án xử lý khoảng cách.
+  - **Hai cột effort song song**: `MD truyền thống` (CORE **72,5** · BỔ SUNG **39,5**) và `MD AI-assisted` (CORE **56,75** · BỔ SUNG **29,5**, hệ số gán theo từng nhóm).
+  - Cột AI-assisted phụ thuộc hai giả định `A-11` (nhà thầu thực sự dùng Claude) và `A-12` (hệ số là suy luận, chưa có dữ liệu đo) → **độ tin cậy thấp hơn cột truyền thống**. Con số đưa vào hợp đồng là cột truyền thống.
+  - Kết luận: ba ràng buộc phạm vi CORE · 10 ngày · 10.000.000 VND **không thể cùng thỏa mãn, kể cả khi phát triển bằng Claude**. AI làm mềm trục tổng effort, nhưng trục ngân sách và trục cấu trúc phụ thuộc vẫn cứng.
 
 ## Đề xuất triển khai
 

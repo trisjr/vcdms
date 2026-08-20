@@ -68,7 +68,7 @@ Tỉ lệ này hàm ý một đội **cực nhỏ: 1–2 người kiêm nhiệm 
 | # | Câu hỏi | Vì sao cần |
 | :--- | :--- | :--- |
 | **E-01** | Đội thực thi gồm **bao nhiêu người**, mỗi người kiêm những vai nào? | Quyết định 72,5 MD trải ra bao nhiêu ngày lịch. |
-| **E-02** | **10.000.000 VND là chi phí gì**: chi phí nhân công, hay chi phí công cụ/hạ tầng (AI agent, hosting, domain) còn nhân công do anh tự đảm nhiệm? | Nếu là chi phí công cụ thì phép quy đổi *đơn giá VND/MD* ở mục 5 **không áp dụng** và cần thay bằng phép đối chiếu khác. |
+| **E-02** | ✅ **ĐÃ CÓ CÂU TRẢ LỜI (2026-08-20)**: 10.000.000 VND là **chi phí nhân công thuê ngoài**. | Vì là chi phí nhân công, phép quy đổi *đơn giá VND/MD* ở mục 5.3.b **VẪN CÒN HIỆU LỰC** và được tính lại trên cả hai cột MD (truyền thống và AI-assisted). |
 | **E-03** | Đơn giá ngày (VND/MD) thực tế mà anh đang dùng cho nguồn lực này? | Bản ước lượng **không** giả định đơn giá thị trường; mục 5 chỉ đưa bảng độ nhạy để anh chọn. |
 
 ### 0.6. Tuyên bố bắt buộc về độ tin cậy của số liệu
@@ -88,6 +88,59 @@ Tỉ lệ này hàm ý một đội **cực nhỏ: 1–2 người kiêm nhiệm 
 > **Hai con số duy nhất có nguồn SRS** trong toàn bộ bộ tài liệu VETC là **tra cứu ≤ 2 giây** (NFR-06) và **sao lưu hàng ngày** (NFR-07). Mọi con số khác — bao gồm toàn bộ cột Effort ở đây — là ước lượng hoặc giả định thiết kế chờ xác nhận.
 >
 > **Độ tin cậy của ước lượng bị giới hạn bởi 31 giả định thiết kế đang mở** (PRD mục 9, trong đó 11 mức 🔴 Blocker). Khi khách hàng trả lời khác giả định, effort sẽ thay đổi — xem mục 8.
+
+### 0.7. Chiều ước lượng **AI-assisted** (bổ sung 2026-08-20)
+
+**Nguyên văn yêu cầu của anh trisjr tại gate 2026-08-20:**
+
+> *"Vì dự án này sẽ phát triển bằng claude (coding kết hợp AI) nên anh nghĩ cần tinh chỉnh lại man-day."*
+
+**a) Cách bản ước lượng này đáp ứng yêu cầu đó**
+
+Thêm một **cột song song**, **không ghi đè** cột `Effort (MD)` gốc:
+
+| Cột | Ý nghĩa | Nằm ở đâu |
+| :--- | :--- | :--- |
+| `MD truyền thống` (cột `Effort (MD)` / `MD CORE` / `MD BỔ SUNG` cũ) | Khối lượng công khi **không** dùng AI hỗ trợ. **Nguồn sự thật duy nhất ở mức task** (mục 2, mục 3). | Mục 2, 3, 4, 7.2 |
+| `MD AI-assisted` | Khối lượng công khi đội **thực sự** dùng Claude để hỗ trợ code/tài liệu/test case. | **Chỉ** mục 4 (theo nhóm) và mục 7.2 (theo mắt xích) |
+
+> 📌 **Hệ số AI CHỈ tồn tại ở mục 4 và mục 7.2.** Bảng ETA chi tiết ở **mục 2 và mục 3 KHÔNG có hệ số** — giữ nguyên `MD truyền thống` để mọi con số mức task vẫn truy được về một nguồn duy nhất. Rải hệ số lên ~60 dòng task là cách chắc chắn nhất để không ai cộng lại được.
+
+**b) `E-02` đã có câu trả lời → phép quy đổi ngân sách giữ nguyên**
+
+Anh xác nhận 10.000.000 VND là **chi phí nhân công thuê ngoài**. Vì vậy phép quy đổi `10.000.000 ÷ MD = đơn giá VND/MD` ở mục 5.3.b **vẫn còn hiệu lực** và được **tính lại trên cả hai cột**, không bị bỏ. `E-01` và `E-03` **vẫn mở**.
+
+**c) Hai giả định mới mà cột `MD AI-assisted` phụ thuộc**
+
+Hai mã dưới đây là **mã giả định riêng của bản ước lượng này**, không thuộc hệ mã `Q-NN` của PRD:
+
+| Mã | Nội dung giả định | Nếu giả định SAI |
+| :--- | :--- | :--- |
+| **A-11** | **Nhà thầu thuê ngoài thực sự dùng Claude** (hoặc công cụ AI tương đương) trong quá trình thực thi, và dùng đủ thành thục để đạt mức nén đã giả định. | **Toàn bộ cột `MD AI-assisted` vô hiệu.** Con số phải trả quay về đúng cột `MD truyền thống`: **72,5 MD** (CORE) và **39,5 MD** (BỔ SUNG). Đây là lý do cột cũ **không được xóa**. |
+| **A-12** | **Bản thân từng hệ số là [SUY LUẬN]** — phán đoán chuyên môn dựa trên **bản chất công việc** của từng nhóm, **chưa có dữ liệu đo thực tế** của đội này trên dự án này để hiệu chỉnh. | Con số nén lệch theo cả hai hướng. Không có benchmark nội bộ nào để nói lệch bao nhiêu. |
+
+> 🔴 **Không có con số nào trong cột `MD AI-assisted` là số đo.** Mọi hệ số đều mang nhãn **[SUY LUẬN]** và kèm **lý do một dòng** ngay tại bảng mục 4. Em **không trích dẫn benchmark năng suất AI nào**, vì không có nguồn nào trong bộ tài liệu VETC hay trong repo này cung cấp được.
+
+**d) Chi phí review code do AI sinh ra — đã GỘP vào hệ số**
+
+Chi phí **con người đọc, kiểm chứng và sửa** code/tài liệu/test case do AI sinh ra được **gộp thẳng vào hệ số**, **không** tách thành dòng riêng và **không** tính hai lần. Cụ thể:
+
+- Hệ số của một nhóm = *(công AI hỗ trợ sinh ra kết quả)* **+** *(công người review kết quả đó)* ÷ *(công truyền thống)*. Vì vậy **không nhóm nào có hệ số dưới 0,50** — phần review luôn còn lại.
+- **Nhóm 11.0 (Xác thực, Phân quyền & Audit Log) được gán hệ số CAO (0,85) một cách có chủ ý** — cao hơn cả các nhóm CRUD (0,50) và nhóm tra cứu (0,60). Lý do: `NFR-02` (RBAC **theo phạm vi dữ liệu** — PRD mục 5.1 ghi rõ SRS *"không định nghĩa quyền theo phạm vi dữ liệu"* → `Q-12`) và `NFR-04` (Audit Log ghi **toàn bộ** lịch sử tác động dữ liệu) là hai chỗ AI sai **tinh vi**: code chạy đúng, test happy-path pass, nhưng rò rỉ dữ liệu ngoài phạm vi hoặc thiếu mutation trong Audit Log chỉ lộ ra khi kiểm toán. **Review ở nhóm này phải NẶNG hơn, không nhẹ hơn.**
+
+**e) Quy tắc làm tròn và nguồn canon — bắt buộc đọc trước khi đối soát**
+
+| Quy tắc | Nội dung |
+| :--- | :--- |
+| **Nguồn canon** | **Các ô ở bảng mục 4 (mức nhóm) là con số chuẩn.** Mọi tổng của cột `MD AI-assisted` phải cộng ra từ 14 dòng của mục 4. |
+| **Làm tròn** | `MD_nhóm × hệ số` → làm tròn tới **bậc 0,25 gần nhất**, tie làm tròn **lên** (dè dặt). Áp dụng **theo từng dòng, từng bảng**. |
+| **Sai lệch đã biết** | Vì làm tròn áp ở hai mức khác nhau (mức nhóm ở mục 4, mức task ở mục 7.2 / mục 5.4), tổng mức task có thể **lệch ±0,25 MD/nhóm** so với ô mục 4. Hai trường hợp đã biết: **nhóm 2.0** (cộng theo task ra 4,75 vs ô mục 4 là **4,5**) và **nhóm 11.0** (cộng theo task ra 7,5 vs ô mục 4 là **7,25**). Khi lệch, **lấy ô mục 4**. |
+
+**f) Tuyên bố bắt buộc về độ tin cậy — cột AI-assisted YẾU HƠN cột cũ**
+
+> 🔴 Mục 0.6 tuyên bố cột `MD truyền thống` là **ước lượng bottom-up, chưa phải cam kết**. Cột `MD AI-assisted` **kế thừa toàn bộ tuyên bố đó và cộng thêm hai tầng giả định `A-11` + `A-12`**.
+>
+> ⇒ **Thứ tự độ tin cậy: `MD truyền thống` > `MD AI-assisted`.** Cột AI-assisted là con số **để anh đàm phán và để đánh giá độ nhạy**, **không** phải con số để cam kết với khách hàng. Nếu phải chọn một con số duy nhất đưa vào hợp đồng thuê ngoài, đó là **cột truyền thống**.
 
 ---
 
@@ -264,23 +317,52 @@ Tỉ lệ này hàm ý một đội **cực nhỏ: 1–2 người kiêm nhiệm 
 
 ## 4. Tổng hợp effort theo nhóm công việc
 
-| Nhóm | Tên nhóm | MD CORE | MD BỔ SUNG |
-| :--- | :--- | :---: | :---: |
-| 1.0 | Discovery & Chốt yêu cầu | 4.5 | 1 |
-| 2.0 | Kiến trúc & Thiết kế hệ thống | 6.5 | 1.5 |
-| 3.0 | Thiết kế UI/UX | 5.5 | 2 |
-| 4.0 | Nền tảng & Hạ tầng | 6 | 1.5 |
-| 5.0 | Danh mục & Master data | 3 | 3 |
-| 6.0 | Luồng Đơn xuất thẻ & Phê duyệt 2 cấp | 9.5 | 1.5 |
-| 7.0 | Vận chuyển & Tracking | 0 | 7 |
-| 8.0 | Nhận hàng & Chứng từ giao nhận | 5 | 2.5 |
-| 9.0 | Truy vết & Quản lý thất thoát | 4.5 | 4 |
-| 10.0 | Tra cứu, Bộ lọc & Báo cáo | 1.5 | 5.5 |
-| 11.0 | Xác thực, Phân quyền & Audit Log | 8.5 | 1.5 |
-| 12.0 | QA & Kiểm thử | 9 | 5 |
-| 13.0 | Triển khai & Go-live | 4.5 | 1.5 |
-| 14.0 | Quản trị dự án | 4.5 | 2 |
-| | **TỔNG CỘNG** | **72.5** | **39.5** |
+> 📌 **Bảng này là NGUỒN CANON của cột `MD AI-assisted`** (mục 0.7.e). Bốn cột bên phải là **[SUY LUẬN]** — xem tuyên bố độ tin cậy ở mục 0.7.f. Chi phí review code AI sinh ra **đã gộp vào hệ số** (mục 0.7.d).
+
+| Nhóm | Tên nhóm | MD CORE | MD BỔ SUNG | Hệ số AI **[SUY LUẬN]** | MD AI CORE | MD AI BỔ SUNG | Lý do gán hệ số (một dòng) |
+| :--- | :--- | :---: | :---: | :---: | :---: | :---: | :--- |
+| 1.0 | Discovery & Chốt yêu cầu | 4.5 | 1 | **1.00** 🔒 | 4.5 | 1 | Claude **không trả lời được 31 câu `Q-NN` thay khách hàng** — chốt `Q-01` là quyết định nghiệp vụ của con người, hệ số bị chốt cứng ở 1,0. |
+| 2.0 | Kiến trúc & Thiết kế hệ thống | 6.5 | 1.5 | **0.70** | 4.5 | 1 | AI soạn nhanh SDD / ERD / OpenAPI spec, nhưng **quyết định kiến trúc trong ADR** vẫn là của con người và đang dựa trên 31 giả định mở. |
+| 3.0 | Thiết kế UI/UX | 5.5 | 2 | **0.85** | 4.75 | 1.75 | AI mạnh ở phần code design system / component, nhưng **wireframe và phán đoán UX mobile Bước 5** không thay được mắt người. |
+| 4.0 | Nền tảng & Hạ tầng | 6 | 1.5 | **0.65** | 4 | 1 | Repo setup / CI/CD / cấu hình TLS là **boilerplate theo pattern chuẩn** — AI rất mạnh; phần còn lại là thao tác thật trên console cloud, không nén được. |
+| 5.0 | Danh mục & Master data | 3 | 3 | **0.50** | 1.5 | 1.5 | CRUD danh mục là **pattern lặp thuần** (scaffold model → API → form) — nhóm AI nén mạnh nhất; 0,50 là sàn vì phần review vẫn còn. |
+| 6.0 | Luồng Đơn xuất thẻ & Phê duyệt 2 cấp | 9.5 | 1.5 | **0.70** | 6.75 | 1 | AI sinh nhanh khung state machine và form, nhưng đây là **logic nghiệp vụ đặc thù** (BR-01, BR-02, BR-09) + 8 nhánh `T-a…T-h` chưa chốt → review nặng. |
+| 7.0 | Vận chuyển & Tracking | 0 | 7 | **0.85** | 0 | 6 | AI **không biết trước API carrier thật** (`Q-02` chưa trả lời); công thật nằm ở đọc tài liệu đối tác, thử nghiệm và xử lý lỗi tích hợp. |
+| 8.0 | Nhận hàng & Chứng từ giao nhận | 5 | 2.5 | **0.80** | 4 | 2 | AI viết được luồng upload / nén ảnh / retry, nhưng **tinh chỉnh trên thiết bị di động thật** (ánh sáng ngoài trời, mạng yếu) là việc tay. |
+| 9.0 | Truy vết & Quản lý thất thoát | 4.5 | 4 | **0.75** | 3.5 | 3 | Màn hình và query truy vết AI làm nhanh, nhưng **mô hình thực thể Thẻ/Dải Series** phụ thuộc `Q-01`/`Q-06` — sai mô hình thì AI làm nhanh cái sai. |
+| 10.0 | Tra cứu, Bộ lọc & Báo cáo | 1.5 | 5.5 | **0.60** | 1 | 3.25 | Danh sách / bộ lọc đa điều kiện / global search là **pattern chuẩn có sẵn** — AI nén mạnh, chỉ cần review phần phạm vi dữ liệu. |
+| 11.0 | Xác thực, Phân quyền & Audit Log | 8.5 | 1.5 | **0.85** | 7.25 | 1.25 | Hệ số **cố ý cao**: `NFR-02` (RBAC theo phạm vi dữ liệu) và `NFR-04` (Audit Log toàn bộ mutation) là chỗ **AI sai tinh vi** — code chạy đúng vẫn có thể rò dữ liệu / thiếu log → **review nặng hơn, không nhẹ hơn** (mục 0.7.d). |
+| 12.0 | QA & Kiểm thử | 9 | 5 | **0.78** (CORE) · **0.70** (BS) | 7 | 3.5 | Hệ số **tổng hợp từ 3 phần khác nhau** — xem phép chia nhỏ ngay dưới bảng: viết test case AI mạnh, **kiểm thử thiết bị di động thật** và **UAT với khách hàng** bị chốt ở 1,0. |
+| 13.0 | Triển khai & Go-live | 4.5 | 1.5 | **0.75** | 3.5 | 1.25 | Script deploy / import Excel AI sinh nhanh, nhưng **đối soát dữ liệu thật** và **đào tạo 3 nhóm người dùng** là việc người. |
+| 14.0 | Quản trị dự án | 4.5 | 2 | **1.00** 🔒 | 4.5 | 2 | Họp, chốt thay đổi, báo cáo với khách hàng — **AI không họp thay người**, hệ số bị chốt cứng ở 1,0. |
+| | **TỔNG CỘNG** | **72.5** | **39.5** | **0.78** / **0.75** *(suy ra)* | **56.75** | **29.5** | Hệ số tổng **không phải hệ số gán** mà là **kết quả chia**: `56,75 ÷ 72,5 = 0,783` và `29,5 ÷ 39,5 = 0,747`. |
+
+**Phép cộng để đối soát cột `MD AI CORE`** (14 dòng, theo đúng thứ tự trên):
+
+`4,5 + 4,5 + 4,75 + 4 + 1,5 + 6,75 + 0 + 4 + 3,5 + 1 + 7,25 + 7 + 3,5 + 4,5 = **56,75 MD**`
+
+**Phép cộng để đối soát cột `MD AI BỔ SUNG`:**
+
+`1 + 1 + 1,75 + 1 + 1,5 + 1 + 6 + 2 + 3 + 3,25 + 1,25 + 3,5 + 1,25 + 2 = **29,5 MD**`
+
+**Tổng cả hai tầng**: `56,75 + 29,5 = **86,25 MD**` (so với **112 MD** truyền thống).
+
+#### Phép chia nhỏ của nhóm 12.0 — bắt buộc, vì mục 7.2 và Phương án A truy qua đây
+
+Nhóm 12.0 **không được gán một hệ số phẳng**, vì trong nó có cả phần AI nén mạnh và phần AI **không nén được chút nào**:
+
+| Task ID | Phần việc | MD truyền thống | Hệ số áp dụng | MD AI-assisted |
+| :---: | :--- | :---: | :---: | :---: |
+| 12.1 | Master Test Plan + viết test case tầng CORE | 3 | 0.60 — viết test case từ AC là việc AI mạnh | 1.75 |
+| 12.2 | *(phần a)* Thực thi test + regression + đóng bug | 2.5 | 0.70 — AI hỗ trợ sinh script/checklist, thực thi vẫn là người | 1.75 |
+| 12.2 | *(phần b)* **Kiểm thử trên thiết bị di động THẬT** — cầm điện thoại ra ngoài trời chụp ảnh POD, mạng yếu | 1.5 | **1.00** 🔒 — không có cách nào AI làm hộ | 1.5 |
+| 12.3 | **UAT với khách hàng** | 2 | **1.00** 🔒 — cần khách hàng ngồi nghiệm thu | 2 |
+| | **Tổng nhóm 12.0 tầng CORE** | **9** | **0.78** *(= 7 ÷ 9, suy ra)* | **7** |
+| 12.4 | Performance test tra cứu ≤ 2 giây | 2 | 0.80 — phép **đo** không nén được, chỉ soạn kịch bản nhanh hơn | 1.5 |
+| 12.5 | Test case + thực thi test tầng BỔ SUNG | 3 | 0.65 | 2 |
+| | **Tổng nhóm 12.0 tầng BỔ SUNG** | **5** | **0.70** *(= 3,5 ÷ 5, suy ra)* | **3.5** |
+
+> 📌 **Cách xử lý phần kiểm thử thiết bị di động thật** (nằm bên trong task 12.2, xem mục 1 và RT-05): em **tách 1,5 MD trong 4 MD của task 12.2** ra và **chốt hệ số 1,0** cho phần đó. Con số 1,5 MD này là **[SUY LUẬN]** — mục 2 và mục 3 không tách riêng dòng cho phần này, nên đây là phép chia của em, không phải dòng có sẵn. Hệ quả: kể cả khi AI nén phần còn lại của QA, **1,5 MD thiết bị thật + 2 MD UAT = 3,5 MD trong nhóm 12.0 không co được một chút nào**.
 
 ### 4.1. Hạng mục `TBD` — tách riêng, KHÔNG cộng vào tổng
 
@@ -290,6 +372,8 @@ Tỉ lệ này hàm ý một đội **cực nhỏ: 1–2 người kiêm nhiệm 
 | 10.5 | 10.0 | FR-25 — Báo cáo tổng hợp & giám sát luồng dữ liệu | `TBD` |
 
 > Hai hạng mục trên **bị cấm ước lượng** cho tới khi **Q-28** có câu trả lời. Xem [mục 6](#6-hạng-mục-không-được-ước-lượng). Vì vậy **tổng 72,5 MD và 39,5 MD chưa bao gồm FR-24 và FR-25** — đây là phần **chắc chắn sẽ tăng thêm**, chưa biết bao nhiêu.
+>
+> 🔴 **Hệ số AI KHÔNG mở khóa được hai hạng mục này.** `FR-24` và `FR-25` vẫn giữ `TBD` ở **cả hai cột**. Lệnh cấm của PRD mục 4 là về **thiếu đặc tả** — không có gì để ước lượng — chứ không phải về năng lực thực hiện. Không tồn tại hệ số nào biến `TBD` thành một con số, kể cả hệ số 1,0. Vì vậy **tổng 56,75 MD và 29,5 MD cũng chưa bao gồm FR-24 và FR-25**.
 
 ---
 
@@ -297,14 +381,17 @@ Tỉ lệ này hàm ý một đội **cực nhỏ: 1–2 người kiêm nhiệm 
 
 ### 5.1. Khối 1 — Đội cần
 
-| Hạng mục | Giá trị |
-| :--- | :--- |
-| **Tổng MD bottom-up tầng CORE** (theo mục 4) | **72,5 MD** |
-| Tổng MD tầng BỔ SUNG | 39,5 MD |
-| Tổng cả hai tầng | 112 MD |
-| Chưa tính | FR-24, FR-25 (`TBD`) — sẽ làm tổng tăng thêm |
+| Hạng mục | MD truyền thống | MD AI-assisted **[SUY LUẬN]** |
+| :--- | :---: | :---: |
+| **Tổng MD bottom-up tầng CORE** (theo mục 4) | **72,5 MD** | **56,75 MD** |
+| Tổng MD tầng BỔ SUNG | 39,5 MD | 29,5 MD |
+| Tổng cả hai tầng | 112 MD | 86,25 MD |
+| Hệ số tổng *(suy ra, không phải gán)* | — | 0,78 (CORE) · 0,75 (BỔ SUNG) |
+| Chưa tính | FR-24, FR-25 (`TBD`) — sẽ làm tổng tăng thêm | FR-24, FR-25 (`TBD`) — hệ số AI **không mở khóa được** (mục 4.1) |
 
 Trong 72,5 MD của tầng CORE, phần **không phải code** chiếm tỉ trọng đáng kể: Discovery 4,5 + Kiến trúc 6,5 + UI/UX 5,5 + QA 9 + Quản trị dự án 4,5 = **30 MD (≈ 41%)**. Đây không phải phần "phụ có thể bỏ" — 31 giả định đang mở (mục 8) khiến Discovery trở thành hạng mục **giảm rủi ro lớn nhất** của cả dự án.
+
+> 📌 **Tỉ trọng phần không phải code TĂNG khi áp hệ số AI**, vì đúng những nhóm đó là nhóm AI nén được ít nhất: `4,5 (nhóm 1.0) + 4,5 (nhóm 2.0) + 4,75 (nhóm 3.0) + 7 (nhóm 12.0) + 4,5 (nhóm 14.0) = **25,25 MD** trên 56,75 MD = **≈ 44,5%**` (so với 41% ở cột truyền thống). Nói cách khác: **AI càng hiệu quả thì Discovery và QA càng chiếm tỉ trọng lớn hơn**, và cổ chai của dự án càng dịch về phía *chốt yêu cầu* thay vì phía *viết code* — xem rủi ro **RT-13** ở mục 8.4.
 
 ### 5.2. Khối 2 — Anh có
 
@@ -325,9 +412,21 @@ Trong 72,5 MD của tầng CORE, phần **không phải code** chiếm tỉ tr�
 | 4 người | 40 MD | 72,5 MD | **Thiếu 32,5 MD** → cần **≈ 18 ngày làm việc** |
 | **7,25 người** | 72,5 MD | 72,5 MD | Vừa khít **trên giấy**, nhưng xem cảnh báo bên dưới |
 
+**a-bis) Cùng phép tính đó, trên cột `MD AI-assisted` = 56,75 MD** — **[SUY LUẬN]**, phụ thuộc `A-11` + `A-12`:
+
+| Giả thiết quy mô đội | Năng lực trong 10 ngày | Cần cho 56,75 MD | Khoảng cách |
+| :--- | :---: | :---: | :--- |
+| 1 người | 10 MD | 56,75 MD | **Thiếu 46,75 MD** → cần **56,75 ngày làm việc** (≈ 11,5 tuần), tức **vượt 46,75 ngày** |
+| 2 người | 20 MD | 56,75 MD | **Thiếu 36,75 MD** → cần **≈ 28,5 ngày làm việc** (≈ 5,7 tuần) |
+| 4 người | 40 MD | 56,75 MD | **Thiếu 16,75 MD** → cần **≈ 14,2 ngày làm việc** |
+| **5,675 người** | 56,75 MD | 56,75 MD | Vừa khít **trên giấy** |
+| 6 người | 60 MD | 56,75 MD | ✅ **Đủ 3,25 MD dư về TỔNG EFFORT** — đây là điểm **mềm đi** thật sự so với cột truyền thống (cột cũ đòi 7,25 người). Nhưng xem cảnh báo cấu trúc bên dưới. |
+
 > 🔴 **Kết luận thẳng: tổng MD tầng CORE VƯỢT ràng buộc 10 ngày.** Vượt **62,5 MD** nếu đội 1 người, **52,5 MD** nếu đội 2 người. Con số 72,5 MD là ước lượng bottom-up và **không bị điều chỉnh** để khớp ràng buộc.
 >
 > ⚠️ **Ngay cả 7,25 người cũng không giải được**, vì hai lý do: (1) đường găng có **phụ thuộc tuần tự bắt buộc** — Discovery → DB schema → code → QA → go-live, không nén được bằng cách thêm người (mục 7); (2) đỉnh tải D6–D8 cần **≈ 9 người song song** trong 3 ngày rồi tụt xuống — mô hình nhân sự này không tồn tại trong thực tế.
+
+> 🟡 **Trên cột AI-assisted, kết luận này MỀM ĐI nhưng KHÔNG đảo chiều.** Vượt **46,75 MD** nếu đội 1 người, **36,75 MD** nếu đội 2 người — tức vẫn vượt xa ràng buộc, so với quy mô đội 1–2 người mà mục 0.5 suy luận từ ngân sách. Điểm khác biệt duy nhất: **ngưỡng "đủ trên giấy" tụt từ 7,25 người xuống 6 người**. Nhưng 6 người vẫn (1) vỡ ngân sách nặng (mục 5.3.b) và (2) không nén được đường găng **18,75 MD** ở mục 7.2. Đỉnh tải D6–D8 tính lại theo hệ số nhóm còn **≈ 20 MD** → vẫn cần **≈ 7 người song song** trong 3 ngày (`20 ÷ 3 ≈ 6,7`) — xem phép cộng ở Phương án C.
 
 **b) Khoảng cách về ngân sách — quy đổi đơn giá**
 
@@ -347,13 +446,47 @@ Bảng độ nhạy — **[SUY LUẬN]**, các mức đơn giá dưới đây l�
 | 1.000.000 | 10 MD | Thiếu 62,5 MD (phủ **14%**) |
 | 2.000.000 | 5 MD | Thiếu 67,5 MD (phủ **7%**) |
 
+**Phép chia đó tính lại trên cột `MD AI-assisted`** — **[SUY LUẬN]**, phụ thuộc `A-11` + `A-12`:
+
+`10.000.000 VND ÷ 56,75 MD ≈ **176.000 VND/MD**`
+
+Đây là **đơn giá ngày mới mà nhà thầu thuê ngoài phải đạt** để 10.000.000 VND phủ hết tầng CORE khi có AI hỗ trợ. So với cột truyền thống, đơn giá phải đạt **nhích từ 138.000 lên 176.000 VND/MD** — cải thiện **≈ 27%**, nhưng vẫn nằm dưới **mức thấp nhất** của bảng độ nhạy.
+
+Bảng độ nhạy đơn giá — **tính lại trên 56,75 MD**:
+
+| Đơn giá giả định (VND/MD) | Ngân sách 10.000.000 VND phủ được | So với **56,75 MD** AI-assisted |
+| :---: | :---: | :--- |
+| 176.000 | ≈ 56,8 MD | Vừa đủ — nhưng cần xác nhận có nhà thầu nào ở mức này (**E-03**) |
+| 300.000 | ≈ 33,3 MD | Thiếu ≈ 23,5 MD (phủ **59%**) |
+| 500.000 | 20 MD | Thiếu 36,75 MD (phủ **35%**) |
+| 1.000.000 | 10 MD | Thiếu 46,75 MD (phủ **18%**) |
+| 2.000.000 | 5 MD | Thiếu 51,75 MD (phủ **9%**) |
+
+**Đảo chiều bảng trên — hỏi "hệ số AI phải bằng bao nhiêu để ngân sách vừa đủ?"** Đây là phép kiểm quan trọng nhất, vì nó **không phụ thuộc vào hệ số em gán**:
+
+| Đơn giá thực tế | MD tối đa mà 10.000.000 VND phủ được | Hệ số tổng cần đạt (`MD ÷ 72,5`) | Có đạt được không? |
+| :---: | :---: | :---: | :--- |
+| 300.000 | 33,3 MD | **≤ 0,46** | Cần AI nén toàn dự án xuống **dưới một nửa** |
+| 500.000 | 20 MD | **≤ 0,28** | Cần nén xuống **hơn 3,5 lần** |
+| 1.000.000 | 10 MD | **≤ 0,14** | Cần nén **hơn 7 lần** |
+
+> 🔴 **Sàn cứng của hệ số tổng — con số này bác bỏ cả ba dòng trên.** Phần công **con người bắt buộc phải làm**, hệ số chốt 1,0, cộng từ mục 4: `4,5 (nhóm 1.0 Discovery) + 4,5 (nhóm 14.0 Quản trị dự án) + 2 (task 12.3 UAT) + 1,5 (kiểm thử thiết bị di động thật trong 12.2) = **12,5 MD**`.
+>
+> ⇒ **Hệ số tổng không thể xuống dưới `12,5 ÷ 72,5 = 0,17`**, và đó là trường hợp giả tưởng **AI làm miễn phí 100% mọi việc còn lại, không cần review một giây nào**. Ngay cả ở tình huống không tồn tại đó, `10.000.000 ÷ 12,5 = 800.000 VND/MD` — **vẫn chưa** chạm tới mức 1.000.000 VND/MD (thiếu **20%**).
+>
+> ⇒ **Kết luận trục ngân sách không phụ thuộc hệ số em gán**: dù em gán 0,78 hay ai đó gán 0,50, đơn giá phải đạt vẫn nằm trong dải **176.000 – 276.000 VND/MD** (`10.000.000 ÷ 36,25` ở hệ số 0,50 = 276.000). **Không có hệ số AI nào đưa được đơn giá phải đạt lên tới 500.000 VND/MD** trong khi vẫn giữ trọn phạm vi CORE.
+
 **Đối chiếu với thực tế nhân sự**: ngân sách 10.000.000 VND ÷ 10 ngày = **1.000.000 VND/ngày cho toàn đội**. Nếu đơn giá thực tế của một người là 1.000.000 VND/MD thì ngân sách chỉ tài trợ được **đúng 1 người trong 10 ngày = 10 MD** — trong khi đỉnh tải D6–D8 cần ≈ 9 người. Đây là **mâu thuẫn cốt lõi** giữa mục 0.5 (đội suy luận 1–2 người) và mục 2 (lịch D1–D10 đòi ≈ 7,25 người trung bình).
 
-> 📌 **Điểm cần anh xác nhận (E-02)**: nếu 10.000.000 VND là **chi phí công cụ/hạ tầng** (AI agent, hosting, domain, object storage) chứ **không phải chi phí nhân công** — ví dụ nhân công do chính anh đảm nhiệm — thì **toàn bộ phép quy đổi VND/MD ở mục 5.3.b không áp dụng**, và bài toán còn lại chỉ là khoảng cách thời gian ở mục 5.3.a. Em **không xây thêm con số nào** trên giả thiết này cho tới khi anh xác nhận.
+> ✅ **`E-02` đã được trả lời (2026-08-20): 10.000.000 VND là chi phí NHÂN CÔNG THUÊ NGOÀI.** Vì vậy **toàn bộ phép quy đổi VND/MD ở mục 5.3.b VẪN CÒN HIỆU LỰC** — cho **cả hai** cột MD — và **không** bị bỏ khi thêm chiều AI-assisted. Phiên bản trước của mục này đặt điều kiện *"nếu là chi phí công cụ thì phép quy đổi không áp dụng"*; điều kiện đó **đã được đóng**.
+>
+> ⚠️ **`E-03` vẫn mở**: em **không** giả định đơn giá thị trường thuê ngoài. Hai bảng độ nhạy ở trên (72,5 MD và 56,75 MD) là **tham số để anh chọn**; em chỉ khẳng định phần **phép chia**, không khẳng định mức đơn giá nào là "giá thị trường".
+>
+> 📌 **Một lưu ý về chi phí công cụ**: nếu đội thuê ngoài dùng Claude thì **phí subscription/API là chi phí thật**, nằm **ngoài** 10.000.000 VND nhân công. Bản ước lượng này **không** ước lượng con số đó (không có dữ liệu về gói mà nhà thầu dùng) — nhưng nó làm **giảm** phần ngân sách còn lại cho nhân công nếu anh trả cả hai từ cùng một túi tiền. Cần anh làm rõ khi chốt hợp đồng.
 
 **c) Khoảng cách về phạm vi chưa tính được**
 
-FR-24 và FR-25 (`TBD`) chưa nằm trong 72,5 MD. Khi **Q-28** có câu trả lời, tổng **chỉ có thể tăng**, không thể giảm.
+FR-24 và FR-25 (`TBD`) chưa nằm trong 72,5 MD, **và cũng chưa nằm trong 56,75 MD**. Khi **Q-28** có câu trả lời, **cả hai** tổng **chỉ có thể tăng**, không thể giảm. Hệ số AI không thay đổi điều này (mục 4.1).
 
 ### 5.4. Khối 4 — Phương án nếu có khoảng cách
 
@@ -399,6 +532,29 @@ Có khoảng cách, nên bắt buộc phải chọn. Năm phương án dưới �
 
 → `59,5 − 2,2 = 57,3` → **≈ 57 MD**.
 
+##### Bảng đối soát song song của Phương án A trên cột `MD AI-assisted` — **[SUY LUẬN]**
+
+> ⚠️ **Cảnh báo đọc số**: cột truyền thống của A cho **≈ 57 MD**, và tổng CORE AI-assisted ở mục 4 cũng gần con số đó (**56,75 MD**). **Hai con số này khác nhau hoàn toàn về nghĩa** — một là *A sau khi cắt phạm vi, không dùng AI*; một là *toàn bộ CORE, có dùng AI*. Đừng lẫn.
+
+Mỗi dòng dưới đây = `MD truyền thống × hệ số của nhóm chứa task đó` (mục 4):
+
+| Hạng mục A nêu cắt | Task ID | Nhóm | MD truyền thống | Hệ số | MD AI-assisted cắt được |
+| :--- | :---: | :---: | :---: | :---: | :---: |
+| FR-02 — kiểm tra tồn kho khả dụng | `6.2` | 6.0 | 2,5 | 0,70 | 1,75 |
+| FR-14 — mô hình thực thể Thẻ / Dải Series | `9.1` | 9.0 | 2,5 | 0,75 | 2 |
+| FR-14 — màn hình truy xuất nguồn gốc | `9.2` | 9.0 | 2 | 0,75 | 1,5 |
+| NFR-05 — gán + chặn trùng dải Series | `11.4` | 11.0 | 2 | 0,85 | 1,75 |
+| NFR-04 — Audit Log đầy đủ | `11.3` | 11.0 | 2 | 0,85 | 1,75 |
+| Design system | `3.3` | 3.0 | 2 | 0,85 | 1,75 |
+| **Tổng cắt trắng (AI-assisted)** | | | **13** | | **10,5** |
+
+→ `56,75 − 10,5 = **46,25 MD**` (cắt trắng, AI-assisted).
+→ Phần làm mỏng quy đổi tương tự: `12.1: 0,7 × 0,60 = 0,42` + `12.2: 0,7 × 0,70 = 0,49` + `2.2: 0,5 × 0,70 = 0,35` + `3.1: 0,3 × 0,85 = 0,26` = **≈ 1,5 MD** → `46,25 − 1,5 = **≈ 44,75 MD**`.
+→ **Sàn tuyệt đối AI-assisted** (xóa sạch QA tầng CORE = **7 MD** theo mục 4): `46,25 − 7 = **39,25 MD**`.
+→ **Vá RT-02** (kéo task `7.1` vào CORE): `2 × 0,85 = 1,75` → `44,75 + 1,75 = **≈ 46,5 MD**`.
+
+> 📌 **Điểm quan trọng nhất của bảng này**: A cắt đúng những task nằm ở các nhóm **AI nén ít** (nhóm 9.0 hệ số 0,75; nhóm 11.0 hệ số 0,85 — chỗ review nặng nhất). Vì vậy **AI và A cạnh tranh nhau**: A cắt trắng 13 MD truyền thống nhưng chỉ cắt được **10,5 MD** trên cột AI-assisted. Càng dùng AI thì **giá trị biên của việc cắt phạm vi càng nhỏ**.
+
 **Sàn tuyệt đối truy được**: kể cả **xóa sạch 100% QA** — điều Phương án A **không** làm, A chỉ nói *"QA chỉ test luồng chính"* — thì `12.1 (3) + 12.2 (4) + 12.3 (2) = 9 MD`, cho `59,5 − 9 = **50,5 MD**`. **Mọi con số dưới 50,5 MD đều không có nguồn.**
 
 ##### Quy mô đội tương ứng — tính lại
@@ -409,6 +565,24 @@ Có khoảng cách, nên bắt buộc phải chọn. Năm phương án dưới �
 | Cắt trắng + làm mỏng **[SUY LUẬN]** | ≈ 57 | **≈ 5,7 người** | **≈ 11,5 tuần** |
 | Sàn tuyệt đối (xóa sạch QA) | 50,5 | **≈ 5 người** (5,05) | **≈ 10 tuần** (10,1) |
 
+**Cùng bảng đó trên cột `MD AI-assisted`** — **[SUY LUẬN]**:
+
+| Mốc | MD AI-assisted | Đội cần cho 10 ngày (`MD ÷ 10`) | Nếu 1 người (`MD ÷ 5 ngày/tuần`) |
+| :--- | :---: | :---: | :---: |
+| Chỉ cắt trắng | 46,25 | **≈ 4,6 người** | **≈ 9,3 tuần** |
+| Cắt trắng + làm mỏng | ≈ 44,75 | **≈ 4,5 người** | **≈ 9 tuần** |
+| Cắt trắng + làm mỏng + vá RT-02 (`7.1`) | ≈ 46,5 | **≈ 4,7 người** | **≈ 9,3 tuần** |
+| Sàn tuyệt đối (xóa sạch QA tầng CORE) | 39,25 | **≈ 3,9 người** | **≈ 7,9 tuần** |
+
+> 🟡 **Điểm mềm đi thật sự của A khi có AI — chỉ ở TRỤC TỔNG EFFORT.** Với **đội 5 người** (năng lực `5 × 10 = 50 MD`), mức thực tế **≈ 44,75 MD** (hoặc **≈ 46,5 MD** đã vá RT-02) **nằm trong năng lực**. Ở cột truyền thống điều này bất khả thi (cần ≈ 5,7 người cho ≈ 57 MD, và 5 người chỉ vừa đúng *sàn tuyệt đối* 50,5 MD tức phải xóa sạch QA).
+>
+> 🔴 **Nhưng A vẫn thất bại ở hai trục còn lại:**
+>
+> - **Cấu trúc**: đường găng AI-assisted (mục 7.2) dài **18,75 MD**; A chỉ cắt được 2 mắt xích — `9.1` (**2** AI) và `11.4` (**1,75** AI) → còn `18,75 − 3,75 = **15 MD tuần tự**` → **≈ 15 ngày làm việc**, vẫn **vượt 10 ngày 50%**. Thêm người không nén được.
+> - **Ngân sách**: `10.000.000 ÷ 44,75 ≈ **223.000 VND/MD**` — vẫn **thấp hơn mức thấp nhất (300.000)** trong bảng độ nhạy ở mục 5.3.b. Mà đội 5 người trong 10 ngày ở đơn giá 500.000 VND/MD là `44,75 × 500.000 ≈ **22.375.000 VND**` — **gấp ≈ 2,2 lần** ngân sách.
+>
+> ⇒ **A + AI + 5 người: qua được trục effort, vẫn vỡ trục cấu trúc và trục ngân sách.** Xem tổng kết ba trục ở mục 5.6.
+
 > 🔴 **Kết luận thẳng: Phương án A KHÔNG khả thi trong 10 ngày với đội 4 người.** Bốn người trong 10 ngày cho `4 × 10 = 40 MD`. So với mức thực tế ≈ 57 MD thì **thiếu ≈ 17 MD**; so với **sàn tuyệt đối 50,5 MD** thì vẫn **thiếu 10,5 MD**. Không có cách cắt nào trong nội bộ A đưa được xuống 40 MD, vì A ghi rõ *"Giữ nguyên toàn bộ nhóm 1.0 Discovery"* (4,5 MD) và giữ 13/17 hạng mục P0.
 >
 > ⚠️ **Ràng buộc cấu trúc còn chặt hơn ràng buộc effort.** Đường găng ở mục 7.2 dài 22,5 MD tuần tự; Phương án A chỉ cắt được **2 mắt xích**: `9.1` (2,5) và `11.4` (2). Còn lại `22,5 − 4,5 = **18 MD tuần tự**` → **≈ 18 ngày làm việc** *(chịu cùng caveat về khả năng chia người ở mục 7.3)*, thêm người **không nén được**. Vậy A vượt ràng buộc 10 ngày **cả về tổng effort lẫn về cấu trúc phụ thuộc**.
@@ -417,7 +591,7 @@ Có khoảng cách, nên bắt buộc phải chọn. Năm phương án dưới �
 >
 > ⚠️ **Bốn dòng trong bảng "cắt trắng" thực chất là làm mỏng theo đúng lời văn của A**: `11.3` (*"tạm chỉ log 3 mốc"*), `11.4` (*"tạm chỉ chặn số lượng âm"*), `3.3` (*"chỉ dùng component library mặc định"* — vẫn cần công tích hợp và dựng layout responsive), và `6.2` (*"tạm thay bằng NV Kho tự đối chiếu Excel"* — nhưng **màn hình soát xét vẫn phải tồn tại** cho FR-04/FR-05/FR-06, chỉ bỏ được phần hiển thị tồn kho khả dụng). Phần giữ lại của bốn task này sẽ **đẩy con số lên trên 57 MD**. Vì vậy **≈ 57 MD là sàn lạc quan, không phải trần** — và bảng cắt trắng 13 MD nên đọc là *"tối đa cắt được"*, không phải *"chắc chắn cắt được"*.
 >
-> 📌 **Đối chiếu ngân sách**: `10.000.000 ÷ 57 ≈ **175.000 VND/MD**` — vẫn thấp hơn mọi mức đơn giá trong bảng độ nhạy ở mục 5.3.b.
+> 📌 **Đối chiếu ngân sách**: `10.000.000 ÷ 57 ≈ **175.000 VND/MD**` — vẫn thấp hơn mọi mức đơn giá trong bảng độ nhạy ở mục 5.3.b. **Trên cột AI-assisted**: `10.000.000 ÷ 44,75 ≈ **223.000 VND/MD**` — khá hơn nhưng **vẫn dưới mức thấp nhất (300.000)** của bảng độ nhạy.
 
 ---
 
@@ -428,6 +602,7 @@ Có khoảng cách, nên bắt buộc phải chọn. Năm phương án dưới �
 | **Cắt gì** | **Cắt ràng buộc 10 ngày.** Không cắt bất kỳ FR/NFR nào. Thay 10 ngày bằng mốc tương ứng quy mô đội: 1 người → **72,5 ngày làm việc**; 2 người → **≈ 36 ngày**; 4 người → **≈ 18 ngày**. |
 | **Được gì** | Giữ trọn **12 FR + 5 NFR mức P0**, bao gồm truy vết (FR-14) và chặn trùng Series (NFR-05) — tức **không sinh nợ kỹ thuật kèm migration** về sau. Chất lượng Increment không bị bóp. Đường găng (mục 7) được tôn trọng: Q-01 chốt xong mới thiết kế tồn kho. |
 | **Mất gì** | **Go-live muộn** so với kỳ vọng của anh — trễ 62,5 ngày (đội 1 người) hoặc 26 ngày (đội 2 người). Giãn thời gian **không giải quyết vấn đề ngân sách**: 72,5 MD vẫn là 72,5 MD, chi phí không đổi khi trải dài hơn. Rủi ro mất động lượng dự án và thay đổi yêu cầu trong thời gian dài hơn. |
+| **Trên cột AI-assisted** — **[SUY LUẬN]** | **56,75 MD**, giữ trọn phạm vi CORE. Mốc rút ngắn tương ứng: 1 người → **56,75 ngày** (thay vì 72,5); 2 người → **≈ 28,5 ngày** (thay vì ≈ 36); 4 người → **≈ 14,2 ngày** (thay vì ≈ 18); 6 người → **≈ 9,5 ngày** *trên giấy* nhưng **bị đường găng 18,75 MD chặn lại ở ≈ 19 ngày** (mục 7.3). ⇒ **B là phương án AI cải thiện rõ nhất về mốc lịch** (đội 2 người rút được ≈ 7,5 ngày làm việc), nhưng **vẫn không giải quyết ngân sách**: `10.000.000 ÷ 56,75 ≈ 176.000 VND/MD` (mục 5.3.b). |
 
 ---
 
@@ -437,6 +612,7 @@ Có khoảng cách, nên bắt buộc phải chọn. Năm phương án dưới �
 | :--- | :--- |
 | **Cắt gì** | **Cắt ràng buộc ngân sách ~10.000.000 VND.** Không cắt phạm vi, không cắt thời gian. Bổ sung nhân sự lên **≈ 7–8 người**, riêng cửa sổ D6–D8 cần **≈ 9 người** song song. |
 | **Được gì** | Về lý thuyết là phương án duy nhất giữ được **cả 10 ngày lẫn trọn phạm vi CORE**. |
+| **Trên cột AI-assisted** — **[SUY LUẬN]** | **56,75 MD**. Quy mô đội hạ từ ≈ 7–8 người xuống **≈ 6 người** (mục 5.3.a-bis). Đỉnh tải D6–D8 tính lại bằng hệ số nhóm — **các tích dưới đây KHÔNG làm tròn**, để tránh trôi số: `6.2: 2,5×0,70=1,75` + `6.3: 1×0,70=0,7` + `6.4: 1×0,70=0,7` + `6.5: 3×0,70=2,1` + `8.1: 3×0,80=2,4` + `8.2: 2×0,80=1,6` + `9.2: 2×0,75=1,5` + `10.1: 1,5×0,60=0,9` + `11.3: 2×0,85=1,7` + `11.4: 2×0,85=1,7` = **15,05 MD**; cộng `12.2` (**3,25**) = **18,3**; cộng phần đuôi của `6.1`, `9.1`, `12.1` (≈ 2 MD truyền thống × ≈ 0,75) ≈ **1,5** → **≈ 20 MD** trong 3 ngày → vẫn cần **≈ 7 người song song** (`20 ÷ 3 ≈ 6,7`), thay vì ≈ 9. **Mô hình "7 người trong 3 ngày rồi giải tán" vẫn không khả thi về tổ chức.** Chi phí: ở 500.000 VND/MD, 56,75 MD ≈ **28.375.000 VND** — gấp **≈ 2,8 lần** ngân sách; ở 1.000.000 VND/MD ≈ **56.750.000 VND** — gấp **≈ 5,7 lần**. **Em vẫn không khuyến nghị phương án này.** |
 | **Mất gì** | **Ngân sách vỡ nặng**: ở đơn giá 500.000 VND/MD, 72,5 MD ≈ **36.250.000 VND** — gấp **3,6 lần** ngân sách; ở 1.000.000 VND/MD ≈ **72.500.000 VND** — gấp **7,25 lần**. Thêm vào đó, effort **không scale tuyến tính**: đường găng tuần tự (mục 7) không nén được bằng cách thêm người, chi phí onboarding và giao tiếp làm tổng MD **tăng** chứ không giảm, và mô hình "9 người trong 3 ngày rồi giải tán" không khả thi về tổ chức. **Em không khuyến nghị phương án này.** |
 
 ---
@@ -448,6 +624,7 @@ Có khoảng cách, nên bắt buộc phải chọn. Năm phương án dưới �
 | **Cắt gì** | Cắt phần **tự xây** của các hạng mục nặng, thay bằng nền tảng/thư viện sẵn có: (1) nhóm 11.1 JWT auth → dùng dịch vụ authentication sẵn có thay vì tự viết; (2) nhóm 3.3 Design system → dùng component library mặc định, bỏ thiết kế token riêng; (3) nhóm 5.1/5.2 CRUD danh mục → dùng admin scaffold/generator; (4) nhóm 11.3 Audit Log → dùng trigger/CDC ở tầng database thay vì tự viết middleware; (5) nhóm 4.x hạ tầng → dùng PaaS thay vì tự dựng. |
 | **Được gì** | Ước lượng nhanh cắt được **≈ 12–16 MD** — **[SUY LUẬN], chưa phân rã ra Task ID** (chủ yếu ở nhóm 3.0, 4.0, 5.0, 11.0), đưa CORE về **≈ 57–61 MD** *(cũng là **[SUY LUẬN]**, vì dẫn xuất từ con số trên)* mà **không bỏ FR/NFR nào**. Kết hợp được với Phương án A để cộng dồn — nhưng **em không cộng ra một con số A+D mới**, vì hai lý do: (1) con số 12–16 MD chưa truy được ra Task ID nên cộng vào sẽ tạo ra một con số giả chính xác; (2) D **trùng lặp** với A ở hai hạng mục `3.3` (Design system) và `11.3` (Audit Log) — A đã cắt trắng cả hai, nên phần D cắt thêm được trên nền A **nhỏ hơn 12–16 MD**. Trước khi dùng D để quyết ngân sách, **bắt buộc phân rã 12–16 MD ra Task ID** theo đúng quy tắc đầu mục 5.4. |
 | **Mất gì** | **Phụ thuộc vendor (lock-in)** và **chi phí subscription hàng tháng** — chi phí này chuyển từ CAPEX sang OPEX, cần tính vào tổng chi phí sở hữu. Nguy hiểm nhất: component library mặc định **rất khó tùy biến cho UX mobile Bước 5** (chụp ảnh trực tiếp từ camera, đối soát Series dưới ánh sáng ngoài trời) — PRD mục 7.2 cảnh báo đúng rủi ro *"làm đúng đặc tả nhưng sai thực tế"*, dẫn tới **FR-11 mức P0 không dùng được trên hiện trường**. Ngoài ra object storage/PaaS nước ngoài có thể vi phạm giả định Q-13 (dữ liệu đặt tại Việt Nam). |
+| **Trên cột AI-assisted** — **[SUY LUẬN]**, độ tin cậy **thấp nhất trong 5 phương án** | 🔴 **Giá trị biên của D CO LẠI MẠNH NHẤT khi có AI**, vì D và AI **cắt trùng cùng một loại việc**: D nhắm đúng 5 hạng mục mà AI đã nén sẵn — `3.3` Design system (nhóm 3.0), `4.x` hạ tầng (nhóm 4.0, hệ số **0,65**), `5.1`/`5.2` CRUD (nhóm 5.0, hệ số **0,50** — nhóm nén mạnh nhất), `11.1` JWT và `11.3` Audit Log (nhóm 11.0). Quy đổi thô `12–16 MD × ≈ 0,7 ≈ **8,5–11 MD**`, cho CORE **≈ 46–48,5 MD** — nhưng con số này **vẫn chồng lấn với phần AI đã cắt**, nên **phần D cắt thêm được trên nền AI nhỏ hơn 8,5–11 MD**. Em **không** cộng ra một con số AI+D mới, đúng theo quy tắc đầu mục 5.4: `12–16 MD` **chưa phân rã ra Task ID**, cộng vào sẽ tạo ra một con số giả chính xác **có tới ba tầng giả định** (`A-11` + `A-12` + "12–16 MD chưa truy được"). ⚠️ Thêm một rủi ro riêng: dùng nền tảng thứ ba làm **giảm** hiệu quả của AI, vì AI viết code trên framework phổ biến (có nhiều pattern) tốt hơn nhiều so với ghép cấu hình một PaaS cụ thể. |
 
 ---
 
@@ -458,6 +635,7 @@ Có khoảng cách, nên bắt buộc phải chọn. Năm phương án dưới �
 | **Cắt gì** | **Cắt mục tiêu go-live khỏi 10 ngày.** Dùng 10 ngày cho nhóm 1.0 + 2.0 + 3.1 + 3.2 + 4.1 (4,5 + 6,5 + 2 + 1,5 + 1,5 = **16 MD**): chốt 11 câu Blocker, chốt 8 nhánh state machine, ra SDD + DB schema + API spec, wireframe hai luồng quan trọng nhất, dựng skeleton chạy được. |
 | **Được gì** | Khả thi hơn hẳn: 16 MD ≈ **2 người trong 10 ngày** (năng lực 20 MD). Sau 10 ngày anh có **ước lượng đáng tin cậy hơn nhiều** cho phần còn lại (vì 11 Blocker đã đóng), và **triệt tiêu rủi ro lớn nhất** của dự án — thiết kế mô hình dữ liệu trên 31 giả định chưa xác nhận (mục 8). |
 | **Mất gì** | Sau 10 ngày **chưa có hệ thống chạy được** — không đáp ứng đúng chữ *"để có thể hoạt động"* trong yêu cầu của anh. Kỳ vọng phải được điều chỉnh ngay từ đầu, nếu không sẽ bị hiểu là dự án chậm tiến độ. Ngân sách 10.000.000 VND vẫn cần đối chiếu: `10.000.000 ÷ 16 MD = **625.000 VND/MD**`. |
+| **Trên cột AI-assisted** — **[SUY LUẬN]** | **13 MD**, cộng theo từng hạng mục (**không** áp hệ số tổng, vì E nặng Discovery): `4,5 (nhóm 1.0, hệ số **1,00** 🔒) + 4,5 (nhóm 2.0, hệ số 0,70) + 1,75 (task 3.1: 2 × 0,85) + 1,25 (task 3.2: 1,5 × 0,85) + 1 (task 4.1: 1,5 × 0,65) = **13 MD**`. ⚠️ **Hệ số hiệu dụng của E là `13 ÷ 16 = 0,81` — CAO HƠN hệ số tổng 0,78 của cả tầng CORE**, tức **E co ít hơn mức trung bình**, đúng như dự đoán: 4,5 trong 16 MD của E (**28%**) là nhóm 1.0 bị chốt cứng ở 1,0. **Được gì thêm**: 13 MD ≈ **1,3 người trong 10 ngày**, còn **dư 7 MD** so với năng lực 2 người → có chỗ đệm thật cho việc khách hàng trả lời chậm. Đường găng nằm trong E chỉ gồm 3 mắt xích đầu: `2 + 1,5 + 1,5 = **5 MD tuần tự** ≤ 10 ngày` ✅. **Ngân sách**: `10.000.000 ÷ 13 = **≈ 769.000 VND/MD**` — cao hơn mức 625.000 của cột truyền thống, tức **E là phương án duy nhất mà đơn giá phải đạt nằm ở vùng có thể thương lượng được**. |
 
 ---
 
@@ -465,23 +643,103 @@ Có khoảng cách, nên bắt buộc phải chọn. Năm phương án dưới �
 
 Ở phiên bản trước, Phương án A giữ nhãn **⭐ Em đề xuất** dựa trên con số `≈ 32–35 MD` và kết luận *"khả thi trong 10 ngày với đội 4 người"*. Con số đó **không đối soát được** với bất kỳ dòng nào của mục 2 hay mục 4. Sau khi cộng lại theo Task ID (bảng đối soát ở Phương án A), luận điểm cốt lõi của A **không còn đứng vững**, nên nhãn đề xuất phải chuyển.
 
-| Phương án | Con số MD sau khi cộng lại | Có khả thi trong 10 ngày? | Mức truy được |
-| :--- | :--- | :--- | :--- |
-| **A** — cắt phạm vi | ≈ 57 MD (sàn tuyệt đối 50,5) | ❌ **Không.** Cần ≈ 5,7 người, và đường găng còn **18 MD tuần tự ≈ 18 ngày** | Cắt trắng 13 MD truy được; phần làm mỏng **[SUY LUẬN]** |
-| **B** — giãn thời gian | 72,5 MD | ❌ Không (chính B đề nghị bỏ mốc 10 ngày) | Truy được |
-| **C** — tăng nhân sự | 72,5 MD | ⚠️ Trên giấy, nhưng vỡ ngân sách 3,6–7,25 lần và đỉnh tải đòi ≈ 9 người/3 ngày | Truy được |
-| **D** — đổi kỹ thuật | ≈ 57–61 MD | ❌ Không. Vẫn cần ≈ 6 người | **[SUY LUẬN]**, chưa phân rã Task ID |
-| **E** — Giai đoạn 0 | **16 MD** | ✅ **Có.** `16 MD ≤ 20 MD` = năng lực 2 người × 10 ngày | **Truy được**: `4,5 (nhóm 1.0) + 6,5 (nhóm 2.0) + 2 (3.1) + 1,5 (3.2) + 1,5 (4.1) = 16` |
+| Phương án | Con số MD sau khi cộng lại | **MD AI-assisted** **[SUY LUẬN]** | Có khả thi trong 10 ngày? | Mức truy được |
+| :--- | :--- | :--- | :--- | :--- |
+| **A** — cắt phạm vi | ≈ 57 MD (sàn tuyệt đối 50,5) | **≈ 44,75 MD** (sàn 39,25; vá RT-02 → ≈ 46,5) | ❌ **Không.** Cột cũ: cần ≈ 5,7 người, đường găng **18 MD ≈ 18 ngày**. Cột AI: **qua được trục effort** với 5 người, nhưng đường găng **15 MD ≈ 15 ngày** và đơn giá phải đạt 223.000 VND/MD | Cắt trắng 13 MD (AI: 10,5 MD) truy được; phần làm mỏng **[SUY LUẬN]** |
+| **B** — giãn thời gian | 72,5 MD | **56,75 MD** | ❌ Không (chính B đề nghị bỏ mốc 10 ngày) — nhưng AI rút mốc: 2 người từ ≈ 36 xuống **≈ 28,5 ngày** | Truy được |
+| **C** — tăng nhân sự | 72,5 MD | **56,75 MD** | ⚠️ Trên giấy. Cột cũ: vỡ ngân sách 3,6–7,25 lần, đỉnh tải ≈ 9 người/3 ngày. Cột AI: vỡ **2,8–5,7 lần**, đỉnh tải **≈ 7 người/3 ngày** | Truy được |
+| **D** — đổi kỹ thuật | ≈ 57–61 MD | **≈ 46–48,5 MD** — *chồng lấn với AI, giá trị biên co lại* | ❌ Không. Vẫn cần ≈ 4,6–4,9 người và **không** cắt được mắt xích đường găng nào | **[SUY LUẬN]** ba tầng, chưa phân rã Task ID — **yếu nhất** |
+| **E** — Giai đoạn 0 | **16 MD** | **13 MD** (hệ số hiệu dụng **0,81** — co ít hơn trung bình 0,78) | ✅ **Có, ở cả hai cột.** Cột cũ `16 ≤ 20 MD`; cột AI `13 ≤ 20 MD` (dư 7 MD). Đường găng trong E chỉ **5 MD** ≤ 10 ngày | **Truy được**: cột cũ `4,5 + 6,5 + 2 + 1,5 + 1,5 = 16`; cột AI `4,5 + 4,5 + 1,75 + 1,25 + 1 = 13` |
 
 **Vì sao E:** đây là **phương án duy nhất mà con số tự tái lập được và nằm trong năng lực 10 ngày** của một đội quy mô phù hợp với ngân sách (mục 0.5 suy luận 1–2 người). Ngoài ra E còn tấn công trực diện rủi ro lớn nhất đã nêu ở mục 8.1: 11 câu Blocker chưa có câu trả lời, khiến toàn bộ 72,5 MD đang được ước lượng **trên giả định**. Đóng 11 Blocker trước rồi ước lượng lại thì con số sau đó mới đáng dùng để quyết ngân sách.
 
 > 🔴 **Điều phải nói thẳng với anh**: **không có phương án nào vừa go-live được sau 10 ngày, vừa nằm trong ngân sách 10.000.000 VND.** Ba ràng buộc (phạm vi CORE · 10 ngày · 10.000.000 VND) **không thể cùng thỏa mãn**. Bắt buộc phải nhả một ràng buộc, và E là phương án nhả ràng buộc có cái giá **nhỏ nhất và minh bạch nhất** — nhả *mục tiêu go-live của 10 ngày*, giữ lại cả ngân sách lẫn chất lượng thiết kế.
+>
+> 📌 **Kết luận in đậm ở trên được đánh giá lại toàn bộ trên cột `MD AI-assisted` tại [mục 5.6](#56-đánh-giá-lại-kết-luận-lớn-nhất-của-tài-liệu-sau-khi-áp-hệ-số-ai)** — bao gồm cả việc **nhãn `⭐ Em đề xuất` có cần chuyển nữa không**. Kết quả ngắn: **kết luận vẫn đúng**, nhưng **trục tổng effort đã mềm đi** còn **trục ngân sách và trục cấu trúc vẫn cứng**; nhãn `⭐` **giữ nguyên ở E**.
 
 **Lộ trình em đề xuất — E trước, rồi A (cân nhắc kết hợp D):**
 
 1. **10 ngày đầu = Giai đoạn 0** (Phương án E, 16 MD, ≈ 2 người): đóng 11 Blocker, chốt 8 nhánh state machine, ra SDD + DB schema + API spec, wireframe hai luồng quan trọng nhất, dựng skeleton.
-2. **Ước lượng lại tầng CORE** trên yêu cầu đã chốt — lúc này con số mới có nghĩa. Phần còn lại của tầng CORE sau Giai đoạn 0 là `72,5 − 16 = **56,5 MD**` (16 MD của Giai đoạn 0 nằm trong 72,5 MD, gồm cả 4,5 MD nhóm 1.0). Các caveat ở mục 8.1 vẫn áp dụng, và **FR-24/FR-25 vẫn chưa được tính** vào con số này.
+2. **Ước lượng lại tầng CORE** trên yêu cầu đã chốt — lúc này con số mới có nghĩa. Phần còn lại của tầng CORE sau Giai đoạn 0 là `72,5 − 16 = **56,5 MD**` (16 MD của Giai đoạn 0 nằm trong 72,5 MD, gồm cả 4,5 MD nhóm 1.0). **Trên cột AI-assisted**: `56,75 − 13 = **43,75 MD**`, và đường găng còn lại `18,75 − 5 = **13,75 MD**` — **[SUY LUẬN]**. Các caveat ở mục 8.1 vẫn áp dụng, và **FR-24/FR-25 vẫn chưa được tính** vào bất kỳ con số nào ở trên.
+   > 📌 **Giá trị cộng thêm của AI đúng ở bước này**: sau Giai đoạn 0, 11 Blocker đã đóng nên hệ số AI mới có cơ sở để **hiệu chỉnh bằng dữ liệu thật** (đo tốc độ thực tế trên 13 MD của Giai đoạn 0) — tức `A-12` chuyển từ **[SUY LUẬN]** sang có số đo. Đây là lý do thứ hai để chạy E trước.
 3. **Sprint go-live** dùng hình dạng của **Phương án A** (cắt trong nội bộ `P0`) và **cân nhắc kết hợp D**, với hai điều kiện bắt buộc: (a) mọi MD cắt phải chỉ ra Task ID; (b) mốc thời gian và quy mô đội được đặt lại theo con số thật, **không đặt trước rồi bóp số cho vừa** — đúng cái sai vừa xảy ra ở Phương án A.
+
+---
+
+### 5.6. Đánh giá lại kết luận lớn nhất của tài liệu sau khi áp hệ số AI
+
+**Câu hỏi cần trả lời thẳng:** kết luận ở mục 5.5 — *"ba ràng buộc **phạm vi CORE · 10 ngày · 10.000.000 VND** không thể cùng thỏa mãn"* — **có còn đúng khi dự án được phát triển bằng Claude (AI-assisted) hay không?**
+
+> ✅ **Trả lời ngắn: KẾT LUẬN CŨ VẪN ĐÚNG, nhưng lý do đã dịch chuyển.** Một trong ba trục **mềm đi rõ rệt**; hai trục còn lại **vẫn cứng**, và **trục cứng nhất bây giờ là ngân sách** — không còn là tổng effort như ở phiên bản trước.
+
+#### Trục 1 — NGÂN SÁCH: 🔴 **VẪN CỨNG. Đây là trục cứng nhất.**
+
+| Chỉ số | Cột truyền thống | Cột AI-assisted |
+| :--- | :---: | :---: |
+| MD tầng CORE | 72,5 | **56,75** |
+| Đơn giá phải đạt (`10.000.000 ÷ MD`) | 138.000 VND/MD | **≈ 176.000 VND/MD** |
+| Cải thiện | — | **+ ≈ 27%** |
+
+**Kết luận trục ngân sách:** đơn giá phải đạt nhích từ 138.000 lên **176.000 VND/MD**, tức **vẫn thấp hơn mức thấp nhất (300.000)** trong bảng độ nhạy ở mục 5.3.b. Ba lý do trục này **không thể mềm đi bằng hệ số AI**:
+
+1. **Sàn cứng của hệ số**: phần việc con người bắt buộc làm = `4,5 + 4,5 + 2 + 1,5 = **12,5 MD**` (mục 5.3.b), cho hệ số tổng **không dưới 0,17**. Ngay ở tình huống giả tưởng đó, đơn giá phải đạt cũng chỉ lên tới 800.000 VND/MD.
+2. **Dải bất biến**: dù hệ số là 0,78 (em gán) hay 0,50 (mức lạc quan nhất còn có lý), đơn giá phải đạt chỉ nằm trong **176.000 – 276.000 VND/MD**.
+3. **AI thêm chi phí công cụ** nằm ngoài 10.000.000 VND nhân công (mục 5.3.b) — tức tổng chi phí sở hữu **tăng**, không giảm.
+
+⇒ **Phạm vi CORE trọn vẹn không nằm trong 10.000.000 VND ở bất kỳ hệ số AI nào.** Đây là **[SUY LUẬN]** về phép chia, nhưng phép chia thì không phụ thuộc hệ số. Em **không** khẳng định mức đơn giá nào là giá thị trường — `E-03` vẫn mở, anh là người đối chiếu.
+
+#### Trục 2 — TỔNG EFFORT: 🟡 **MỀM ĐI RÕ RỆT. Đây là trục duy nhất đổi.**
+
+| Câu hỏi | Cột truyền thống | Cột AI-assisted |
+| :--- | :--- | :--- |
+| Cần bao nhiêu người để nhồi CORE vào 10 ngày? | **7,25 người** | **5,675 người** → thực tế **6 người là đủ** (60 ≥ 56,75, dư 3,25 MD) |
+| Đội 4 người (40 MD) có đủ không? | Thiếu 32,5 MD | Thiếu **16,75 MD** |
+| **Phương án A** (cắt phạm vi) với đội 5 người? | ❌ Thiếu — cần ≈ 5,7 người cho ≈ 57 MD | ✅ **ĐỦ**: `44,75 MD ≤ 50 MD`; kể cả vá RT-02 (`46,5 MD`) vẫn đủ |
+
+**Kết luận trục tổng effort:** đây là **thay đổi thật, không phải cách nói lại**. Với hệ số AI, **tổng effort không còn là ràng buộc chặn** trong hai tình huống: (a) giữ trọn CORE với đội 6 người; (b) **Phương án A với đội 5 người**. Ở cột truyền thống, cả hai tình huống đó đều bất khả thi.
+
+⚠️ **Nhưng "đủ effort" không bằng "làm được trong 10 ngày"** — hai tình huống trên đều bị trục 3 chặn lại, và tình huống (a) đồng thời bị trục 1 chặn (6 người × 10 ngày ở 500.000 VND/MD ≈ 28.375.000 VND).
+
+#### Trục 3 — CẤU TRÚC PHỤ THUỘC: 🔴 **VẪN CỨNG.**
+
+| Chỉ số | Cột truyền thống | Cột AI-assisted |
+| :--- | :---: | :---: |
+| Đường găng tầng CORE (mục 7.2) | 22,5 MD | **18,75 MD** |
+| Hệ số hiệu dụng của đường găng | — | **0,83** — *cao hơn* hệ số tổng 0,78 |
+| Chuỗi thuần không chia được (mắt xích 1–6) | 13 MD | **10,75 MD** |
+| Nếu 11 Blocker chốt **trước** D1 | — | **16,75 MD**; chuỗi thuần **8,75 MD** |
+| Sàn tốt nhất có thể (Blocker đóng trước + chia tối đa) | — | **13,5 MD** (mục 7.3) |
+
+**Kết luận trục cấu trúc:** đường găng co từ 22,5 xuống **18,75 MD ≈ 19 ngày** — vẫn **gần gấp đôi** ràng buộc 10 ngày. Điểm cốt lõi: **đường găng co ÍT HƠN mức trung bình** (hệ số 0,83 so với 0,78), vì hai mắt xích đầu là Discovery (hệ số **1,00** 🔒) và mắt xích 7 chứa UAT + kiểm thử thiết bị thật (cũng **1,00** 🔒). **AI nén phần song song mạnh hơn phần tuần tự** — tức nó làm đường găng trở thành **cổ chai tương đối lớn hơn trước**.
+
+Sàn tốt nhất **13,5 MD** vẫn **vượt 10 ngày**, và sàn đó đòi một điều kiện ngoài tầm kiểm soát của đội: khách hàng trả lời xong 11 Blocker **trước** khi đồng hồ 10 ngày chạy.
+
+#### Tổng kết ba trục
+
+| Trục | Kết luận cũ | Sau khi áp hệ số AI | Đổi hay không |
+| :--- | :--- | :--- | :--- |
+| **Ngân sách** | 🔴 Vỡ (cần 138.000 VND/MD) | 🔴 **Vẫn vỡ** (cần 176.000 VND/MD; dải bất biến 176.000–276.000) | ❌ **Không đổi** — và là trục **cứng nhất** |
+| **Tổng effort** | 🔴 Vỡ (cần 7,25 người; A cần ≈ 5,7 người) | 🟡 **Mềm đi**: 6 người đủ cho trọn CORE; **A + 5 người là đủ** | ✅ **ĐỔI** |
+| **Cấu trúc phụ thuộc** | 🔴 Vỡ (22,5 MD ≈ 22–23 ngày) | 🔴 **Vẫn vỡ** (18,75 MD ≈ 19 ngày; sàn tốt nhất 13,5 MD) | ❌ **Không đổi** |
+
+> 🔴 **Phát biểu lại kết luận cho chính xác — đây là câu anh nên dùng khi quyết ngân sách:**
+>
+> **Ba ràng buộc `phạm vi CORE · 10 ngày · 10.000.000 VND` vẫn KHÔNG THỂ CÙNG THỎA MÃN, kể cả khi phát triển bằng Claude.** Điều AI thay đổi **không phải là tính khả thi**, mà là **vị trí của chỗ nghẽn**: trước đây nghẽn cả ba trục; giờ nghẽn ở **ngân sách** và **cấu trúc phụ thuộc**, còn **tổng effort không còn là lý do chính để nói "không".**
+>
+> **Hệ quả thực tế cho việc đàm phán**: thêm người hoặc thêm AI **không** mở khóa được 10 ngày. Hai thứ duy nhất mở khóa được là (1) **chốt 11 Blocker trước khi đồng hồ chạy** (rút đường găng từ 18,75 xuống 16,75 MD, và chuỗi thuần xuống 8,75 MD), và (2) **nhả một trong ba ràng buộc**.
+
+#### Nhãn `⭐ Em đề xuất` — có cần chuyển nữa không?
+
+> ✅ **KHÔNG. Nhãn `⭐ Em đề xuất` GIỮ NGUYÊN ở Phương án E.** Hệ số AI **củng cố** E chứ không làm yếu E.
+
+Bốn căn cứ:
+
+1. **E là phương án duy nhất qua được cả ba trục ở cột AI-assisted**: effort `13 MD ≤ 20 MD` (2 người) ✅ · đường găng trong E `5 MD ≤ 10 ngày` ✅ · ngân sách `769.000 VND/MD` — mức duy nhất có thể thương lượng được ✅.
+2. **Ứng viên duy nhất có thể tranh nhãn là A** (vì A vừa qua được trục effort với 5 người), **nhưng A vẫn trượt 2/3 trục**: đường găng **15 MD ≈ 15 ngày** và đơn giá phải đạt **223.000 VND/MD**. A **không** đủ điều kiện nhận nhãn.
+3. **AI dịch cổ chai về đúng chỗ E đang tấn công.** Tỉ trọng phần không phải code tăng từ 41% lên **≈ 44,5%** (mục 5.1), và đường găng co ít hơn trung bình. Nói cách khác: **AI làm cho việc "chốt yêu cầu" trở thành phần đắt đỏ tương đối hơn** — mà đó chính là toàn bộ nội dung của E.
+4. **E là phương án duy nhất tạo ra dữ liệu để hiệu chỉnh `A-12`.** Chạy E xong, đội có số đo thật về mức nén của AI trên chính codebase này, nên lần ước lượng sau **không còn là [SUY LUẬN]**. Không phương án nào khác cho lợi ích này.
+
+> 📌 **Một điều chỉnh nhỏ trong lộ trình, do hệ số AI**: bước 3 của lộ trình (sprint go-live theo hình dạng A) **bây giờ có cơ sở hơn** — với đội 5 người và AI hỗ trợ, `≈ 44,75–46,5 MD` nằm trong năng lực effort. Ràng buộc còn lại của bước 3 **chỉ còn là lịch (≈ 15 ngày) và ngân sách**, không còn là "không đủ người để làm xong". Đây là thông tin mới có giá trị cho việc đàm phán mốc go-live giai đoạn 2.
 
 ---
 
@@ -519,18 +777,33 @@ PRD mục 1 ghi nguyên văn: bốn vấn đề này là **một khối** — kh
 
 ### 7.2. Đường găng của tầng CORE
 
-| # | Mắt xích | Task ID | Vì sao nằm trên đường găng |
-| :---: | :--- | :--- | :--- |
-| 1 | Chốt `Q-01` → `Q-26` → `Q-06` | 1.1 | Chưa chốt thì không thiết kế được bảng Thẻ/Series và không hiện thực được FR-02 |
-| 2 | Chốt 8 nhánh state machine T-a…T-h | 1.2 | Quyết định bảng trạng thái; chốt muộn → migration dữ liệu thật |
-| 3 | DB schema (Đơn, Thẻ/Series, Kho, Audit Log) | 2.2 | Mọi task code đều đợi schema |
-| 4 | Mô hình thực thể Thẻ / Dải Series | 9.1 | Nền tảng của FR-14 và NFR-05 |
-| 5 | State machine engine + duyệt 2 cấp | 6.5 | Trục xương sống của cả luồng 5 bước |
-| 6 | Validation gán + chặn trùng dải Series | 11.4 | Hệ quả trực tiếp của mắt xích 1 và 4 |
-| 7 | Thực thi test + UAT | 12.2, 12.3 | Không nén được bằng thêm người |
-| 8 | Deploy production + migration import Excel | 13.1, 13.2 | Mắt xích cuối trước go-live |
+> 📌 **Đường găng được tính lại PER-MẮT-XÍCH, không áp hệ số tổng.** Lý do: hệ số của Discovery (**1,00** 🔒) và của code (0,70–0,85) khác nhau rất xa, nên áp hệ số tổng 0,78 lên 22,5 MD sẽ cho một con số **sai lệch có hệ thống theo hướng lạc quan**. Hệ số lấy đúng từ nhóm chứa task đó ở mục 4.
 
-**Độ dài đường găng**: 2 + 1,5 + 2 + 2,5 + 3 + 2 + 6 + 3,5 = **22,5 MD tuần tự**.
+| # | Mắt xích | Task ID | MD truyền thống | Hệ số AI **[SUY LUẬN]** | MD AI-assisted | Vì sao nằm trên đường găng |
+| :---: | :--- | :--- | :---: | :---: | :---: | :--- |
+| 1 | Chốt `Q-01` → `Q-26` → `Q-06` | 1.1 | 2 | **1.00** 🔒 (nhóm 1.0) | **2** | Chưa chốt thì không thiết kế được bảng Thẻ/Series và không hiện thực được FR-02 |
+| 2 | Chốt 8 nhánh state machine T-a…T-h | 1.2 | 1.5 | **1.00** 🔒 (nhóm 1.0) | **1.5** | Quyết định bảng trạng thái; chốt muộn → migration dữ liệu thật |
+| 3 | DB schema (Đơn, Thẻ/Series, Kho, Audit Log) | 2.2 | 2 | 0.70 (nhóm 2.0) | **1.5** | Mọi task code đều đợi schema |
+| 4 | Mô hình thực thể Thẻ / Dải Series | 9.1 | 2.5 | 0.75 (nhóm 9.0) | **2** | Nền tảng của FR-14 và NFR-05 |
+| 5 | State machine engine + duyệt 2 cấp | 6.5 | 3 | 0.70 (nhóm 6.0) | **2** | Trục xương sống của cả luồng 5 bước |
+| 6 | Validation gán + chặn trùng dải Series | 11.4 | 2 | 0.85 (nhóm 11.0) | **1.75** | Hệ quả trực tiếp của mắt xích 1 và 4 |
+| 7 | Thực thi test + UAT | 12.2, 12.3 | 6 | **0.88** *(suy ra)* | **5.25** | Không nén được bằng thêm người |
+| 8 | Deploy production + migration import Excel | 13.1, 13.2 | 3.5 | 0.75 (nhóm 13.0) | **2.75** | Mắt xích cuối trước go-live |
+| | **TỔNG ĐƯỜNG GĂNG** | | **22.5** | **0.83** *(suy ra)* | **18.75** | |
+
+**Độ dài đường găng (truyền thống)**: 2 + 1,5 + 2 + 2,5 + 3 + 2 + 6 + 3,5 = **22,5 MD tuần tự**.
+
+**Độ dài đường găng (AI-assisted)** — **[SUY LUẬN]**, phụ thuộc `A-11` + `A-12`:
+
+`2 + 1,5 + 1,5 + 2 + 2 + 1,75 + 5,25 + 2,75 = **18,75 MD tuần tự**`
+
+**Ba điểm phải đọc kỹ ở bảng trên:**
+
+1. **Mắt xích 7 gần như không co được** (hệ số hiệu dụng **0,88**, cao nhất trong 8 mắt xích). Cộng ra từ phép chia nhỏ nhóm 12.0 ở mục 4: `1,75 (12.2 phần a) + 1,5 (12.2 phần b — kiểm thử thiết bị di động thật, hệ số 1,00 🔒) + 2 (12.3 UAT, hệ số 1,00 🔒) = **5,25 MD**`. Trong 6 MD của mắt xích này, **3,5 MD bị chốt cứng ở hệ số 1,0**.
+2. **Hai mắt xích đầu (3,5 MD) không co được một chút nào** — hệ số 1,00 🔒, vì Claude không chốt yêu cầu thay khách hàng.
+3. ⇒ **Hệ số hiệu dụng của đường găng (0,83) CAO HƠN hệ số tổng của tầng CORE (0,78).** Nghĩa là **AI nén phần chạy song song mạnh hơn phần chạy tuần tự** → đường găng trở thành **cổ chai tương đối LỚN HƠN** so với trước, không nhỏ hơn.
+
+> ⚠️ **Sai lệch làm tròn đã biết** (mục 0.7.e): tổng theo mắt xích ở đây làm tròn **ở mức task**, còn mục 4 làm tròn ở **mức nhóm**. Ví dụ mắt xích 3 (`2 × 0,70 = 1,4 → 1,5`) và mắt xích 5 (`3 × 0,70 = 2,1 → 2`). Khi hai bảng lệch, **lấy ô mục 4 làm chuẩn**.
 
 ### 7.3. Hệ quả lên thứ tự thực thi trong 10 ngày
 
@@ -541,6 +814,29 @@ PRD mục 1 ghi nguyên văn: bốn vấn đề này là **một khối** — kh
 > ⚠️ **Caveat về con số 22–23 ngày** — **[SUY LUẬN]**: phép quy đổi `22,5 MD tuần tự → 22–23 ngày` giả định **mỗi mắt xích không chia được cho nhiều người**. Giả định này **không đúng tuyệt đối**: mắt xích 7 có task `12.2` (4 MD thực thi test + regression) **chia được cho 2 QA làm song song**, và một phần của `13.2` (migration import Excel) cũng chia được. Nếu chia tối đa các mắt xích chia được thì độ dài lịch có thể ngắn hơn 22–23 ngày.
 >
 > **Kết luận *"10 ngày bất khả thi"* vẫn đứng vững**, vì các mắt xích **thật sự không chia được** — `1.1` → `1.2` → `2.2` → `9.1` → `6.5` → `11.4` (quyết định nghiệp vụ phải chốt xong mới thiết kế được, schema phải xong mới code được) — cộng lại `2 + 1,5 + 2 + 2,5 + 3 + 2 = 13` → **13 MD tuần tự thuần**, đã vượt 10 ngày ngay cả khi mỗi mắt xích chỉ do đúng 1 người làm liền mạch, chưa tính `12.3` (UAT với khách hàng, 2 MD — phụ thuộc lịch của khách hàng, không nén được) và nhóm 13.0 nằm sau đó.
+
+#### Tính lại kết luận trên cột `MD AI-assisted` — **[SUY LUẬN]**
+
+| Tình huống | Độ dài đường găng | Quy đổi ngày làm việc | So với 10 ngày |
+| :--- | :---: | :---: | :--- |
+| **Đầy đủ 8 mắt xích** | **18,75 MD** | **≈ 19 ngày** | 🔴 Vượt **9 ngày** (gần gấp đôi) |
+| **11 Blocker chốt TRƯỚC khi đồng hồ 10 ngày chạy** → triệt tiêu mắt xích 1 (`1.1`, **2 MD**) | `18,75 − 2 = **16,75 MD**` | **≈ 17 ngày** | 🔴 Vượt **7 ngày** |
+| Cộng thêm: nếu `1.2` **cũng** được đóng trước D1 *(đòi khách hàng trả lời thêm `Q-24`, `Q-25`, `Q-15`, `Q-16` — **4 mã KHÔNG nằm trong 11 Blocker**, xem caveat mục 8.1)* | `16,75 − 1,5 = **15,25 MD**` | **≈ 15 ngày** | 🔴 Vượt **5 ngày** |
+| **Chuỗi thuần không chia được** (mắt xích 1–6) | `2 + 1,5 + 1,5 + 2 + 2 + 1,75 = **10,75 MD**` | **≈ 11 ngày** | 🔴 Vượt **1 ngày** |
+| **Chuỗi thuần đó khi 11 Blocker đã đóng trước D1** | `10,75 − 2 = **8,75 MD**` | **≈ 9 ngày** | ✅ **Lần đầu tiên một chuỗi con nằm dưới 10 ngày** |
+
+> 🔴 **Nhưng chuỗi thuần 8,75 MD KHÔNG phải là toàn bộ việc phải chạy tuần tự.** Sau chuỗi đó bắt buộc còn hai khối **không nén được bằng thêm người**:
+>
+> `8,75 (chuỗi thuần, Blocker đã đóng) + 2 (task 12.3 UAT — phụ thuộc lịch khách hàng, hệ số 1,00 🔒) + 2,75 (nhóm 13.0: deploy production + migration import Excel) = **13,5 MD**`
+>
+> ⇒ **Sàn tốt nhất về mặt cấu trúc, ở điều kiện thuận lợi nhất có thể tưởng tượng — 11 Blocker đã đóng trước D1, AI hoạt động đúng như giả định `A-11`, mọi mắt xích chia được đều được chia tối đa — vẫn là ≈ 13,5 MD ≈ 13–14 ngày làm việc.** Vẫn **vượt ràng buộc 10 ngày**. *(Nếu 4 mã ngoài Blocker cũng được đóng thì sàn này còn `13,5 − 1,5 = 12 MD` — vẫn vượt.)*
+
+> ✅ **Kết luận mục 7.3 sau khi áp hệ số AI — trả lời trực tiếp câu hỏi của anh:**
+>
+> 1. **Đường găng AI-assisted dài ≈ 18,75 MD → ≈ 19 ngày làm việc** (thay vì 22,5 MD ≈ 22–23 ngày).
+> 2. **Nếu 11 câu Blocker được chốt TRƯỚC khi đồng hồ 10 ngày chạy: còn ≈ 16,75 MD → ≈ 17 ngày.**
+> 3. **Kết luận *"10 ngày bất khả thi về mặt cấu trúc phụ thuộc"* VẪN ĐÚNG** ở cả hai con số trên, và đúng cả ở sàn lạc quan nhất **13,5 MD**.
+> 4. **Điều AI thật sự thay đổi ở mục 7**: khoảng cách thu từ *"gấp ≈ 2,25 lần"* (`22,5 ÷ 10`) xuống *"gấp ≈ 1,9 lần"* (`18,75 ÷ 10`), và **việc chốt 11 Blocker trước D1 trở thành đòn bẩy mạnh nhất còn lại** — nó cắt **2 MD trên đúng đường găng**, trong khi thêm người hay thêm AI **không cắt được mắt xích nào**.
 
 Bốn nguyên tắc thứ tự phải giữ nếu vẫn theo ràng buộc 10 ngày:
 
@@ -573,6 +869,8 @@ Nghịch lý của bản ước lượng này:
 > - Task `1.3` (cập nhật PRD/BRD, **1 MD**) vẫn phải làm để ghi lại chính các câu trả lời đó.
 >
 > → Phần nhóm 1.0 thật sự triệt tiêu được chỉ là task `1.1` (**2 MD**), cho `72,5 − 2 = **70,5 MD**` ở mức dè dặt. Con số **≈ 68 MD chỉ đạt được nếu `1.2` và `1.3` cũng được đóng trước D1**, tức khách hàng trả lời thêm 4 mã ngoài nhóm Blocker. Vì vậy **68 MD là biên dưới lạc quan**, khoảng thực tế là **≈ 68–70,5 MD**.
+>
+> 📌 **Cùng phép trừ đó trên cột `MD AI-assisted`** — **[SUY LUẬN]**: nhóm 1.0 có hệ số **1,00** 🔒 nên phần trừ đi **giữ nguyên giá trị tuyệt đối**, không co lại. Mức dè dặt `56,75 − 2 = **54,75 MD**`; biên dưới lạc quan `56,75 − 4,5 = **52,25 MD**` → khoảng thực tế **≈ 52,25–54,75 MD**. **Nhận xét đáng chú ý**: vì Discovery không co, việc chốt Blocker trước D1 **cắt đúng 2 MD ở cả hai cột** — tức **giá trị tương đối của nó TĂNG khi có AI** (2 MD trên 56,75 = 3,5%, so với 2 MD trên 72,5 = 2,8%), và trên **đường găng** thì còn mạnh hơn nữa (mục 7.3).
 
 ### 8.2. Tác động của 11 Blocker lên ước lượng
 
@@ -603,6 +901,18 @@ Nghịch lý của bản ước lượng này:
 | RT-07 | **18 mâu thuẫn nội tại trong SRS** (PRD mục 10), 8 mức 🔴, **chưa được sửa** vì SRS thuộc quyền khách hàng. | 🟡 Trung bình | Mỗi mâu thuẫn 🔴 được giải theo hướng khác giả định đều làm ước lượng lệch — xem bảng 8.2 |
 | RT-08 | **FR-24, FR-25 chưa ước lượng được** (mục 6). | 🟡 Trung bình | Tổng 72,5 / 39,5 MD **chỉ có thể tăng** khi **Q-28** có câu trả lời |
 | RT-09 | **13 hạng mục NFR còn thiếu hoàn toàn** (PRD mục 5.2: uptime SLA, concurrent users, throughput, DR, rate limiting…). | 🟡 Trung bình | Không hạng mục nào trong 72,5 MD tính chi phí cho 13 hạng mục này |
+
+### 8.4. Rủi ro riêng của mô hình AI-assisted (bổ sung 2026-08-20)
+
+> 📌 Năm rủi ro dưới đây **chỉ tồn tại vì cột `MD AI-assisted` tồn tại**. Chúng **không** áp dụng cho cột truyền thống. Tất cả đều bắt nguồn từ `A-11` / `A-12` ở mục 0.7.c.
+
+| # | Rủi ro | Mức | Ảnh hưởng ước lượng |
+| :--- | :--- | :---: | :--- |
+| RT-10 | **Hệ số AI gán sai vì chưa có dữ liệu hiệu chỉnh** (`A-12`). Toàn bộ 14 hệ số ở mục 4 là **phán đoán chuyên môn dựa trên bản chất công việc**, **không phải số đo** trên đội này / codebase này. Em không có benchmark nội bộ nào để nói sai lệch bao nhiêu. | 🔴 Cao | Độ nhạy: **mỗi 0,05 lệch ở hệ số tổng = 3,6 MD** (`72,5 × 0,05`). Nếu hệ số thật là **0,90** (AI chỉ giúp được 10%) thì CORE = **65,25 MD**, tức **+8,5 MD** so với 56,75 và đơn giá phải đạt tụt về **153.000 VND/MD**. Nếu là **0,60** thì CORE = **43,5 MD** và đơn giá phải đạt lên **230.000 VND/MD** — **vẫn dưới mức 300.000**. ⇒ Rủi ro này **không** đổi được kết luận trục ngân sách, nhưng **đổi được** kết luận trục tổng effort (mục 5.6) |
+| RT-11 | **`A-11` sai: nhà thầu thuê ngoài KHÔNG thực sự dùng AI**, hoặc dùng nhưng không thành thục (không biết cách chia task cho AI, không có quy trình review). Đội thực thi là **thuê ngoài** nên việc này **nằm ngoài tầm kiểm soát của anh**. | 🔴 Cao | **Toàn bộ cột AI-assisted vô hiệu.** Con số phải trả quay về **72,5 MD** (CORE) và **39,5 MD** (BỔ SUNG). Riêng phần chênh của tầng CORE là **+15,75 MD** (`72,5 − 56,75`) — **gần bằng toàn bộ Phương án E ở cột truyền thống (16 MD)** và **lớn hơn Phương án E ở cột AI-assisted (13 MD)**. 📌 **Biện pháp**: nếu đưa cột AI-assisted vào đàm phán hợp đồng, phải ghi rõ **cam kết dùng AI** là điều kiện của mức giá, và **giữ cột truyền thống làm mức trần** |
+| RT-12 | **Chất lượng `NFR-02` và `NFR-04` — chỗ AI sai TINH VI.** RBAC theo phạm vi dữ liệu (Sale chỉ xem đơn của mình, NV Kho chỉ theo kho phụ trách) và Audit Log ghi **toàn bộ** mutation là hai hạng mục mà AI sinh ra code **chạy đúng, test happy-path pass**, nhưng rò rỉ dữ liệu ngoài phạm vi hoặc **thiếu log ở một vài mutation** — lỗi chỉ lộ ra khi kiểm toán hoặc khi khách hàng phát hiện xem được dữ liệu của người khác. | 🔴 Cao | Hệ số nhóm 11.0 đã được đặt **cao có chủ ý (0,85)** để gộp phần review nặng này (mục 0.7.d). Nếu vẫn không đủ và phải review 100% bằng tay thì nhóm 11.0 tầng CORE về lại **8,5 MD** → **+1,25 MD**. Rủi ro thật **không phải MD mà là chất lượng**: sửa `NFR-02` sau go-live phải kèm rà soát lại **mọi query và mọi API** (đúng loại chi phí mà PRD cảnh báo ở `Q-12`), sửa `NFR-04` phải kèm **hồi tố dữ liệu Audit Log đã mất** — không hồi tố được |
+| RT-13 | **"AI nhanh ở code nhưng KHÔNG nhanh ở việc chốt yêu cầu"** → Discovery trở thành **cổ chai tương đối LỚN HƠN** trước. Ba số liệu xác nhận: (1) tỉ trọng phần không phải code tăng từ **41% lên ≈ 44,5%** (mục 5.1); (2) hệ số hiệu dụng của **đường găng là 0,83**, cao hơn hệ số tổng **0,78** (mục 7.2); (3) trong 8 mắt xích đường găng, **3,5 MD ở hai mắt xích đầu + 3,5 MD trong mắt xích 7** bị chốt cứng ở hệ số 1,0 = **7 MD trên 18,75 MD (37%) hoàn toàn không co được**. | 🔴 Cao | **Đây là rủi ro dễ bị bỏ qua nhất và là lý do trực tiếp để giữ nhãn ⭐ ở Phương án E.** Hệ quả quản trị: nếu đội dùng AI để "tranh thủ code trước khi chốt yêu cầu", AI sẽ **sinh ra code sai nhanh hơn** — làm **tăng** chi phí làm lại (đúng cảnh báo nguyên văn của PRD mục 1: *"không nên bắt đầu thiết kế mô hình dữ liệu tồn kho trước khi `Q-01` được chốt"*). Nguyên tắc 1 và 2 ở mục 7.3 vì vậy **phải được siết chặt hơn**, không nới ra |
+| RT-14 | **Chi phí công cụ AI nằm NGOÀI 10.000.000 VND.** `E-02` xác nhận 10.000.000 VND là **chi phí nhân công thuê ngoài**; phí subscription/API của Claude là một khoản riêng mà bản ước lượng này **không có dữ liệu để ước lượng** (không biết nhà thầu dùng gói nào). | 🟡 Trung bình | Không làm thay đổi số MD, nhưng **làm giảm phần ngân sách còn lại cho nhân công** nếu anh trả cả hai từ cùng một túi tiền → đơn giá VND/MD thực tế **thấp hơn** con số 176.000 ở mục 5.3.b. Cần làm rõ khi chốt hợp đồng: **ai trả phí công cụ** |
 
 ---
 

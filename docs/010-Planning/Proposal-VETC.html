@@ -691,13 +691,14 @@ a:focus-visible { outline: 2px solid var(--fixed); outline-offset: 2px; border-r
 
 <div class="verdict">
   <span class="eyebrow">Kết luận cần đọc trước</span>
-  <p>Ước lượng bottom-up cho nhóm chức năng chính là <strong>72,5 man-day</strong>. Ràng buộc là <strong>10 ngày</strong> và <strong>~10.000.000&nbsp;VND</strong>. Khoảng cách này không đóng được bằng cách thêm người: riêng <strong>đường găng đã dài 22,5 MD tuần tự</strong>, tức tối thiểu ~22 ngày làm việc.</p>
-  <p><strong>Ba ràng buộc — phạm vi nhóm chính · 10 ngày · 10.000.000&nbsp;VND — không thể cùng thỏa mãn.</strong> Không có phương án nào trong năm phương án dưới đây vừa go-live được sau 10 ngày, vừa nằm trong ngân sách. Bắt buộc phải nhả một ràng buộc. Tài liệu này trình bày <strong>khoảng cách</strong> và <strong>cái giá của từng cách nhả</strong> để anh chọn.</p>
+  <p>Ước lượng bottom-up cho nhóm chức năng chính là <strong>72,5 man-day</strong>, hoặc <strong>56,75 MD</strong> nếu đội thực sự phát triển bằng Claude <span class="pill e">hệ số AI — SUY LUẬN</span>. Ràng buộc là <strong>10 ngày</strong> và <strong>~10.000.000&nbsp;VND</strong> chi phí nhân công thuê ngoài.</p>
+  <p><strong>Ba ràng buộc — phạm vi nhóm chính · 10 ngày · 10.000.000&nbsp;VND — vẫn không thể cùng thỏa mãn, kể cả khi phát triển bằng Claude.</strong> Điều AI thay đổi <strong>không phải là tính khả thi</strong>, mà là <strong>vị trí của chỗ nghẽn</strong>: trước đây nghẽn cả ba trục, giờ nghẽn ở <strong>ngân sách</strong> và <strong>cấu trúc phụ thuộc</strong>, còn tổng effort không còn là lý do chính để nói "không".</p>
+  <p>Tài liệu này trình bày <strong>khoảng cách</strong> và <strong>cái giá của từng cách nhả ràng buộc</strong> để anh chọn.</p>
 </div>
 
 <div class="ledger">
   <section>
-    <h3>Đội cần</h3>
+    <h3>Đội cần — không dùng AI</h3>
     <div class="figrow">
       <div class="fig"><span class="v est">72,5</span><span class="k">MD — nhóm chính (P0)</span></div>
       <div class="fig"><span class="v est">39,5</span><span class="k">MD — nhóm bổ sung</span></div>
@@ -705,11 +706,27 @@ a:focus-visible { outline: 2px solid var(--fixed); outline-offset: 2px; border-r
     </div>
   </section>
   <section>
+    <h3>Đội cần — phát triển bằng Claude</h3>
+    <div class="figrow">
+      <div class="fig"><span class="v est">56,75</span><span class="k">MD — nhóm chính (hệ số 0,78)</span></div>
+      <div class="fig"><span class="v est">29,5</span><span class="k">MD — nhóm bổ sung (0,75)</span></div>
+      <div class="fig"><span class="v est">18,75</span><span class="k">MD — đường găng (0,83)</span></div>
+    </div>
+  </section>
+  <section>
     <h3>Anh có</h3>
     <div class="figrow">
       <div class="fig"><span class="v fixed">10</span><span class="k">ngày</span></div>
-      <div class="fig"><span class="v fixed">~10tr</span><span class="k">VND</span></div>
-      <div class="fig"><span class="v gap">−62,5</span><span class="k">MD thiếu (đội 1 người)</span></div>
+      <div class="fig"><span class="v fixed">~10tr</span><span class="k">VND nhân công</span></div>
+      <div class="fig"><span class="v gap">176k</span><span class="k">VND/MD phải đạt</span></div>
+    </div>
+  </section>
+  <section>
+    <h3>Chỗ nghẽn còn lại</h3>
+    <div class="figrow">
+      <div class="fig"><span class="v gap">19</span><span class="k">ngày — đường găng AI</span></div>
+      <div class="fig"><span class="v gap">12,5</span><span class="k">MD việc người, hệ số 1,0</span></div>
+      <div class="fig"><span class="v fixed">0,17</span><span class="k">sàn cứng của hệ số</span></div>
     </div>
   </section>
 </div>
@@ -718,6 +735,12 @@ a:focus-visible { outline: 2px solid var(--fixed); outline-offset: 2px; border-r
   <span class="chip f"><i></i>Số liệu đã xác lập</span>
   <span class="chip e"><i></i>Ước lượng của đội — chờ xác nhận</span>
   <span class="chip g"><i></i>Khoảng cách &amp; rủi ro chặn</span>
+</div>
+
+<div class="call warn">
+  <span class="eyebrow">Cột AI-assisted yếu hơn cột truyền thống — đọc trước khi dùng số</span>
+  <p>Con số <strong>56,75 MD</strong> kế thừa toàn bộ điều kiện của con số 72,5 MD, <strong>rồi cộng thêm hai tầng giả định</strong>: <code>A-11</code> — nhà thầu thuê ngoài <em>thực sự</em> dùng Claude và dùng đủ thành thục; <code>A-12</code> — bản thân từng hệ số là phán đoán chuyên môn theo bản chất công việc, <strong>chưa có dữ liệu đo thực tế</strong> để hiệu chỉnh. Không có con số nào trong cột AI-assisted là số đo, và đội <strong>không trích dẫn benchmark năng suất AI nào</strong>.</p>
+  <p>⇒ <strong>Thứ tự độ tin cậy: truyền thống &gt; AI-assisted.</strong> Cột AI-assisted là con số <strong>để đàm phán và đánh giá độ nhạy</strong>. Nếu phải chọn một con số duy nhất đưa vào hợp đồng thuê ngoài, đó là <strong>cột truyền thống</strong> — vì nếu <code>A-11</code> sai thì con số phải trả quay về đúng 72,5 MD.</p>
 </div>
 
 <div class="call info">
@@ -934,13 +957,47 @@ a:focus-visible { outline: 2px solid var(--fixed); outline-offset: 2px; border-r
 
   <div class="tw">
     <table>
-      <thead><tr><th>Tầng</th><th class="n">Effort</th><th>Ghi chú</th></tr></thead>
+      <thead><tr><th>Tầng</th><th class="n">Truyền thống</th><th class="n">AI-assisted</th><th class="n">Hệ số</th><th>Ghi chú</th></tr></thead>
       <tbody>
-        <tr><td><b>CORE</b> (P0)</td><td class="n">72,5 MD</td><td>Trong đó phần <strong>không phải code</strong> chiếm 30 MD (≈41%): Discovery, Kiến trúc, UI/UX, QA, Quản trị dự án.</td></tr>
-        <tr><td><b>BỔ SUNG</b> (P1→P2)</td><td class="n">39,5 MD</td><td>Chưa có mốc thời gian.</td></tr>
-        <tr class="tot"><td><b>TỔNG</b></td><td class="n">112 MD</td><td><strong>Chưa gồm <code>FR-24</code> và <code>FR-25</code></strong> — hai hạng mục này chỉ có thể làm tổng tăng thêm.</td></tr>
+        <tr><td><b>CORE</b> (P0)</td><td class="n">72,5 MD</td><td class="n">56,75 MD</td><td class="n">0,78</td><td>Trong đó phần <strong>không phải code</strong> chiếm 30 MD (≈41%) ở cột truyền thống — và đó là phần AI nén được <strong>ít nhất</strong>.</td></tr>
+        <tr><td><b>BỔ SUNG</b> (P1→P2)</td><td class="n">39,5 MD</td><td class="n">29,5 MD</td><td class="n">0,75</td><td>Chưa có mốc thời gian.</td></tr>
+        <tr class="tot"><td><b>TỔNG</b></td><td class="n">112 MD</td><td class="n">86,25 MD</td><td class="n">0,77</td><td><strong>Chưa gồm <code>FR-24</code> và <code>FR-25</code></strong> — hai hạng mục này chỉ có thể làm tổng tăng thêm, và một hệ số AI <strong>không mở khóa được</strong> chúng vì lệnh cấm của PRD là về <em>thiếu đặc tả</em>, không phải về năng lực làm.</td></tr>
       </tbody>
+      <caption>Hệ số tổng <strong>không phải hệ số được gán</strong> — nó là <em>kết quả chia</em>: <code>56,75 ÷ 72,5 = 0,783</code>. Hệ số thực được gán theo từng nhóm, xem bảng ngay dưới.</caption>
     </table>
+  </div>
+
+  <h3>AI giúp được ở đâu, và ở đâu thì không</h3>
+  <div class="prose">
+    <p>Hệ số gán <strong>theo từng nhóm</strong>, không nhân phẳng. Đây là phần quan trọng hơn con số tổng, vì nó cho thấy AI dịch chuyển chi phí đi đâu.</p>
+  </div>
+  <div class="tw">
+    <table>
+      <thead><tr><th class="c">Nhóm</th><th>Tên nhóm</th><th class="n">Hệ số</th><th>Lý do gán</th></tr></thead>
+      <tbody>
+        <tr><td class="c m">5.0</td><td>Danh mục &amp; Master data</td><td class="n">0,50</td><td>CRUD là <strong>pattern lặp thuần</strong> — nhóm AI nén mạnh nhất. 0,50 là sàn vì phần review vẫn còn.</td></tr>
+        <tr><td class="c m">10.0</td><td>Tra cứu, Bộ lọc &amp; Báo cáo</td><td class="n">0,60</td><td>Danh sách, bộ lọc đa điều kiện, global search là pattern chuẩn có sẵn.</td></tr>
+        <tr><td class="c m">4.0</td><td>Nền tảng &amp; Hạ tầng</td><td class="n">0,65</td><td>Repo setup, CI/CD, TLS là boilerplate; phần còn lại là thao tác thật trên console cloud.</td></tr>
+        <tr><td class="c m">2.0</td><td>Kiến trúc &amp; Thiết kế</td><td class="n">0,70</td><td>AI soạn nhanh SDD/ERD/API spec, nhưng <strong>quyết định kiến trúc</strong> vẫn của con người và đang dựa trên 31 giả định mở.</td></tr>
+        <tr><td class="c m">6.0</td><td>Đơn xuất thẻ &amp; Phê duyệt</td><td class="n">0,70</td><td>Logic nghiệp vụ đặc thù + 8 nhánh <code>T-a…T-h</code> chưa chốt → review nặng.</td></tr>
+        <tr><td class="c m">13.0</td><td>Triển khai &amp; Go-live</td><td class="n">0,75</td><td>Script deploy AI sinh nhanh, nhưng <strong>đối soát dữ liệu thật</strong> và đào tạo người dùng là việc người.</td></tr>
+        <tr><td class="c m">9.0</td><td>Truy vết &amp; Thất thoát</td><td class="n">0,75</td><td>Query truy vết AI làm nhanh, nhưng mô hình thực thể phụ thuộc <code>Q-01</code>/<code>Q-06</code> — <strong>sai mô hình thì AI làm nhanh cái sai</strong>.</td></tr>
+        <tr><td class="c m">12.0</td><td>QA &amp; Kiểm thử</td><td class="n">0,78</td><td>Tổng hợp từ 3 phần: viết test case AI mạnh (0,60), nhưng <strong>3,5 MD kiểm thử thiết bị thật + UAT bị chốt ở 1,0</strong>.</td></tr>
+        <tr><td class="c m">8.0</td><td>Nhận hàng &amp; Chứng từ</td><td class="n">0,80</td><td>AI viết được luồng upload/nén ảnh, nhưng tinh chỉnh trên thiết bị di động thật là việc tay.</td></tr>
+        <tr><td class="c m">3.0</td><td>Thiết kế UI/UX</td><td class="n">0,85</td><td>AI mạnh ở code component, nhưng <strong>phán đoán UX mobile ở bước nhận hàng</strong> không thay được mắt người.</td></tr>
+        <tr><td class="c m">7.0</td><td>Vận chuyển &amp; Tracking</td><td class="n">0,85</td><td>AI <strong>không biết trước API carrier thật</strong> (<code>Q-02</code> chưa trả lời); công thật là đọc tài liệu đối tác và xử lý lỗi tích hợp.</td></tr>
+        <tr><td class="c m">11.0</td><td>Xác thực, Phân quyền &amp; Audit Log</td><td class="n">0,85</td><td><strong>Cố ý cao — cao hơn cả nhóm CRUD.</strong> <code>NFR-02</code> (RBAC theo phạm vi dữ liệu) và <code>NFR-04</code> (Audit Log) là chỗ AI sai <strong>tinh vi</strong>: code chạy đúng, happy-path pass, nhưng rò dữ liệu hoặc thiếu log chỉ lộ khi kiểm toán. Review phải <strong>nặng hơn</strong>.</td></tr>
+        <tr><td class="c m">1.0</td><td>Discovery &amp; Chốt yêu cầu</td><td class="n"><b>1,00</b></td><td>Claude <strong>không trả lời được 31 câu <code>Q-NN</code> thay khách hàng</strong>. Chốt <code>Q-01</code> là quyết định nghiệp vụ của con người.</td></tr>
+        <tr><td class="c m">14.0</td><td>Quản trị dự án</td><td class="n"><b>1,00</b></td><td>Họp, chốt thay đổi, báo cáo với khách hàng — <strong>AI không họp thay người</strong>.</td></tr>
+      </tbody>
+      <caption>Sắp theo hệ số tăng dần — trên cùng là nơi AI giúp nhiều nhất. Chi phí <strong>con người review code AI sinh ra đã gộp vào hệ số</strong>, không tách dòng và không tính hai lần; vì vậy <strong>không nhóm nào có hệ số dưới 0,50</strong>.</caption>
+    </table>
+  </div>
+
+  <div class="call warn">
+    <span class="eyebrow">Hai điều đi ngược trực giác</span>
+    <p><strong>1. Nhóm bảo mật được gán hệ số cao hơn nhóm CRUD.</strong> Trực giác nói AI giỏi code nên phần kỹ thuật nào cũng nhanh. Nhưng chỗ AI sai <em>tinh vi</em> lại đắt hơn chỗ AI sai <em>lộ liễu</em>: một màn hình CRUD sai thì thấy ngay, một điều kiện phân quyền theo phạm vi dữ liệu sai thì code vẫn chạy và chỉ lộ khi kiểm toán.</p>
+    <p><strong>2. Đường găng co ít hơn mức trung bình</strong> — hệ số <code>0,83</code> so với hệ số tổng <code>0,78</code>. Vì hai mắt xích đầu là Discovery (hệ số 1,00) và mắt xích áp cuối chứa UAT + kiểm thử thiết bị thật (cũng 1,00). <strong>AI nén phần chạy song song mạnh hơn phần chạy tuần tự</strong> — nên nó làm đường găng thành <strong>cổ chai tương đối lớn hơn trước</strong>, không nhỏ hơn.</p>
   </div>
 
   <div class="call warn">
@@ -959,27 +1016,42 @@ a:focus-visible { outline: 2px solid var(--fixed); outline-offset: 2px; border-r
   <h3>Cách thứ nhất — tổng effort</h3>
   <div class="gapchart">
     <div class="gbar">
-      <span class="lab"><span>Cần cho tầng CORE</span><b>72,5 MD</b></span>
+      <span class="lab"><span>Cần cho tầng CORE — không dùng AI</span><b>72,5 MD</b></span>
       <span class="track"><span class="fill need" style="width:100%"></span></span>
+    </div>
+    <div class="gbar">
+      <span class="lab"><span>Cần cho tầng CORE — phát triển bằng Claude</span><b>56,75 MD</b></span>
+      <span class="track"><span class="fill crit" style="width:78.3%"></span></span>
+      <span class="note">Hệ số 0,78 — nén được 15,75 MD</span>
     </div>
     <div class="gbar">
       <span class="lab"><span>Năng lực 10 ngày · đội 2 người</span><b>20 MD</b></span>
       <span class="track"><span class="fill have" style="width:27.6%"></span></span>
-      <span class="note">Thiếu 52,5 MD — phủ 28% khối lượng</span>
+      <span class="note">Vẫn thiếu 36,75 MD so với cột AI — phủ 35%</span>
     </div>
     <div class="gbar">
       <span class="lab"><span>Năng lực 10 ngày · đội 1 người</span><b>10 MD</b></span>
       <span class="track"><span class="fill have" style="width:13.8%"></span></span>
-      <span class="note">Thiếu 62,5 MD — phủ 14% khối lượng</span>
+      <span class="note">Vẫn thiếu 46,75 MD so với cột AI — phủ 18%</span>
     </div>
   </div>
 
   <h3>Cách thứ hai — cấu trúc phụ thuộc</h3>
   <div class="gapchart">
     <div class="gbar">
-      <span class="lab"><span>Đường găng — bắt buộc tuần tự</span><b>22,5 MD</b></span>
-      <span class="track"><span class="fill crit" style="width:100%"></span></span>
+      <span class="lab"><span>Đường găng — không dùng AI</span><b>22,5 MD</b></span>
+      <span class="track"><span class="fill need" style="width:100%"></span></span>
       <span class="note">Tối thiểu ~22–23 ngày làm việc, bất kể bao nhiêu người</span>
+    </div>
+    <div class="gbar">
+      <span class="lab"><span>Đường găng — phát triển bằng Claude</span><b>18,75 MD</b></span>
+      <span class="track"><span class="fill crit" style="width:83.3%"></span></span>
+      <span class="note">≈19 ngày. Hệ số 0,83 — <strong>co ít hơn mức trung bình 0,78</strong></span>
+    </div>
+    <div class="gbar">
+      <span class="lab"><span>Nếu 11 Blocker được chốt trước D1</span><b>16,75 MD</b></span>
+      <span class="track"><span class="fill crit" style="width:74.4%"></span></span>
+      <span class="note">≈17 ngày. Sàn lạc quan nhất còn 13,5 MD — vẫn vượt 10 ngày</span>
     </div>
     <div class="gbar">
       <span class="lab"><span>Ràng buộc</span><b>10 ngày</b></span>
@@ -994,20 +1066,28 @@ a:focus-visible { outline: 2px solid var(--fixed); outline-offset: 2px; border-r
 
   <h3>Quy đổi ngân sách</h3>
   <div class="prose">
-    <p>Phép chia trực tiếp: <code>10.000.000 VND ÷ 72,5 MD ≈ 138.000 VND/MD</code>. Đây là đơn giá ngày mà nguồn lực thực hiện phải đạt để ngân sách phủ hết tầng CORE.</p>
+    <p>Anh đã xác nhận 10.000.000 VND là <strong>chi phí nhân công thuê ngoài</strong>, nên phép quy đổi này còn nguyên hiệu lực — chỉ tính lại trên con số MD mới. Đơn giá mà nguồn lực phải đạt để ngân sách phủ hết tầng CORE:</p>
+    <p><code>10.000.000 ÷ 72,5 ≈ 138.000 VND/MD</code> (không dùng AI) &nbsp;→&nbsp; <code>10.000.000 ÷ 56,75 ≈ 176.000 VND/MD</code> (phát triển bằng Claude)</p>
   </div>
   <div class="tw">
     <table>
-      <thead><tr><th class="n">Đơn giá giả định</th><th class="n">10tr phủ được</th><th class="n">Tỉ lệ phủ</th><th>So với 72,5 MD</th></tr></thead>
+      <thead><tr><th class="n">Đơn giá giả định</th><th class="n">10tr phủ được</th><th class="n">Phủ % của 72,5</th><th class="n">Phủ % của 56,75</th></tr></thead>
       <tbody>
-        <tr><td class="n">138.000</td><td class="n">72,5 MD</td><td class="n">100%</td><td>Vừa đủ — cần xác nhận có nguồn lực nào ở mức này</td></tr>
-        <tr><td class="n">300.000</td><td class="n">≈33 MD</td><td class="n">46%</td><td>Thiếu ≈39,5 MD</td></tr>
-        <tr><td class="n">500.000</td><td class="n">20 MD</td><td class="n">28%</td><td>Thiếu 52,5 MD</td></tr>
-        <tr><td class="n">1.000.000</td><td class="n">10 MD</td><td class="n">14%</td><td>Thiếu 62,5 MD</td></tr>
-        <tr><td class="n">2.000.000</td><td class="n">5 MD</td><td class="n">7%</td><td>Thiếu 67,5 MD</td></tr>
+        <tr><td class="n">176.000</td><td class="n">56,75 MD</td><td class="n">78%</td><td class="n">100%</td></tr>
+        <tr><td class="n">300.000</td><td class="n">≈33 MD</td><td class="n">46%</td><td class="n">59%</td></tr>
+        <tr><td class="n">500.000</td><td class="n">20 MD</td><td class="n">28%</td><td class="n">35%</td></tr>
+        <tr><td class="n">1.000.000</td><td class="n">10 MD</td><td class="n">14%</td><td class="n">18%</td></tr>
+        <tr><td class="n">2.000.000</td><td class="n">5 MD</td><td class="n">7%</td><td class="n">9%</td></tr>
       </tbody>
-      <caption>Các mức đơn giá là <span class="pill e">tham số để anh chọn</span>, không phải số liệu thị trường mà đội khẳng định.</caption>
+      <caption>Các mức đơn giá là <span class="pill e">tham số để anh chọn</span>, không phải số liệu thị trường mà đội khẳng định. Đây là câu <code>E-03</code> còn mở, và sau khi <code>E-02</code> đã có câu trả lời thì <code>E-03</code> trở thành <strong>ẩn số then chốt nhất</strong> của cả bài toán.</caption>
     </table>
+  </div>
+
+  <div class="call crit">
+    <span class="eyebrow">Phép kiểm không phụ thuộc hệ số — phần đáng tin nhất của cả tài liệu</span>
+    <p>Vì hệ số AI là suy luận, đội đảo ngược câu hỏi để kết luận không phụ thuộc vào con số mình vừa gán: <strong>hệ số phải thấp đến đâu thì 10 triệu mới đủ?</strong></p>
+    <p>Ở đơn giá 300.000 VND/MD, hệ số tổng phải <code>≤ 0,46</code>. Ở 500.000 thì phải <code>≤ 0,28</code>. Nhưng phần việc con người bắt buộc phải làm — Discovery, quản trị dự án, UAT, kiểm thử thiết bị thật — là <strong>12,5 MD</strong>, tức <strong>sàn cứng của hệ số tổng là <code>0,17</code></strong>. Kể cả trong tình huống giả tưởng AI làm miễn phí mọi thứ còn lại, đơn giá phải đạt cũng chỉ tới <code>10.000.000 ÷ 12,5 = 800.000 VND/MD</code>.</p>
+    <p>⇒ <strong>Dù ai gán hệ số 0,78 hay 0,50, đơn giá phải đạt vẫn nằm trong dải 176.000 – 276.000 VND/MD.</strong> Không có hệ số AI nào đưa được đơn giá phải đạt lên tới 500.000 VND/MD trong khi vẫn giữ trọn phạm vi nhóm chính. Kết luận về trục ngân sách vì vậy <strong>không phụ thuộc vào độ chính xác của hệ số</strong>.</p>
   </div>
 </section>
 
@@ -1023,7 +1103,7 @@ a:focus-visible { outline: 2px solid var(--fixed); outline-offset: 2px; border-r
       <div class="top"><span class="tag">A</span><h4>Cắt tiếp trong nội bộ P0 — "MVP tối giản"</h4><span class="pill g">Không còn khả thi trong 10 ngày</span></div>
       <dl>
         <div><dt>Cắt gì</dt><dd>Hoãn <strong>4 hạng mục P0</strong> sang ngay sau go-live: <code>FR-02</code> (kiểm tra tồn kho — tạm để NV Kho đối chiếu Excel ngoài hệ thống), <code>FR-14</code> (truy xuất nguồn gốc), <code>NFR-05</code> (chặn trùng dải Series — tạm chỉ chặn số lượng âm), <code>NFR-04</code> (Audit Log đầy đủ — tạm log 3 mốc: tạo đơn, sửa số lượng, duyệt). Cắt mỏng design system và QA. <strong>Giữ nguyên toàn bộ nhóm Discovery.</strong></dd></div>
-        <div><dt>Được gì</dt><dd>Tầng CORE còn <strong>59,5 MD</strong> nếu chỉ cắt trắng, hoặc <strong>≈57 MD</strong> nếu tính thêm phần làm mỏng <span class="pill e">SUY LUẬN</span>. Nội dung giữ lại vẫn là một luồng nghiệp vụ đóng được — <strong>nhưng chỉ đóng được nếu kéo adapter vận chuyển thủ công vào CORE (+2 MD → ≈59 MD)</strong>, xem caveat bên dưới.</dd></div>
+        <div><dt>Được gì</dt><dd>Tầng CORE còn <strong>59,5 MD</strong> nếu chỉ cắt trắng, hoặc <strong>≈57 MD</strong> nếu tính thêm phần làm mỏng <span class="pill e">SUY LUẬN</span>. Nếu phát triển bằng Claude thì còn <strong>≈44,75 MD</strong> (sàn 39,25; vá RT-02 → ≈46,5). Nội dung giữ lại vẫn là một luồng nghiệp vụ đóng được — <strong>nhưng chỉ đóng được nếu kéo adapter vận chuyển thủ công vào CORE</strong>, xem caveat bên dưới.</dd></div>
         <div><dt>Mất gì</dt><dd><strong>Mất mục tiêu truy vết</strong> trong 10 ngày đầu — mà đó là một trong bốn lý do dự án ra đời (<code>P-02</code>). Mất khả năng chặn trùng dải Series → <strong>rủi ro dữ liệu sai ngay từ ngày đầu</strong>, sửa sau phải kèm migration dữ liệu thật. Audit Log không đầy đủ → giảm giá trị kiểm toán. NV Kho vẫn phải mở Excel — đúng cái rủi ro mà PRD cảnh báo <em>"hệ thống mất giá trị"</em>.</dd></div>
       </dl>
 
@@ -1058,6 +1138,7 @@ a:focus-visible { outline: 2px solid var(--fixed); outline-offset: 2px; border-r
       <div class="call crit">
         <span class="eyebrow">Vì sao A bị tước nhãn đề xuất</span>
         <p>Bốn người trong 10 ngày cho <code>4 × 10 = 40 MD</code>. So với mức thực tế ≈57 MD thì <strong>thiếu ≈17 MD</strong>; so với sàn tuyệt đối 50,5 MD thì <strong>vẫn thiếu 10,5 MD</strong>. Không có cách cắt nào trong nội bộ A đưa được xuống 40 MD.</p>
+        <p><strong>Hệ số AI cứu được trục effort của A, nhưng không cứu được A.</strong> Ở cột AI-assisted, A còn ≈44,75 MD — đội 5 người trong 10 ngày cho 50 MD, tức <strong>qua được trục effort</strong>. Nhưng A vẫn trượt hai trục còn lại: đường găng của A ở cột AI còn <strong>≈15 ngày</strong>, và đơn giá phải đạt là <strong>223.000 VND/MD</strong> — vẫn dưới mức thấp nhất của bảng độ nhạy. Nói cách khác, AI làm A <em>gần khả thi hơn</em> chứ không làm A khả thi.</p>
         <p><strong>Ràng buộc cấu trúc còn chặt hơn ràng buộc effort.</strong> A chỉ cắt được 2 mắt xích khỏi đường găng (<code>9.1</code> và <code>11.4</code>), còn lại <code>22,5 − 4,5 = 18 MD tuần tự</code> ≈ 18 ngày làm việc — thêm người không nén được. Vậy A vượt 10 ngày <strong>cả về tổng effort lẫn về cấu trúc phụ thuộc</strong>, hai lý do độc lập nhau.</p>
         <p><strong>≈57 MD là sàn lạc quan, không phải trần.</strong> Bốn dòng trong bảng "cắt trắng" thực chất chỉ là làm mỏng theo đúng lời văn của A — riêng <code>6.2</code>, màn hình soát xét <strong>vẫn phải tồn tại</strong> cho <code>FR-04/05/06</code>, chỉ bỏ được phần hiển thị tồn kho. Phần giữ lại sẽ đẩy con số lên trên 57 MD. Đối chiếu ngân sách: <code>10.000.000 ÷ 57 ≈ 175.000 VND/MD</code>.</p>
       </div>
@@ -1094,7 +1175,7 @@ a:focus-visible { outline: 2px solid var(--fixed); outline-offset: 2px; border-r
       <div class="top"><span class="tag">E</span><h4>Đổi mục tiêu của 10 ngày thành "Giai đoạn 0"</h4><span class="pill f">Đội đề xuất</span></div>
       <dl>
         <div><dt>Cắt gì</dt><dd>Cắt mục tiêu go-live khỏi 10 ngày. Dùng 10 ngày cho <strong>16 MD</strong>: chốt 11 câu Blocker, chốt 8 nhánh state machine, ra SDD + DB schema + API spec, wireframe hai luồng quan trọng nhất, dựng skeleton chạy được.</dd></div>
-        <div><dt>Được gì</dt><dd><strong>Khả thi thật</strong>: <code>16 MD ≤ 20 MD</code> = năng lực 2 người × 10 ngày. Con số 16 MD <strong>tự tái lập được</strong>: <code>4,5 (nhóm 1.0) + 6,5 (nhóm 2.0) + 2 (3.1) + 1,5 (3.2) + 1,5 (4.1)</code>. Sau đó anh có <strong>ước lượng đáng tin cậy hơn nhiều</strong> cho phần còn lại vì 11 Blocker đã đóng, và <strong>triệt tiêu rủi ro lớn nhất</strong> của dự án — thiết kế mô hình dữ liệu trên 31 giả định chưa xác nhận.</dd></div>
+        <div><dt>Được gì</dt><dd><strong>Khả thi thật</strong>: <code>16 MD ≤ 20 MD</code> = năng lực 2 người × 10 ngày — và <strong>13 MD</strong> nếu phát triển bằng Claude, còn dư dả hơn. Con số 16 MD <strong>tự tái lập được</strong>: <code>4,5 (nhóm 1.0) + 6,5 (nhóm 2.0) + 2 (3.1) + 1,5 (3.2) + 1,5 (4.1)</code>. E là phương án <strong>duy nhất qua cả ba trục</strong>: effort, cấu trúc (đường găng trong E chỉ 5 MD), và ngân sách (769.000 VND/MD — mức duy nhất nằm trong dải thực tế). Sau đó anh có <strong>ước lượng đáng tin cậy hơn nhiều</strong> vì 11 Blocker đã đóng, và <strong>triệt tiêu rủi ro lớn nhất</strong> của dự án — thiết kế mô hình dữ liệu trên 31 giả định chưa xác nhận.</dd></div>
         <div><dt>Mất gì</dt><dd>Sau 10 ngày <strong>chưa có hệ thống chạy được</strong> — không đáp ứng đúng chữ <em>"để có thể hoạt động"</em>. Kỳ vọng phải điều chỉnh ngay từ đầu, nếu không sẽ bị hiểu là chậm tiến độ. Ngân sách vẫn cần đối chiếu: <code>10.000.000 ÷ 16 MD = 625.000 VND/MD</code>.</dd></div>
       </dl>
     </article>
@@ -1106,20 +1187,53 @@ a:focus-visible { outline: 2px solid var(--fixed); outline-offset: 2px; border-r
   </div>
   <div class="tw">
     <table>
-      <thead><tr><th>Phương án</th><th class="n">MD sau khi cộng lại</th><th>Khả thi trong 10 ngày?</th><th>Mức truy được</th></tr></thead>
+      <thead><tr><th>Phương án</th><th class="n">MD truyền thống</th><th class="n">MD AI-assisted</th><th>Khả thi trong 10 ngày?</th></tr></thead>
       <tbody>
-        <tr><td><b>A</b> — cắt phạm vi</td><td class="n">≈57 <span style="color:var(--ink-mute)">(sàn 50,5)</span></td><td><span class="pill g">Không</span> Cần ≈5,7 người, và đường găng còn <strong>18 MD tuần tự ≈ 18 ngày</strong></td><td>Cắt trắng 13 MD truy được; phần làm mỏng <span class="pill e">SUY LUẬN</span></td></tr>
-        <tr><td><b>B</b> — giãn thời gian</td><td class="n">72,5</td><td><span class="pill g">Không</span> chính B đề nghị bỏ mốc 10 ngày</td><td>Truy được</td></tr>
-        <tr><td><b>C</b> — tăng nhân sự</td><td class="n">72,5</td><td><span class="pill e">Chỉ trên giấy</span> vỡ ngân sách 3,6–7,25 lần, đỉnh tải đòi ≈9 người/3 ngày</td><td>Truy được</td></tr>
-        <tr><td><b>D</b> — đổi kỹ thuật</td><td class="n">≈57–61</td><td><span class="pill g">Không</span> vẫn cần ≈6 người</td><td><span class="pill e">SUY LUẬN</span> chưa phân rã Task ID</td></tr>
-        <tr><td><b>E</b> — Giai đoạn 0</td><td class="n"><b>16</b></td><td><span class="pill f">Có</span> <code>16 ≤ 20 MD</code> = 2 người × 10 ngày</td><td><b>Truy được</b> theo từng Task ID</td></tr>
+        <tr><td><b>A</b> — cắt phạm vi</td><td class="n">≈57 <span style="color:var(--ink-mute)">(sàn 50,5)</span></td><td class="n">≈44,75 <span style="color:var(--ink-mute)">(sàn 39,25; vá RT-02 → 46,5)</span></td><td><span class="pill g">Không</span> Cột AI <strong>qua được trục effort</strong> với 5 người, nhưng đường găng còn ≈15 ngày và đơn giá phải đạt 223.000 VND/MD</td></tr>
+        <tr><td><b>B</b> — giãn thời gian</td><td class="n">72,5</td><td class="n">56,75</td><td><span class="pill g">Không</span> chính B đề nghị bỏ mốc 10 ngày</td></tr>
+        <tr><td><b>C</b> — tăng nhân sự</td><td class="n">72,5</td><td class="n">56,75</td><td><span class="pill e">Chỉ trên giấy</span> vỡ ngân sách, đỉnh tải đòi mô hình nhân sự không tồn tại thực tế</td></tr>
+        <tr><td><b>D</b> — đổi kỹ thuật</td><td class="n">≈57–61</td><td class="n">chưa phân rã</td><td><span class="pill g">Không</span> vẫn cần ≈6 người. Con số D <span class="pill e">SUY LUẬN — chưa ra Task ID</span></td></tr>
+        <tr><td><b>E</b> — Giai đoạn 0</td><td class="n"><b>16</b></td><td class="n"><b>13</b></td><td><span class="pill f">Có</span> qua cả ba trục: <code>13 ≤ 20 MD</code>, đường găng trong E chỉ 5 MD, đơn giá 769.000 VND/MD</td></tr>
       </tbody>
+      <caption>Phương án E <strong>co ít hơn mức trung bình</strong> (hệ số hiệu dụng 0,81 so với 0,78) vì nó nặng Discovery — nhóm bị chốt ở hệ số 1,0. Đội tính E theo từng nhóm chứ không áp hệ số tổng.</caption>
+    </table>
+  </div>
+
+  <h3>Kết luận ba ràng buộc có còn đúng sau khi áp hệ số AI?</h3>
+  <div class="prose">
+    <p><strong>Vẫn đúng — nhưng lý do đã dịch chuyển.</strong> Một trong ba trục mềm đi rõ rệt; hai trục còn lại vẫn cứng, và <strong>trục cứng nhất bây giờ là ngân sách</strong>, không còn là tổng effort như ở bản trước.</p>
+  </div>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Trục</th><th>Không dùng AI</th><th>Phát triển bằng Claude</th><th class="c">Đổi?</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><b>Ngân sách</b></td>
+          <td>Vỡ — cần 138.000 VND/MD</td>
+          <td><span class="pill g">Vẫn vỡ</span> cần 176.000 VND/MD; dải bất biến 176.000–276.000 bất kể hệ số nào</td>
+          <td class="c">Không — và là trục <strong>cứng nhất</strong></td>
+        </tr>
+        <tr>
+          <td><b>Tổng effort</b></td>
+          <td>Vỡ — cần 7,25 người</td>
+          <td><span class="pill e">Mềm đi thật</span> 6 người đủ trên giấy; phương án A + 5 người <strong>qua được trục này</strong></td>
+          <td class="c"><strong>Đổi</strong> — trục duy nhất đổi</td>
+        </tr>
+        <tr>
+          <td><b>Cấu trúc phụ thuộc</b></td>
+          <td>Vỡ — đường găng 22,5 MD ≈ 22 ngày</td>
+          <td><span class="pill g">Vẫn vỡ</span> 18,75 MD ≈ 19 ngày, gần gấp đôi ràng buộc. Co <strong>ít hơn</strong> mức trung bình</td>
+          <td class="c">Không</td>
+        </tr>
+      </tbody>
+      <caption><strong>"Đủ effort" không bằng "làm được trong 10 ngày".</strong> Hai tình huống qua được trục effort đều bị trục cấu trúc chặn lại, và tình huống giữ trọn phạm vi với 6 người còn bị trục ngân sách chặn thêm (6 người × 10 ngày ở 500.000 VND/MD ≈ 28.375.000 VND).</caption>
     </table>
   </div>
 
   <div class="call crit">
     <span class="eyebrow">Điều phải nói thẳng</span>
-    <p><strong>Không có phương án nào vừa go-live được sau 10 ngày, vừa nằm trong ngân sách 10.000.000 VND.</strong> Ba ràng buộc — phạm vi nhóm chính · 10 ngày · 10.000.000 VND — không thể cùng thỏa mãn. Bắt buộc phải nhả một ràng buộc, và E là phương án nhả có cái giá <strong>nhỏ nhất và minh bạch nhất</strong>: nhả <em>mục tiêu go-live của 10 ngày</em>, giữ lại cả ngân sách lẫn chất lượng thiết kế.</p>
+    <p><strong>Không có phương án nào vừa go-live được sau 10 ngày, vừa nằm trong ngân sách 10.000.000 VND — kể cả khi phát triển bằng Claude.</strong> Ba ràng buộc — phạm vi nhóm chính · 10 ngày · 10.000.000 VND — không thể cùng thỏa mãn. Bắt buộc phải nhả một ràng buộc, và E là phương án nhả có cái giá <strong>nhỏ nhất và minh bạch nhất</strong>: nhả <em>mục tiêu go-live của 10 ngày</em>, giữ lại cả ngân sách lẫn chất lượng thiết kế.</p>
+    <p>Điều hệ số AI thay đổi là <strong>chỗ nghẽn nằm ở đâu</strong>, không phải kết luận. Trước đây nghẽn cả ba trục; giờ tổng effort không còn là lý do chính để nói "không", nhưng <strong>ngân sách và cấu trúc phụ thuộc vẫn chặn</strong>. Và trục ngân sách chặn theo cách <em>không phụ thuộc vào hệ số</em> — nên nó không thể được tháo bằng cách tranh luận rằng AI mạnh hơn giả định.</p>
   </div>
 
   <h3>Lộ trình đội đề xuất — E trước, rồi A (cân nhắc kết hợp D)</h3>
@@ -1197,6 +1311,19 @@ a:focus-visible { outline: 2px solid var(--fixed); outline-offset: 2px; border-r
       </tbody>
     </table>
   </div>
+
+  <h3>Rủi ro riêng của mô hình phát triển bằng AI</h3>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Rủi ro</th><th>Mức</th><th>Ảnh hưởng</th></tr></thead>
+      <tbody>
+        <tr><td><b>Hệ số AI sai</b> — không có dữ liệu đo thực tế của đội này trên dự án này để hiệu chỉnh.</td><td><span class="pill e">Trung bình</span></td><td>Lệch theo cả hai hướng, không biết bao nhiêu. Giảm thiểu: đo thực tế sau sprint đầu rồi hiệu chỉnh, thay vì làm lại cả bảng.</td></tr>
+        <tr><td><b><code>A-11</code> sai</b> — nhà thầu không dùng AI, hoặc dùng chưa thành thục.</td><td><span class="pill g">Cao</span></td><td>Toàn bộ cột AI-assisted <strong>vô hiệu</strong>; con số phải trả quay về 72,5 MD. Giảm thiểu: đưa thành điều khoản hợp đồng.</td></tr>
+        <tr><td><b>AI sai tinh vi ở <code>NFR-02</code> / <code>NFR-04</code></b> — code chạy đúng, happy-path pass, nhưng rò dữ liệu ngoài phạm vi hoặc thiếu mutation trong Audit Log.</td><td><span class="pill g">Cao</span></td><td>Chỉ lộ ra khi kiểm toán, tức <strong>sau khi đã có dữ liệu thật</strong>. Đã phản ánh vào hệ số 0,85 của nhóm 11.0, nhưng hệ số không thay được việc phải review nặng.</td></tr>
+        <tr><td><b>AI nhanh ở code nhưng không nhanh ở việc chốt yêu cầu</b> — Discovery trở thành cổ chai <em>tương đối lớn hơn</em> trước.</td><td><span class="pill g">Cao</span></td><td>Nếu vẫn bắt đầu code trước khi đóng 11 Blocker, AI chỉ giúp <strong>làm nhanh hơn cái sai</strong> rồi phải migration dữ liệu thật. Đây là lý do chính khiến đội vẫn đề xuất phương án E.</td></tr>
+      </tbody>
+    </table>
+  </div>
 </section>
 
 <section class="blk">
@@ -1207,21 +1334,30 @@ a:focus-visible { outline: 2px solid var(--fixed); outline-offset: 2px; border-r
   </div>
   <div class="asks">
     <div class="ask">
+      <span class="id">E-03</span>
+      <div><b>Đơn giá VND/MD thực tế của nhà thầu?</b><p><strong>Đây là ẩn số then chốt nhất của cả bài toán.</strong> Sau khi anh xác nhận 10 triệu là tiền nhân công, tính khả thi phụ thuộc trực tiếp vào con số này. Đội không giả định đơn giá thị trường, chỉ đưa bảng tham số. Cần biết: đơn giá thực tế có nằm trong dải <strong>176.000–276.000 VND/MD</strong> hay không — nếu không thì phạm vi nhóm chính không thể giữ trọn ở mức ngân sách này, bất kể AI mạnh đến đâu.</p></div>
+    </div>
+    <div class="ask">
+      <span class="id">A-11</span>
+      <div><b>Nhà thầu thuê ngoài có thực sự dùng Claude không, và thành thục đến đâu?</b><p>Toàn bộ cột AI-assisted đứng trên giả định này. Nếu nhà thầu <strong>không</strong> dùng AI, hoặc dùng chưa thành thục, thì con số phải trả quay về đúng <strong>72,5 MD</strong> cột truyền thống. Đây là lý do đội giữ cả hai cột thay vì ghi đè. Nên đưa thành <strong>điều khoản trong hợp đồng</strong>, không để thành kỳ vọng ngầm.</p></div>
+    </div>
+    <div class="ask">
       <span class="id">E-01</span>
       <div><b>Quy mô đội thực tế là bao nhiêu người?</b><p>Hiện đội chỉ suy luận 1–2 người từ tỉ lệ ngân sách chia thời gian. Con số này quyết định toàn bộ bảng khoảng cách thời gian.</p></div>
     </div>
     <div class="ask">
-      <span class="id">E-02</span>
-      <div><b>~10.000.000 VND là chi phí nhân công, hay chi phí công cụ và hạ tầng?</b><p>Nếu là loại thứ hai — ví dụ nhân công do chính anh đảm nhiệm, 10 triệu dành cho AI agent, hosting, domain, object storage — thì <strong>toàn bộ phép quy đổi VND/MD ở trên không áp dụng</strong>, và bài toán còn lại chỉ là khoảng cách thời gian. Đội <strong>không xây thêm con số nào</strong> trên giả thiết này cho tới khi anh xác nhận.</p></div>
-    </div>
-    <div class="ask">
-      <span class="id">E-03</span>
-      <div><b>Đơn giá VND/MD thực tế của nguồn lực?</b><p>Đội không giả định đơn giá thị trường, chỉ đưa bảng tham số để anh chọn.</p></div>
-    </div>
-    <div class="ask">
       <span class="id">RT-02</span>
-      <div><b>Có đưa adapter vận chuyển thủ công vào tầng CORE không?</b><p>Nếu không thì tầng CORE không đóng được vòng đời đơn. Nếu có thì tổng thành 74,5 MD. Đội không tự chia lại tầng đã chốt.</p></div>
+      <div><b>Có đưa adapter vận chuyển thủ công vào tầng CORE không?</b><p>Nếu không thì tầng CORE không đóng được vòng đời đơn. Nếu có thì tổng thành 74,5 MD (truyền thống). Đội không tự chia lại tầng đã chốt.</p></div>
     </div>
+    <div class="ask">
+      <span class="id">RT-14</span>
+      <div><b>Phí subscription / API của Claude tính vào đâu?</b><p>Anh đã xác nhận 10 triệu là <strong>chi phí nhân công</strong>, nên khoản phí công cụ AI là <strong>khoản riêng nằm ngoài</strong> con số đó. Đội không có dữ liệu để ước lượng nó — nên hỏi nhà thầu khi chốt hợp đồng: phí công cụ do bên nào chịu.</p></div>
+    </div>
+  </div>
+
+  <div class="call info">
+    <span class="eyebrow">Câu đã có câu trả lời</span>
+    <p><code>E-02</code> — <strong>10.000.000 VND là chi phí nhân công thuê ngoài</strong> (anh xác nhận 2026-08-20). Vì vậy phép quy đổi <code>VND/MD</code> trong tài liệu này giữ nguyên hiệu lực và đã được tính lại trên cả hai cột, thay vì bị bỏ.</p>
   </div>
 
   <div class="call info">
